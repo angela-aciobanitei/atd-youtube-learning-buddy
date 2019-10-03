@@ -3,7 +3,7 @@ package com.ang.acb.youtubelearningbuddy.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class VideoItemId {
+public class SearchResultId {
 
     @SerializedName("videoId")
     @Expose

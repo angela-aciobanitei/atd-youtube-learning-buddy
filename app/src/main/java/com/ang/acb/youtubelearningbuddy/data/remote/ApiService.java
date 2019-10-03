@@ -2,7 +2,7 @@ package com.ang.acb.youtubelearningbuddy.data.remote;
 
 import androidx.lifecycle.LiveData;
 
-import com.ang.acb.youtubelearningbuddy.data.model.CommentListResponse;
+import com.ang.acb.youtubelearningbuddy.data.model.CommentThreadListResponse;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchVideosResponse;
 
 import retrofit2.Call;
@@ -18,18 +18,15 @@ import retrofit2.http.Query;
  */
 public interface ApiService {
 
-    // TODO See: https://developers.google.com/youtube/v3/docs/comments/list#parameters
-    @GET("comments")
-    Call<CommentListResponse> getComments(@Query("part") String part,
-                                          @Query("pageToken") String pageToken);
+    // TODO See: https://developers.google.com/youtube/v3/docs/commentThreads/list
+    @GET("commentThreads?part=snippet%2Creplies")
+    Call<CommentThreadListResponse> getComments(@Query("videoId") String videoId);
 
     // TODO See: https://developers.google.com/youtube/v3/docs/search/list#parameters
-    @GET("search")
-    LiveData<ApiResponse<SearchVideosResponse>> searchVideos(@Query("part") String part,
-                                                             @Query("q") String query);
+    @GET("search?part=snippet&type=video&order=rating")
+    LiveData<ApiResponse<SearchVideosResponse>> searchVideos(@Query("q") String query);
 
-    @GET("search")
-    Call<SearchVideosResponse> searchVideos(@Query("part") String part,
-                                            @Query("q") String query,
+    @GET("search?part=snippet&type=video&order=rating")
+    Call<SearchVideosResponse> searchVideos(@Query("q") String query,
                                             @Query("pageToken") String pageToken);
 }

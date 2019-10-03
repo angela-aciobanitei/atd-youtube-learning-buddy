@@ -32,17 +32,32 @@ import com.google.gson.annotations.SerializedName;
  *
  * See: https://developers.google.com/youtube/v3/docs/thumbnails
  */
-public class VideoThumbnails {
+public class ThumbnailsResource {
 
     @SerializedName("high")
     @Expose
-    private VideoThumbnailsHigh highResolutionVersion;
+    private ThumbnailsHigh highResolutionVersion;
 
-    public VideoThumbnailsHigh getHighResolutionVersion() {
+    public ThumbnailsHigh getHighResolutionVersion() {
         return highResolutionVersion;
     }
 
-    public void setHighResolutionVersion(VideoThumbnailsHigh highResolutionVersion) {
+    public void setHighResolutionVersion(ThumbnailsHigh highResolutionVersion) {
         this.highResolutionVersion = highResolutionVersion;
+    }
+
+    class ThumbnailsHigh {
+
+        @SerializedName("url")
+        @Expose
+        private String url;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
     }
 }

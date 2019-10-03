@@ -44,11 +44,11 @@ public class SearchVideosResponse {
 
     @SerializedName("pageInfo")
     @Expose
-    private VideosPageInfo videosPageInfo;
+    private SearchResultPageInfo searchResultPageInfo;
 
     @SerializedName("items")
     @Expose
-    private List<VideoItem> videoItems;
+    private List<SearchResult> searchResults;
 
     public String getNextPageToken() {
         return nextPageToken;
@@ -66,19 +66,19 @@ public class SearchVideosResponse {
         this.prevPageToken = prevPageToken;
     }
 
-    public VideosPageInfo getVideosPageInfo() {
-        return videosPageInfo;
+    public SearchResultPageInfo getSearchResultPageInfo() {
+        return searchResultPageInfo;
     }
 
-    public void setVideosPageInfo(VideosPageInfo videosPageInfo) {
-        this.videosPageInfo = videosPageInfo;
+    public void setSearchResultPageInfo(SearchResultPageInfo searchResultPageInfo) {
+        this.searchResultPageInfo = searchResultPageInfo;
     }
 
-    public List<VideoItem> getVideoItems() {
-        return videoItems;
+    public List<SearchResult> getSearchResults() {
+        return searchResults;
     }
 
-    public void setVideoItems(List<VideoItem> videoItems) {
-        this.videoItems = videoItems;
+    public void setSearchResults(List<SearchResult> searchResults) {
+        this.searchResults = searchResults;
     }
 }

@@ -12,10 +12,6 @@ class CommentTopLevelSnippet {
     @Expose
     private String authorProfileImageUrl;
 
-    @SerializedName("textDisplay")
-    @Expose
-    private String textDisplay;
-
     public String getAuthorDisplayName() {
         return authorDisplayName;
     }
@@ -30,13 +26,5 @@ class CommentTopLevelSnippet {
 
     public void setAuthorProfileImageUrl(String authorProfileImageUrl) {
         this.authorProfileImageUrl = authorProfileImageUrl;
-    }
-
-    public String getTextDisplay() {
-        return textDisplay;
-    }
-
-    public void setTextDisplay(String textDisplay) {
-        this.textDisplay = textDisplay;
     }
 }
