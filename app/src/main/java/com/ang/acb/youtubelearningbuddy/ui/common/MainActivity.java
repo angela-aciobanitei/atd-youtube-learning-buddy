@@ -21,6 +21,9 @@ import dagger.android.support.HasSupportFragmentInjector;
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
     @Inject
+    NavigationController navigationController;
+
+    @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     @Override
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         return dispatchingAndroidInjector;
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Note: when using Dagger for injecting Activity
@@ -38,5 +43,9 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState == null) {
+            navigationController.navigateToSearch();
+        }
     }
 }

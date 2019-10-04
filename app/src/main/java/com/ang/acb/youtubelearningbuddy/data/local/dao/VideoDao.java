@@ -2,12 +2,11 @@ package com.ang.acb.youtubelearningbuddy.data.local.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Ignore;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchVideosResult;
+import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchResult;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchResultSnippet;
@@ -31,7 +30,7 @@ public abstract class  VideoDao {
     public abstract void insertVideos(List<VideoEntity> videos);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertSearchVideosResult(SearchVideosResult result);
+    public abstract void insertSearchVideosResult(SearchEntity result);
 
     public void insertVideosFromResponse(SearchVideosResponse response) {
         List<SearchResult> searchResults = response.getSearchResults();
@@ -48,11 +47,11 @@ public abstract class  VideoDao {
         }
     }
 
-    @Query("SELECT * FROM SearchVideosResult WHERE query = :query")
-    public abstract LiveData<SearchVideosResult> search(String query);
+    @Query("SELECT * FROM search_results WHERE query = :query")
+    public abstract LiveData<SearchEntity> search(String query);
 
-    @Query("SELECT * FROM SearchVideosResult WHERE query = :query")
-    public abstract SearchVideosResult findSearchResult(String query);
+    @Query("SELECT * FROM search_results WHERE query = :query")
+    public abstract SearchEntity findSearchResult(String query);
 
     @Query("SELECT * FROM video WHERE id = :id")
     public abstract LiveData<VideoEntity> getVideoByRoomId(long id);

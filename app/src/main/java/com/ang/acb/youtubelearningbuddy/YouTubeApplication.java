@@ -3,6 +3,8 @@ package com.ang.acb.youtubelearningbuddy;
 import android.app.Activity;
 import android.app.Application;
 
+import com.ang.acb.youtubelearningbuddy.di.DaggerAppComponent;
+
 import javax.inject.Inject;
 
 import dagger.android.DispatchingAndroidInjector;
@@ -23,7 +25,7 @@ public class YouTubeApplication extends Application implements HasActivityInject
     public void onCreate() {
         super.onCreate();
 
-        //DaggerAppComponent.builder().application(this).build().inject(this);
+        DaggerAppComponent.builder().application(this).build().inject(this);
 
         if (BuildConfig.DEBUG) Timber.plant(new Timber.DebugTree());
 

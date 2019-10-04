@@ -26,6 +26,4 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract VideoDetailsFragment contributeVideoDetailsFragment();
-
-
 }

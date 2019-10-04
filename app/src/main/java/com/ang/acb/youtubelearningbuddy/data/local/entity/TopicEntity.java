@@ -18,4 +18,20 @@ public class TopicEntity {
 
     @ColumnInfo(name = "topic_name")
     private String topicName;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
 }

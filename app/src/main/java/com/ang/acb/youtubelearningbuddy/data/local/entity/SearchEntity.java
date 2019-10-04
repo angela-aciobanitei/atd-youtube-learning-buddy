@@ -6,8 +6,8 @@ import androidx.room.Entity;
 
 import java.util.List;
 
-@Entity(primaryKeys = {"query"})
-public class SearchVideosResult {
+@Entity(primaryKeys = {"query"}, tableName = "search_results")
+public class SearchEntity {
 
     @NonNull
     public final String query;
@@ -16,8 +16,8 @@ public class SearchVideosResult {
     @Nullable
     public final String nextPageToken;
 
-    public SearchVideosResult(@NonNull String query, List<String> youTubeVideoIds,
-                              int totalResults, @Nullable String nextPageToken) {
+    public SearchEntity(@NonNull String query, List<String> youTubeVideoIds,
+                        int totalResults, @Nullable String nextPageToken) {
         this.query = query;
         this.youTubeVideoIds = youTubeVideoIds;
         this.totalResults = totalResults;

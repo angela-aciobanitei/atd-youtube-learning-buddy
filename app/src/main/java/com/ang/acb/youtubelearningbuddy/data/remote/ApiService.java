@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import com.ang.acb.youtubelearningbuddy.data.model.CommentThreadListResponse;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchVideosResponse;
+import com.ang.acb.youtubelearningbuddy.data.model.VideoListResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -18,10 +19,6 @@ import retrofit2.http.Query;
  */
 public interface ApiService {
 
-    // TODO See: https://developers.google.com/youtube/v3/docs/commentThreads/list
-    @GET("commentThreads?part=snippet%2Creplies")
-    Call<CommentThreadListResponse> getComments(@Query("videoId") String videoId);
-
     // TODO See: https://developers.google.com/youtube/v3/docs/search/list#parameters
     @GET("search?part=snippet&type=video&order=rating")
     LiveData<ApiResponse<SearchVideosResponse>> searchVideos(@Query("q") String query);
@@ -29,4 +26,12 @@ public interface ApiService {
     @GET("search?part=snippet&type=video&order=rating")
     Call<SearchVideosResponse> searchVideos(@Query("q") String query,
                                             @Query("pageToken") String pageToken);
+
+    // TODO See: https://developers.google.com/youtube/v3/docs/videos/list
+    @GET("videos")
+    Call<VideoListResponse> getVideo(@Query("id") String videoId);
+
+    // TODO See: https://developers.google.com/youtube/v3/docs/commentThreads/list
+    @GET("commentThreads?part=snippet%2Creplies")
+    Call<CommentThreadListResponse> getComments(@Query("videoId") String videoId);
 }

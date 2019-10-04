@@ -10,6 +10,7 @@ import androidx.lifecycle.MediatorLiveData;
 import com.ang.acb.youtubelearningbuddy.data.model.Resource;
 import com.ang.acb.youtubelearningbuddy.data.remote.ApiResponse;
 import com.ang.acb.youtubelearningbuddy.utils.AppExecutors;
+import com.ang.acb.youtubelearningbuddy.utils.Objects;
 
 
 /**
@@ -65,13 +66,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
     @MainThread
     private void setValue(Resource<ResultType> newValue) {
-        if (result.getValue() != newValue) {
-            // Note: Use the LiveData method void setValue (T value)
-            // to set the value of a LiveData object. If there are
-            // active observers, the value will be dispatched to them.
-            // This method must be called from the main thread.
-            // If you need set a value from a background thread,
-            // you can use postValue(Object).
+        if (!Objects.equals(result.getValue(), newValue)) {
             result.setValue(newValue);
         }
     }
@@ -96,9 +91,9 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
             result.removeSource(dbSource);
             // If the network call completes successfully, save the response
             // into the database and re-initialize the stream.
-            if (response.isSuccessful() && response.body != null) {
+            if (response.isSuccessful()) {
                 appExecutors.diskIO().execute(() -> {
-                    saveCallResult(response.body);
+                    saveCallResult(processResponse(response));
                     appExecutors.mainThread().execute(() -> {
                         // We specially request new live data, otherwise we will
                         // get the immediately last cached value, which may not
@@ -107,12 +102,6 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                                 setValue(Resource.success(newData)));
                     });
                 });
-            }
-            // If the response is empty, reload from disk whatever we had.
-            else if(response.isSuccessful() && response.body == null) {
-                appExecutors.mainThread().execute(() ->
-                        result.addSource(loadFromDb(), newData ->
-                                setValue(Resource.success(newData))));
             }
             // If network request fails, dispatch a failure directly.
             else {
@@ -127,6 +116,11 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     @NonNull
     @MainThread
     protected abstract LiveData<ApiResponse<RequestType>> createCall();
+
+    @WorkerThread
+    protected RequestType processResponse(ApiResponse<RequestType> response) {
+        return response.body;
+    }
 
     // Called to save the result of the API response into the database.
     @WorkerThread

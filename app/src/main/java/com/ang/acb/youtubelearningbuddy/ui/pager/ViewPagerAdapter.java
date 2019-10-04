@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsFragment;
 import com.ang.acb.youtubelearningbuddy.ui.video.SearchFragment;
 
+import javax.inject.Inject;
+
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private final int PAGE_COUNT = 2;

@@ -9,7 +9,6 @@ import com.ang.acb.youtubelearningbuddy.data.local.db.AppDatabase;
 import com.ang.acb.youtubelearningbuddy.data.local.dao.CommentDao;
 import com.ang.acb.youtubelearningbuddy.data.local.dao.TopicDao;
 import com.ang.acb.youtubelearningbuddy.data.local.dao.VideoDao;
-import com.ang.acb.youtubelearningbuddy.data.local.dao.VideoTopicJoinDao;
 import com.ang.acb.youtubelearningbuddy.data.remote.ApiService;
 import com.ang.acb.youtubelearningbuddy.utils.LiveDataCallAdapterFactory;
 
@@ -43,40 +42,34 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module(includes = ViewModelModule.class)
 class AppModule {
 
-    @Provides
     @Singleton
-    AppDatabase provideDatabase(Application application) {
-        return Room.databaseBuilder(application, AppDatabase.class, "youtube.db")
+    @Provides
+    AppDatabase provideDatabase(Application app) {
+        return Room.databaseBuilder(app, AppDatabase.class, "youtube.db")
                 .fallbackToDestructiveMigration()
                 .build();
     }
 
-    @Provides
     @Singleton
+    @Provides
     CommentDao provideCommentDao(AppDatabase database) {
         return database.commentDao();
     }
 
-    @Provides
     @Singleton
+    @Provides
     TopicDao provideTopicDao(AppDatabase database) {
         return database.topicDao();
     }
 
-    @Provides
     @Singleton
+    @Provides
     VideoDao provideVideoDao(AppDatabase database) {
         return database.videoDao();
     }
 
-    @Provides
     @Singleton
-    VideoTopicJoinDao provideVideoTopicJoinDao(AppDatabase database) {
-        return database.videoTopicJoinDao();
-    }
-
     @Provides
-    @Singleton
     Interceptor provideApiRequestInterceptor() {
         // Because we are requesting an API which accepts an API key as a request parameter,
         // we can use an interceptor that could add the query parameter to every request method.
@@ -98,8 +91,8 @@ class AppModule {
         };
     }
 
-    @Provides
     @Singleton
+    @Provides
     OkHttpClient provideOkHttpClient(Interceptor apiRequestInterceptor) {
         // Retrofit 2 completely relies on OkHttp for any network operation.
         // Since logging isn’t integrated by default anymore in Retrofit 2,
@@ -118,8 +111,8 @@ class AppModule {
                 .build();
     }
 
-    @Provides
     @Singleton
+    @Provides
     ApiService provideRetrofit(OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl("https://www.googleapis.com/youtube/v3/")

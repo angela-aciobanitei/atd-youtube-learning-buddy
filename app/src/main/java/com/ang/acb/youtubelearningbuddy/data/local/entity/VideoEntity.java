@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import javax.inject.Inject;
+
 
 /**
  * Immutable model class for a video. Note: Since a video can have zero or more
@@ -45,6 +47,7 @@ public class VideoEntity {
     }
 
     @Ignore
+    @Inject
     public VideoEntity(String youTubeVideoId, String publishedAt, String title,
                        String description, String thumbnailUrl) {
         this.youTubeVideoId = youTubeVideoId;

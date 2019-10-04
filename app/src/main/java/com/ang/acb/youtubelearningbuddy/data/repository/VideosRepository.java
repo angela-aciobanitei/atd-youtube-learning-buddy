@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
 import com.ang.acb.youtubelearningbuddy.data.local.db.AppDatabase;
-import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchVideosResult;
+import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.data.model.Resource;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchVideosResponse;
@@ -29,15 +29,15 @@ import javax.inject.Singleton;
 @Singleton
 public class VideosRepository {
 
-    private AppDatabase appDatabase;
+    private AppDatabase database;
     private ApiService apiService;
-    private AppExecutors appExecutors;
+    private AppExecutors executors;
 
     @Inject
-    public VideosRepository(AppDatabase appDatabase, ApiService apiService, AppExecutors appExecutors) {
-        this.appDatabase = appDatabase;
+    VideosRepository(AppDatabase database, ApiService apiService, AppExecutors executors) {
+        this.database = database;
         this.apiService = apiService;
-        this.appExecutors = appExecutors;
+        this.executors = executors;
     }
 
     public LiveData<Resource<List<VideoEntity>>> searchVideos(String query) {
@@ -46,7 +46,7 @@ public class VideosRepository {
         // SQLite database and the network. It defines two type parameters, ResultType
         // and RequestType, because the data type used locally might not match the data
         // type returned from the API.
-        return new NetworkBoundResource<List<VideoEntity>, SearchVideosResponse>(appExecutors) {
+        return new NetworkBoundResource<List<VideoEntity>, SearchVideosResponse>(executors) {
 
             @NonNull
             @Override
@@ -59,15 +59,15 @@ public class VideosRepository {
             protected void saveCallResult(@NonNull SearchVideosResponse response) {
                 // Save the YOU TUBE API response into the database.
                 List<String> videoIds = response.getVideoIds();
-                SearchVideosResult searchVideosResult = new SearchVideosResult(
+                SearchEntity searchVideosResult = new SearchEntity(
                         query, videoIds, response.getTotalResults(), response.getNextPageToken());
-                appDatabase.beginTransaction();
+                database.beginTransaction();
                 try {
-                    appDatabase.videoDao().insertSearchVideosResult(searchVideosResult);
-                    appDatabase.videoDao().insertVideosFromResponse(response);
-                    appDatabase.setTransactionSuccessful();
+                    database.videoDao().insertSearchVideosResult(searchVideosResult);
+                    database.videoDao().insertVideosFromResponse(response);
+                    database.setTransactionSuccessful();
                 } finally {
-                    appDatabase.endTransaction();
+                    database.endTransaction();
                 }
             }
 
@@ -81,9 +81,9 @@ public class VideosRepository {
             @Override
             protected LiveData<List<VideoEntity>> loadFromDb() {
                 // Get the cached data from the database.
-                return Transformations.switchMap(appDatabase.videoDao().search(query), searchData -> {
+                return Transformations.switchMap(database.videoDao().search(query), searchData -> {
                     if (searchData == null) return AbsentLiveData.create();
-                    else return appDatabase.videoDao().loadVideosByIds(searchData.youTubeVideoIds);
+                    else return database.videoDao().loadVideosByIds(searchData.youTubeVideoIds);
                 });
             }
 
@@ -92,4 +92,6 @@ public class VideosRepository {
             protected void onFetchFailed() {}
         }.asLiveData();
     }
+
+
 }
