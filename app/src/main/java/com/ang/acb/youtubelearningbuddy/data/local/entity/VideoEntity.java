@@ -3,6 +3,7 @@ package com.ang.acb.youtubelearningbuddy.data.local.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 
@@ -32,6 +33,26 @@ public class VideoEntity {
 
     @ColumnInfo(name = "thumbnail_url")
     private String thumbnailUrl;
+
+    public VideoEntity(long id, String youTubeVideoId, String publishedAt,
+                       String title, String description, String thumbnailUrl) {
+        this.id = id;
+        this.youTubeVideoId = youTubeVideoId;
+        this.publishedAt = publishedAt;
+        this.title = title;
+        this.description = description;
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
+    @Ignore
+    public VideoEntity(String youTubeVideoId, String publishedAt, String title,
+                       String description, String thumbnailUrl) {
+        this.youTubeVideoId = youTubeVideoId;
+        this.publishedAt = publishedAt;
+        this.title = title;
+        this.description = description;
+        this.thumbnailUrl = thumbnailUrl;
+    }
 
     public long getId() {
         return id;

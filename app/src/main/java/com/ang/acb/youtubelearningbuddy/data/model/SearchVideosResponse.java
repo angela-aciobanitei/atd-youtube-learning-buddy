@@ -1,8 +1,11 @@
 package com.ang.acb.youtubelearningbuddy.data.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,4 +84,19 @@ public class SearchVideosResponse {
     public void setSearchResults(List<SearchResult> searchResults) {
         this.searchResults = searchResults;
     }
+
+    @NonNull
+    public List<String> getVideoIds() {
+        List<String> videoIds = new ArrayList<>();
+        for (SearchResult searchResult : searchResults) {
+            videoIds.add(searchResult.getSearchResultId().getVideoId());
+        }
+        return videoIds;
+    }
+
+    public int getTotalResults() {
+        return searchResultPageInfo.getSearchVideosTotalResults();
+    }
+
+
 }

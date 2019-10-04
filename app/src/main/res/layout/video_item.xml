@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="video"
+            type="com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/article_item_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="4dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:strokeWidth="4dp">
+
+            <TextView
+                android:id="@+id/video_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:padding="8dp"
+                android:text="@{video.getTitle()}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:drawableStart="@drawable/ic_ondemand_video_black_24dp"
+                android:drawablePadding="8dp"
+                tools:text="Android 10 is here and I like it" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

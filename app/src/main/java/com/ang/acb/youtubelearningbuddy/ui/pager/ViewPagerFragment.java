@@ -1,6 +1,7 @@
 package com.ang.acb.youtubelearningbuddy.ui.pager;
 
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,12 @@ import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
 import com.google.android.material.tabs.TabLayout;
 
+import org.jetbrains.annotations.NotNull;
+
+import dagger.android.support.AndroidSupportInjection;
+
 public class ViewPagerFragment extends Fragment {
+
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -26,6 +32,16 @@ public class ViewPagerFragment extends Fragment {
 
     // Required empty public constructor
     public ViewPagerFragment() {}
+
+    @Override
+    public void onAttach(@NotNull Context context) {
+        // Note: when using Dagger for injecting Fragment objects,
+        // inject as early as possible. For this reason, call
+        // AndroidInjection.inject() in onAttach(). This also
+        // prevents inconsistencies if the Fragment is reattached.
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
 
 
     @Override

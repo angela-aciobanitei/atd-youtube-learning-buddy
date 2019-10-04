@@ -1,27 +1,41 @@
 package com.ang.acb.youtubelearningbuddy.ui.common;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 
 import com.ang.acb.youtubelearningbuddy.R;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+
+
 /**
- * Project Spec
- * ============
- * 1. Create the app with the ability to search for videos using the YouTube API.
- * 2. When the results are returned, allow users add videos to user-specified topic areas.
- * 3. Include a description of the video being played in the interface.
- * 4. After a topic is selected, user is able to watch those videos from inside the app.
- * 5. Streaming videos from YouTube are handled with a media intent to an existing media player.
- * 6. Extra: Allow users to add/remove playlists to topics.
- * 7. Extra: Show video ratings alongside each video.
- * 8. Extra: Play videos directly in the app using the YouTubePlayerView.
+ * An activity that inflates a layout that has a NavHostFragment.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        // Note: a DispatchingAndroidInjector<T> performs members-injection
+        // on instances of core Android types (e.g. Activity, Fragment) that
+        // are constructed by the Android framework and not by Dagger.
+        return dispatchingAndroidInjector;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Note: when using Dagger for injecting Activity
+        // objects, inject as early as possible.
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
