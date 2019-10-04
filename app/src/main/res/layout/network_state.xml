@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="com.ang.acb.youtubelearningbuddy.data.model.Resource" />
@@ -17,8 +17,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="16dp">
-        <!--app:toggleVisibility="@{resource.data == null}">-->
+        android:padding="16dp"
+        app:toggleVisibility="@{resource.data == null}">
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -31,7 +31,6 @@
 
         <Button
             android:id="@+id/retry_button"
-            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -48,5 +47,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@{resource.message ?? @string/unknown_error}"
             app:toggleVisibility="@{resource.status == Status.ERROR}" />
+
     </LinearLayout>
+
 </layout>

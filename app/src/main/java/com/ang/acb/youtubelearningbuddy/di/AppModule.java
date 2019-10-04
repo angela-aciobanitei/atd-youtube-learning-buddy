@@ -123,7 +123,7 @@ class AppModule {
                 // Retrofit adapter that converts the Retrofit2.Call into a
                 // LiveData of ApiResponse.
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
-                .client(client)
+                // TODO .client(client)
                 .build()
                 .create(ApiService.class);
     }

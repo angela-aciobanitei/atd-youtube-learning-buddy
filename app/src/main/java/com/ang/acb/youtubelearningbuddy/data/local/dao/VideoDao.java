@@ -30,21 +30,25 @@ public abstract class  VideoDao {
     public abstract void insertVideos(List<VideoEntity> videos);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertSearchVideosResult(SearchEntity result);
+    public abstract void insertSearchResult(SearchEntity result);
 
     public void insertVideosFromResponse(SearchVideosResponse response) {
         List<SearchResult> searchResults = response.getSearchResults();
         for (SearchResult searchResult : searchResults) {
-            SearchResultSnippet snippet = searchResult.getSearchResultSnippet();
-            String videoId = searchResult.getSearchResultId().getVideoId();
-            String publishedAt = snippet.getVideoPublishedAt();
-            String title = snippet.getVideoTitle();
-            String description = snippet.getVideoDescription();
-            String thumbnailUrl = snippet.getVideoThumbnails().getHighResolutionVersion().getUrl();
-
-            VideoEntity videoEntity = new VideoEntity(videoId, publishedAt, title, description, thumbnailUrl);
+            VideoEntity videoEntity = getVideoFromSearchResult(searchResult);
             insertVideo(videoEntity);
         }
+    }
+
+    private VideoEntity getVideoFromSearchResult(SearchResult searchResult) {
+        String videoId = searchResult.getSearchResultId().getVideoId();
+        SearchResultSnippet snippet = searchResult.getSearchResultSnippet();
+        String publishedAt = snippet.getVideoPublishedAt();
+        String title = snippet.getVideoTitle();
+        String description = snippet.getVideoDescription();
+        String thumbnailUrl = snippet.getVideoThumbnails().getHighResolutionVersion().getUrl();
+
+        return new VideoEntity(videoId, publishedAt, title, description, thumbnailUrl);
     }
 
     @Query("SELECT * FROM search_results WHERE query = :query")

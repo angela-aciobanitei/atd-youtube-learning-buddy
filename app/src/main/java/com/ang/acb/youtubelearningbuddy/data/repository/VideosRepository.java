@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
+import com.ang.acb.youtubelearningbuddy.BuildConfig;
 import com.ang.acb.youtubelearningbuddy.data.local.db.AppDatabase;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
@@ -51,24 +52,21 @@ public class VideosRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<SearchVideosResponse>> createCall() {
-                // Create the call to YOU TUBE API.
-                return apiService.searchVideos(query);
+                // TODO Create the call to YOU TUBE API.
+                return apiService.searchVideos(query, BuildConfig.YOU_TUBE_API_KEY);
             }
 
             @Override
             protected void saveCallResult(@NonNull SearchVideosResponse response) {
                 // Save the YOU TUBE API response into the database.
                 List<String> videoIds = response.getVideoIds();
-                SearchEntity searchVideosResult = new SearchEntity(
-                        query, videoIds, response.getTotalResults(), response.getNextPageToken());
-                database.beginTransaction();
-                try {
-                    database.videoDao().insertSearchVideosResult(searchVideosResult);
+                SearchEntity searchResult = new SearchEntity(query, videoIds,
+                        response.getTotalResults(), response.getNextPageToken());
+                // Replace deprecated beginTransaction() with runInTransaction()
+                database.runInTransaction(() -> {
+                    database.videoDao().insertSearchResult(searchResult);
                     database.videoDao().insertVideosFromResponse(response);
-                    database.setTransactionSuccessful();
-                } finally {
-                    database.endTransaction();
-                }
+                });
             }
 
             @Override

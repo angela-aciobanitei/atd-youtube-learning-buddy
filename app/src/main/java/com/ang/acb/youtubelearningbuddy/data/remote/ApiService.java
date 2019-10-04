@@ -21,10 +21,11 @@ public interface ApiService {
 
     // TODO See: https://developers.google.com/youtube/v3/docs/search/list#parameters
     @GET("search?part=snippet&type=video&order=rating")
-    LiveData<ApiResponse<SearchVideosResponse>> searchVideos(@Query("q") String query);
+    LiveData<ApiResponse<SearchVideosResponse>> searchVideos(@Query("q") String query,
+                                                             @Query("api_key") String apiKey);
 
     @GET("search?part=snippet&type=video&order=rating")
-    Call<SearchVideosResponse> searchVideos(@Query("q") String query,
+    Call<SearchVideosResponse> searchVideos2(@Query("q") String query,
                                             @Query("pageToken") String pageToken);
 
     // TODO See: https://developers.google.com/youtube/v3/docs/videos/list
