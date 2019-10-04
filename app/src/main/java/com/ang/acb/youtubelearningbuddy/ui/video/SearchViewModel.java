@@ -1,4 +1,4 @@
-package com.ang.acb.youtubelearningbuddy.ui.viewmodel;
+package com.ang.acb.youtubelearningbuddy.ui.video;
 
 import androidx.lifecycle.ViewModel;
 
@@ -9,5 +9,5 @@ import androidx.lifecycle.ViewModel;
  * See: https://medium.com/androiddevelopers/livedata-beyond-the-viewmodel-reactive-patterns-using-transformations-and-mediatorlivedata-fda520ba00b7
  * See: https://medium.com/androiddevelopers/livedata-with-snackbar-navigation-and-other-events-the-singleliveevent-case-ac2622673150
  */
-public class TopicsViewModel extends ViewModel {
+public class SearchViewModel extends ViewModel {
 }
