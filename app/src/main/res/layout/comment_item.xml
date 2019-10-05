@@ -1,46 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Data binding layout files are slightly different and start
-with a root tag of <layout> followed by a <data> element and a
-view root element. This view element is what your root would
-be in a non-binding layout file.-->
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- The variables within <data> describe the properties that
-    will be used within this layout. Expressions within the layout
-    are written in the attribute properties using the "@{}"-->
     <data>
 
         <variable
-            name="video"
-            type="com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity" />
+            name="comment"
+            type="com.ang.acb.youtubelearningbuddy.data.local.entity.CommentEntity" />
     </data>
 
-    <!-- UI layout's root element -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/video_item_thumbnail"
-            android:layout_width="@dimen/item_video_image_width"
-            android:layout_height="@dimen/item_video_image_height"
+            android:id="@+id/comment_author_profile_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="@dimen/horizontal_margin"
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/vertical_margin"
             android:contentDescription="@string/video_thumbnail_content_description"
             android:scaleType="centerCrop"
-            app:imageUrl="@{video.defaultThumbnailUrl}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:imageUrl="@{comment.authorProfileImageUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/backgrounds/scenic" />
+            tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/video_item_title"
+            android:id="@+id/comment_author_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/horizontal_margin"
@@ -49,25 +40,24 @@ be in a non-binding layout file.-->
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:text="@{video.title}"
+            android:text="@{comment.authorDisplayName}"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/video_item_thumbnail"
+            app:layout_constraintStart_toEndOf="@id/comment_author_profile_image"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="@tools:sample/lorem/random"/>
+            tools:text="@tools:sample/lorem"/>
 
         <TextView
-            android:id="@+id/video_item_description"
+            android:id="@+id/comment_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/horizontal_margin"
             android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:maxLines="2"
-            android:ellipsize="end"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:text="@{video.description}"
-            app:layout_constraintStart_toEndOf="@id/video_item_thumbnail"
-            app:layout_constraintTop_toBottomOf="@id/video_item_title"
+            android:text="@{comment.displayText}"
+            app:layout_constraintStart_toEndOf="@id/comment_author_profile_image"
+            app:layout_constraintTop_toBottomOf="@id/comment_author_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="@tools:sample/lorem/random"/>

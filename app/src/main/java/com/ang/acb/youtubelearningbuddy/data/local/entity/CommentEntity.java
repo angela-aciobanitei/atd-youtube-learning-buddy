@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -20,10 +21,10 @@ import static androidx.room.ForeignKey.CASCADE;
 @Entity(tableName = "comment",
         foreignKeys = @ForeignKey(entity = VideoEntity.class,
                                   parentColumns = "id",
-                                  childColumns = "video_id",
+                                  childColumns = "youtube_video_id",
                                   onDelete = CASCADE,
                                   onUpdate = CASCADE),
-        indices = {@Index(value = {"video_id"})}
+        indices = {@Index(value = {"youtube_video_id"})}
 )
 public class CommentEntity {
 
@@ -31,9 +32,6 @@ public class CommentEntity {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
-
-    @ColumnInfo(name = "video_id")
-    private long roomVideoId;
 
     @ColumnInfo(name = "youtube_video_id")
     private String youTubeVideoId;
@@ -47,20 +45,30 @@ public class CommentEntity {
     @ColumnInfo(name = "display_text")
     private String displayText;
 
+    public CommentEntity(long id, String youTubeVideoId, String authorDisplayName,
+                         String authorProfileImageUrl, String displayText) {
+        this.id = id;
+        this.youTubeVideoId = youTubeVideoId;
+        this.authorDisplayName = authorDisplayName;
+        this.authorProfileImageUrl = authorProfileImageUrl;
+        this.displayText = displayText;
+    }
+
+    @Ignore
+    public CommentEntity(String youTubeVideoId, String authorDisplayName,
+                         String authorProfileImageUrl, String displayText) {
+        this.youTubeVideoId = youTubeVideoId;
+        this.authorDisplayName = authorDisplayName;
+        this.authorProfileImageUrl = authorProfileImageUrl;
+        this.displayText = displayText;
+    }
+
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getRoomVideoId() {
-        return roomVideoId;
-    }
-
-    public void setRoomVideoId(long roomVideoId) {
-        this.roomVideoId = roomVideoId;
     }
 
     public String getYouTubeVideoId() {

@@ -11,12 +11,12 @@ import com.ang.acb.youtubelearningbuddy.databinding.VideoItemBinding;
 
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<VideoEntity> videos;
     private VideoClickCallback clickCallback;
 
-    SearchAdapter(VideoClickCallback clickCallback) {
+    VideosAdapter(VideoClickCallback clickCallback) {
         this.clickCallback = clickCallback;
     }
 
@@ -28,14 +28,14 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 LayoutInflater.from(parent.getContext()),
                 parent,
                 false);
-        return new SearchViewHolder(videoItemBinding);
+        return new VideoViewHolder(videoItemBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // Bind item data
         VideoEntity videoEntity = videos.get(position);
-        ((SearchViewHolder) holder).bindTo(videoEntity);
+        ((VideoViewHolder) holder).bindTo(videoEntity);
 
         // Handle item click events
         holder.itemView.setOnClickListener(v -> {
@@ -61,12 +61,12 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void onClick(VideoEntity videoEntity);
     }
 
-    class SearchViewHolder extends RecyclerView.ViewHolder {
+    class VideoViewHolder extends RecyclerView.ViewHolder {
 
         private VideoItemBinding binding;
 
         // Required constructor matching super
-        SearchViewHolder(@NonNull VideoItemBinding binding) {
+        VideoViewHolder(@NonNull VideoItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

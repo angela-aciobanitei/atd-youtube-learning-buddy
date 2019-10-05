@@ -35,7 +35,7 @@ import com.google.gson.annotations.SerializedName;
  *   }
  * }
  */
-class CommentTopLevel {
+public class CommentTopLevel {
 
     @SerializedName("id")
     @Expose
@@ -69,5 +69,11 @@ class CommentTopLevel {
         this.topLevelCommentSnippet = topLevelCommentSnippet;
     }
 
+    public String getTextDisplay() {
+        return textDisplay;
+    }
 
+    public void setTextDisplay(String textDisplay) {
+        this.textDisplay = textDisplay;
+    }
 }

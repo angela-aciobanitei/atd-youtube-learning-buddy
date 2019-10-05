@@ -8,7 +8,17 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.ang.acb.youtubelearningbuddy.data.local.entity.CommentEntity;
+import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
+import com.ang.acb.youtubelearningbuddy.data.model.CommentThread;
+import com.ang.acb.youtubelearningbuddy.data.model.CommentThreadListResponse;
+import com.ang.acb.youtubelearningbuddy.data.model.CommentThreadSnippet;
+import com.ang.acb.youtubelearningbuddy.data.model.CommentTopLevel;
+import com.ang.acb.youtubelearningbuddy.data.model.CommentTopLevelSnippet;
+import com.ang.acb.youtubelearningbuddy.data.model.SearchResult;
+import com.ang.acb.youtubelearningbuddy.data.model.SearchResultSnippet;
+import com.ang.acb.youtubelearningbuddy.data.model.SearchVideosResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,19 +28,50 @@ import java.util.List;
  * See: https://medium.com/androiddevelopers/7-pro-tips-for-room-fbadea4bfbd1
  */
 @Dao
-public interface CommentDao {
+public abstract class CommentDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertComment(CommentEntity commentEntity);
+    public abstract void insertComment(CommentEntity commentEntity);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertComments(List<CommentEntity> comments);
+    public abstract void insertComments(List<CommentEntity> comments);
 
     @Transaction
     @Query("SELECT * FROM comment WHERE id = :id")
-    LiveData<CommentEntity> getCommentById(long id);
+    public abstract LiveData<CommentEntity> getCommentByRoomId(long id);
 
     @Transaction
-    @Query("SELECT * FROM comment WHERE comment.video_id = :videoId")
-    LiveData<List<CommentEntity>> getCommentsForVideoId(long videoId);
+    @Query("SELECT * FROM comment WHERE comment.youtube_video_id = :youtubeVideoId")
+    public abstract LiveData<List<CommentEntity>> getCommentsForVideo(String youtubeVideoId);
+
+    public void insertCommentsFromResponse(CommentThreadListResponse response) {
+        List<CommentThread> commentThreads = response.getCommentThreads();
+        for (CommentThread commentThread : commentThreads) {
+            CommentEntity commentEntity = getCommentFromResult(commentThread);
+            if (commentEntity != null) {
+                insertComment(commentEntity);
+            }
+        }
+    }
+
+    private CommentEntity getCommentFromResult(CommentThread commentThread) {
+        String commentThreadId = commentThread.getCommentThreadId();
+        CommentEntity commentEntity = null;
+        if (commentThreadId != null) {
+            CommentThreadSnippet threadSnippet = commentThread.getCommentThreadSnippet();
+            String youtubeVideoId = threadSnippet.getVideoId();
+            CommentTopLevel topLevelComment = threadSnippet.getTopLevelComment();
+            String textDisplay = topLevelComment.getTextDisplay();
+            CommentTopLevelSnippet commentSnippet = topLevelComment.getTopLevelCommentSnippet();
+            String authorDisplayName = commentSnippet.getAuthorDisplayName();
+            String authorProfileImageUrl = commentSnippet.getAuthorProfileImageUrl();
+
+            commentEntity = new CommentEntity(youtubeVideoId, authorDisplayName,
+                                              authorProfileImageUrl, textDisplay);
+        }
+
+        return commentEntity;
+    }
+
+
 }

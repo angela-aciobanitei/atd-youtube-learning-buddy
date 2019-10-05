@@ -22,15 +22,15 @@ public interface ApiService {
     @GET("search?part=id%2Csnippet&type=video&maxResults=50")
     LiveData<ApiResponse<SearchVideosResponse>> searchVideos(@Query("q") String query);
 
-    @GET("search?part=snippet&type=video&order=rating")
-    Call<SearchVideosResponse> searchVideos2(@Query("q") String query,
+    @GET("search?part=id%2Csnippet&type=video")
+    Call<SearchVideosResponse> searchVideos(@Query("q") String query,
                                             @Query("pageToken") String pageToken);
 
     // TODO See: https://developers.google.com/youtube/v3/docs/videos/list#parameters
-    @GET("videos")
+    @GET("videos?part=snippet")
     Call<VideoListResponse> getVideo(@Query("id") String videoId);
 
     // See: https://developers.google.com/youtube/v3/docs/commentThreads/list#parameters
     @GET("commentThreads?part=snippet%2Creplies")
-    Call<CommentThreadListResponse> getComments(@Query("videoId") String videoId);
+    LiveData<ApiResponse<CommentThreadListResponse>> getComments(@Query("videoId") String videoId);
 }

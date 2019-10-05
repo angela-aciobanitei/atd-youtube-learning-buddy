@@ -29,9 +29,9 @@ public class NavigationController {
                 .commitAllowingStateLoss();
     }
 
-    public void navigateToVideoDetails(String videoDetailsId) {
-        VideoDetailsFragment fragment = new VideoDetailsFragment();
-        String tag = "video" + "/" + videoDetailsId;
+    public void navigateToVideoDetails(String youtubeVideoId) {
+        VideoDetailsFragment fragment = VideoDetailsFragment.newInstance(youtubeVideoId);
+        String tag = "video" + "/" + youtubeVideoId;
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, tag)
                 .addToBackStack(null)

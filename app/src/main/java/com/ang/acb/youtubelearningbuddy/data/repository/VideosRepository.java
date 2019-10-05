@@ -6,8 +6,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
 import com.ang.acb.youtubelearningbuddy.data.local.db.AppDatabase;
+import com.ang.acb.youtubelearningbuddy.data.local.entity.CommentEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
+import com.ang.acb.youtubelearningbuddy.data.model.CommentThreadListResponse;
 import com.ang.acb.youtubelearningbuddy.data.model.Resource;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchResult;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchVideosResponse;
@@ -60,11 +62,9 @@ public class VideosRepository {
             protected void saveCallResult(@NonNull SearchVideosResponse response) {
                 // Save the YOU TUBE API response into the database.
                 List<String> videoIds = response.getVideoIds();
-                // DEBUG: This correctly constructs the object SearchEntity
                 SearchEntity searchResult = new SearchEntity(query, videoIds,
                         response.getTotalResults(), response.getNextPageToken());
 
-                // Replace deprecated beginTransaction() with runInTransaction()
                 database.runInTransaction(() -> {
                     long searchId = database.videoDao().insertSearchResult(searchResult);
                     List<Long> insertedIds = database.videoDao().insertVideosFromResponse(response);
@@ -73,7 +73,6 @@ public class VideosRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable List<VideoEntity> dbData) {
-                // Decide whether to fetch potentially updated data from the network.
                 return dbData == null || dbData.isEmpty();
             }
 
@@ -93,5 +92,44 @@ public class VideosRepository {
         }.asLiveData();
     }
 
+    public LiveData<Resource<List<CommentEntity>>> getComments(String videoId) {
+        return new NetworkBoundResource<List<CommentEntity>, CommentThreadListResponse>(executors) {
 
-}
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<CommentThreadListResponse>> createCall() {
+                // Create the call to YOU TUBE API.
+                return apiService.getComments(videoId);
+            }
+
+            @Override
+            protected void saveCallResult(@NonNull CommentThreadListResponse response) {
+                // Save the YOU TUBE API response into the database.
+                database.runInTransaction(() -> {
+                    database.commentDao().insertCommentsFromResponse(response);
+                });
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<CommentEntity> dbData) {
+                return dbData == null || dbData.isEmpty();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<CommentEntity>> loadFromDb() {
+                // Get the cached data from the database.
+                return database.commentDao().getCommentsForVideo(videoId);
+            }
+
+            @NonNull
+            @Override
+            protected void onFetchFailed() {}
+        }.asLiveData();
+    }
+
+
+
+
+
+    }

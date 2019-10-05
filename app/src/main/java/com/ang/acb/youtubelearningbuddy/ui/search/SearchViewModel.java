@@ -41,7 +41,6 @@ public class SearchViewModel extends ViewModel {
         });
     }
 
-    // FIXME: This stores only last item from result list
     public LiveData<Resource<List<VideoEntity>>> getSearchResults() {
         return searchResults;
     }

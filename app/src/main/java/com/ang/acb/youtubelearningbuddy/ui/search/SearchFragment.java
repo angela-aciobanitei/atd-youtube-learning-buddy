@@ -34,7 +34,7 @@ public class SearchFragment extends Fragment {
 
     private FragmentSearchBinding binding;
     private SearchViewModel searchViewModel;
-    private SearchAdapter searchAdapter;
+    private VideosAdapter videosAdapter;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -84,9 +84,9 @@ public class SearchFragment extends Fragment {
         binding.rvVideos.setLayoutManager(layoutManager);
         binding.rvVideos.addItemDecoration(new DividerItemDecoration(
                 getContext(), LinearLayoutManager.VERTICAL));
-        searchAdapter = new SearchAdapter(videoItem ->
+        videosAdapter = new VideosAdapter(videoItem ->
                 navigationController.navigateToVideoDetails(videoItem.getYouTubeVideoId()));
-        binding.rvVideos.setAdapter(searchAdapter);
+        binding.rvVideos.setAdapter(videosAdapter);
     }
 
     private void initSearchInputListener() {
@@ -125,13 +125,12 @@ public class SearchFragment extends Fragment {
     }
 
     private void populateUi() {
-        // FIXME: This displays only one item (only last result)
         searchViewModel.getSearchResults().observe(this, result -> {
             binding.setResource(result);
             int resultCount = (result == null || result.data == null) ? 0 : result.data.size();
             binding.setResultCount(resultCount);
             if (result != null && result.data != null) {
-                searchAdapter.submitList(result.data);
+                videosAdapter.submitList(result.data);
             }
             binding.executePendingBindings();
         });

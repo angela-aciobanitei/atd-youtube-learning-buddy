@@ -7,4 +7,7 @@
     <string name="unknown_error">Unknown error</string>
     <string name="action_retry">Retry</string>
     <string name="video_thumbnail_content_description">Video Thumbnail</string>
+    <string name="video_placeholder_image">Video Placeholder Image</string>
+    <string name="comments_label">Comments</string>
+    <string name="no_comments_for_this_video">No comments for this video</string>
 </resources>
