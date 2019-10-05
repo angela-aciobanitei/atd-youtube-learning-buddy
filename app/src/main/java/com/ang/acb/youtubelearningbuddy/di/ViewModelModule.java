@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsViewModel;
-import com.ang.acb.youtubelearningbuddy.ui.video.SearchViewModel;
+import com.ang.acb.youtubelearningbuddy.ui.search.SearchViewModel;
 import com.ang.acb.youtubelearningbuddy.ui.viewmodel.ViewModelFactory;
 
 import dagger.Binds;

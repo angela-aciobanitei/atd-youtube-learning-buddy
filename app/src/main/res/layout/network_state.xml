@@ -17,8 +17,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="16dp"
-        app:toggleVisibility="@{resource.data == null}">
+        android:padding="16dp">
+<!--    FIXME    app:toggleVisibility="@{resource.data == null}">-->
 
         <ProgressBar
             android:id="@+id/progress_bar"

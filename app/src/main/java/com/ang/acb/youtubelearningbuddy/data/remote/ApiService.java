@@ -21,7 +21,7 @@ public interface ApiService {
 
     // TODO See: https://developers.google.com/youtube/v3/docs/search/list#parameters
     // Ex: GET https://www.googleapis.com/youtube/v3/search?part=snippet&order=rating&q=android&type=video&key=[YOUR_API_KEY] HTTP/1.1
-    @GET("search?part=snippet&order=rating&type=video")
+    @GET("search?part=id%2Csnippet&order=rating&type=video&maxResults=50")
     LiveData<ApiResponse<SearchVideosResponse>> searchVideos(@Query("q") String query);
 
     @GET("search?part=snippet&type=video&order=rating")

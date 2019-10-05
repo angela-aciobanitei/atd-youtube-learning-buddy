@@ -3,7 +3,7 @@ package com.ang.acb.youtubelearningbuddy.ui.common;
 import androidx.fragment.app.FragmentManager;
 
 import com.ang.acb.youtubelearningbuddy.R;
-import com.ang.acb.youtubelearningbuddy.ui.video.SearchFragment;
+import com.ang.acb.youtubelearningbuddy.ui.search.SearchFragment;
 import com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment;
 
 import javax.inject.Inject;

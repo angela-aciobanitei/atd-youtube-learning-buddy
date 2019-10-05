@@ -29,7 +29,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:padding="8dp"
-                android:text="@{video.getTitle()}"
+                android:text="@{video.title}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:drawableStart="@drawable/ic_ondemand_video_black_24dp"
                 android:drawablePadding="8dp"

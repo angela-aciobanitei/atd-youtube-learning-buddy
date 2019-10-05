@@ -5,11 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
-import com.ang.acb.youtubelearningbuddy.BuildConfig;
 import com.ang.acb.youtubelearningbuddy.data.local.db.AppDatabase;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.data.model.Resource;
+import com.ang.acb.youtubelearningbuddy.data.model.SearchResult;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchVideosResponse;
 import com.ang.acb.youtubelearningbuddy.data.remote.ApiResponse;
 import com.ang.acb.youtubelearningbuddy.data.remote.ApiService;
@@ -60,19 +60,21 @@ public class VideosRepository {
             protected void saveCallResult(@NonNull SearchVideosResponse response) {
                 // Save the YOU TUBE API response into the database.
                 List<String> videoIds = response.getVideoIds();
+                // DEBUG: This correctly constructs the object SearchEntity
                 SearchEntity searchResult = new SearchEntity(query, videoIds,
                         response.getTotalResults(), response.getNextPageToken());
+
                 // Replace deprecated beginTransaction() with runInTransaction()
                 database.runInTransaction(() -> {
-                    database.videoDao().insertSearchResult(searchResult);
-                    database.videoDao().insertVideosFromResponse(response);
+                    long searchId = database.videoDao().insertSearchResult(searchResult);
+                    List<Long> insertedIds = database.videoDao().insertVideosFromResponse(response);
                 });
             }
 
             @Override
             protected boolean shouldFetch(@Nullable List<VideoEntity> dbData) {
                 // Decide whether to fetch potentially updated data from the network.
-                return dbData == null;
+                return dbData == null || dbData.isEmpty();
             }
 
             @NonNull

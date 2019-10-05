@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/fragment_search"
-        android:name="com.ang.acb.youtubelearningbuddy.ui.video.SearchFragment"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search">
         <action

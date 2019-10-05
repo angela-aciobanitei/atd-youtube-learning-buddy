@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
 public class TopicEntity {
 
     @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
 

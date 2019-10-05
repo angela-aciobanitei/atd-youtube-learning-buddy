@@ -28,7 +28,7 @@ import static androidx.room.ForeignKey.CASCADE;
 public class CommentEntity {
 
     @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
 

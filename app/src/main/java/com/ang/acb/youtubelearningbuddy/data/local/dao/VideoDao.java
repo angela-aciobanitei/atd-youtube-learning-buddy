@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
@@ -12,6 +13,7 @@ import com.ang.acb.youtubelearningbuddy.data.model.SearchResult;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchResultSnippet;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchVideosResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,20 +26,25 @@ import java.util.List;
 public abstract class  VideoDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertVideo(VideoEntity video);
+    public abstract long insertVideo(VideoEntity video);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertVideos(List<VideoEntity> videos);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertSearchResult(SearchEntity result);
+    public abstract long insertSearchResult(SearchEntity result);
 
-    public void insertVideosFromResponse(SearchVideosResponse response) {
+    public List<Long> insertVideosFromResponse(SearchVideosResponse response) {
         List<SearchResult> searchResults = response.getSearchResults();
+        List<Long> videoIds = new ArrayList<>();
         for (SearchResult searchResult : searchResults) {
             VideoEntity videoEntity = getVideoFromSearchResult(searchResult);
-            if (videoEntity != null) insertVideo(videoEntity);
+            if (videoEntity != null) {
+                insertVideo(videoEntity);
+                videoIds.add(videoEntity.getId());
+            }
         }
+        return videoIds;
     }
 
     private VideoEntity getVideoFromSearchResult(SearchResult searchResult) {
@@ -65,9 +72,11 @@ public abstract class  VideoDao {
     @Query("SELECT * FROM video WHERE id = :id")
     public abstract LiveData<VideoEntity> getVideoByRoomId(long id);
 
+    @Transaction
     @Query("SELECT * FROM video WHERE youtube_video_id = :youtubeId")
     public abstract LiveData<VideoEntity> getVideoByYouTubeId(String youtubeId);
 
+    @Transaction
     @Query("SELECT * FROM video WHERE youtube_video_id in (:youTubeVideoIds)")
     public abstract LiveData<List<VideoEntity>> loadVideosByIds(List<String> youTubeVideoIds);
 

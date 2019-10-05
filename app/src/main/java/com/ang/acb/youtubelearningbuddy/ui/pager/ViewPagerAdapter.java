@@ -7,9 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsFragment;
-import com.ang.acb.youtubelearningbuddy.ui.video.SearchFragment;
-
-import javax.inject.Inject;
+import com.ang.acb.youtubelearningbuddy.ui.search.SearchFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 

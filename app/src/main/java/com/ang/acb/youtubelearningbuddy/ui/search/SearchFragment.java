@@ -1,4 +1,4 @@
-package com.ang.acb.youtubelearningbuddy.ui.video;
+package com.ang.acb.youtubelearningbuddy.ui.search;
 
 
 import android.content.Context;
@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.IBinder;
 import android.view.KeyEvent;
@@ -31,10 +29,9 @@ import dagger.android.support.AndroidSupportInjection;
 
 public class SearchFragment extends Fragment {
 
-
     private FragmentSearchBinding binding;
     private SearchViewModel searchViewModel;
-    private VideosAdapter videosAdapter;
+    private SearchAdapter searchAdapter;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -55,7 +52,6 @@ public class SearchFragment extends Fragment {
         super.onAttach(context);
     }
 
-
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,8 +65,8 @@ public class SearchFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         initViewModel();
-        populateUi();
         initAdapter();
+        populateUi();
         initSearchInputListener();
     }
 
@@ -80,9 +76,9 @@ public class SearchFragment extends Fragment {
     }
 
     private void initAdapter(){
-        videosAdapter = new VideosAdapter(videoItem ->
+        searchAdapter = new SearchAdapter(videoItem ->
                 navigationController.navigateToVideoDetails(videoItem.getYouTubeVideoId()));
-        binding.rvVideos.setAdapter(videosAdapter);
+        binding.rvVideos.setAdapter(searchAdapter);
     }
 
     private void initSearchInputListener() {
@@ -121,12 +117,13 @@ public class SearchFragment extends Fragment {
     }
 
     private void populateUi() {
+        // FIXME: This displays only one item (only last result)
         searchViewModel.getSearchResults().observe(this, result -> {
             binding.setResource(result);
-            binding.setResultCount((result == null || result.data == null)
-                    ? 0 : result.data.size());
+            int resultCount = (result == null || result.data == null) ? 0 : result.data.size();
+            binding.setResultCount(resultCount);
             if (result != null && result.data != null) {
-                videosAdapter.submitList(result.data);
+                searchAdapter.submitList(result.data);
             }
             binding.executePendingBindings();
         });

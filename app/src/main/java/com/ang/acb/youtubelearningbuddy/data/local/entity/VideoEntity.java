@@ -19,7 +19,7 @@ import javax.inject.Inject;
 public class VideoEntity {
 
     @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
 

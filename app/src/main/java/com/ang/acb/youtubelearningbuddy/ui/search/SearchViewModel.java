@@ -1,4 +1,4 @@
-package com.ang.acb.youtubelearningbuddy.ui.video;
+package com.ang.acb.youtubelearningbuddy.ui.search;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -41,6 +41,7 @@ public class SearchViewModel extends ViewModel {
         });
     }
 
+    // FIXME: This stores only last item from result list
     public LiveData<Resource<List<VideoEntity>>> getSearchResults() {
         return searchResults;
     }
