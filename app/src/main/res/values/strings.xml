@@ -6,4 +6,5 @@
     <string name="search_result_count"><b>%s</b> results for <b>%s</b></string>
     <string name="unknown_error">Unknown error</string>
     <string name="action_retry">Retry</string>
+    <string name="video_thumbnail_content_description">Video Thumbnail</string>
 </resources>

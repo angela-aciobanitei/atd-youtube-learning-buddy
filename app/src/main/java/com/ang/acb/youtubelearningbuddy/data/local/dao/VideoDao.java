@@ -55,9 +55,11 @@ public abstract class  VideoDao {
             String publishedAt = snippet.getVideoPublishedAt();
             String title = snippet.getVideoTitle();
             String description = snippet.getVideoDescription();
-            String thumbnailUrl = snippet.getVideoThumbnails().getHighResolutionVersion().getUrl();
+            String defaultThumbUrl = snippet.getVideoThumbnails().getDefaultResolutionVersion().getUrl();
+            String highThumbUrl = snippet.getVideoThumbnails().getHighResolutionVersion().getUrl();
 
-            videoEntity = new VideoEntity(videoId, publishedAt, title, description, thumbnailUrl);
+            videoEntity = new VideoEntity(videoId, publishedAt, title, description,
+                                          defaultThumbUrl, highThumbUrl);
         }
 
         return videoEntity;

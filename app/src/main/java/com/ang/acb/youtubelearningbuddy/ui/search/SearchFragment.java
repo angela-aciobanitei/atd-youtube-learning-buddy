@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.IBinder;
 import android.view.KeyEvent;
@@ -76,6 +79,11 @@ public class SearchFragment extends Fragment {
     }
 
     private void initAdapter(){
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
+                getContext(), RecyclerView.VERTICAL, false);
+        binding.rvVideos.setLayoutManager(layoutManager);
+        binding.rvVideos.addItemDecoration(new DividerItemDecoration(
+                getContext(), LinearLayoutManager.VERTICAL));
         searchAdapter = new SearchAdapter(videoItem ->
                 navigationController.navigateToVideoDetails(videoItem.getYouTubeVideoId()));
         binding.rvVideos.setAdapter(searchAdapter);

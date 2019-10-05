@@ -38,6 +38,19 @@ public class ThumbnailsResource {
     @Expose
     private ThumbnailsHigh highResolutionVersion;
 
+    @SerializedName("default")
+    @Expose
+    private ThumbnailsHigh defaultResolutionVersion;
+
+
+    public ThumbnailsHigh getDefaultResolutionVersion() {
+        return defaultResolutionVersion;
+    }
+
+    public void setDefaultResolutionVersion(ThumbnailsHigh defaultResolutionVersion) {
+        this.defaultResolutionVersion = defaultResolutionVersion;
+    }
+
     public ThumbnailsHigh getHighResolutionVersion() {
         return highResolutionVersion;
     }

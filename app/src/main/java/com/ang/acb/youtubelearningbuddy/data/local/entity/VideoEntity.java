@@ -33,28 +33,32 @@ public class VideoEntity {
 
     private String description;
 
-    @ColumnInfo(name = "thumbnail_url")
-    private String thumbnailUrl;
+    @ColumnInfo(name = "default_thumbnail_url")
+    private String defaultThumbnailUrl;
 
-    public VideoEntity(long id, String youTubeVideoId, String publishedAt,
-                       String title, String description, String thumbnailUrl) {
+    @ColumnInfo(name = "high_thumbnail_url")
+    private String highThumbnailUrl;
+
+    public VideoEntity(long id, String youTubeVideoId, String publishedAt, String title,
+                       String description, String defaultThumbnailUrl, String highThumbnailUrl) {
         this.id = id;
         this.youTubeVideoId = youTubeVideoId;
         this.publishedAt = publishedAt;
         this.title = title;
         this.description = description;
-        this.thumbnailUrl = thumbnailUrl;
+        this.defaultThumbnailUrl = defaultThumbnailUrl;
+        this.highThumbnailUrl = highThumbnailUrl;
     }
 
     @Ignore
-    @Inject
-    public VideoEntity(String youTubeVideoId, String publishedAt, String title,
-                       String description, String thumbnailUrl) {
+    public VideoEntity(String youTubeVideoId, String publishedAt, String title, String description,
+                       String defaultThumbnailUrl, String highThumbnailUrl) {
         this.youTubeVideoId = youTubeVideoId;
         this.publishedAt = publishedAt;
         this.title = title;
         this.description = description;
-        this.thumbnailUrl = thumbnailUrl;
+        this.defaultThumbnailUrl = defaultThumbnailUrl;
+        this.highThumbnailUrl = highThumbnailUrl;
     }
 
     public long getId() {
@@ -97,11 +101,19 @@ public class VideoEntity {
         this.description = description;
     }
 
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
+    public String getDefaultThumbnailUrl() {
+        return defaultThumbnailUrl;
     }
 
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
+    public void setDefaultThumbnailUrl(String defaultThumbnailUrl) {
+        this.defaultThumbnailUrl = defaultThumbnailUrl;
+    }
+
+    public String getHighThumbnailUrl() {
+        return highThumbnailUrl;
+    }
+
+    public void setHighThumbnailUrl(String highThumbnailUrl) {
+        this.highThumbnailUrl = highThumbnailUrl;
     }
 }
