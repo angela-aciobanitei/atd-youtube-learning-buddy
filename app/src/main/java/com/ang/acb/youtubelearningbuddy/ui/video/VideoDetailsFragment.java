@@ -99,6 +99,7 @@ public class VideoDetailsFragment extends Fragment {
     private void initViewModel() {
         commentsViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(CommentsViewModel.class);
+        commentsViewModel.setVideoId(youtubeVideoId);
     }
 
     private void initAdapter(){
@@ -115,7 +116,7 @@ public class VideoDetailsFragment extends Fragment {
         commentsViewModel.getComments().observe(getViewLifecycleOwner(), result -> {
             binding.setResource(result);
             int resultCount = (result == null || result.data == null) ? 0 : result.data.size();
-            binding.setResultCount(resultCount);
+            binding.setCommentsCount(resultCount);
             if(result != null && result.data != null) {
                 commentsAdapter.submitList(result.data);
             }

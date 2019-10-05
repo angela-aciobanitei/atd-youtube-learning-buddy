@@ -22,7 +22,7 @@ import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
                       CommentEntity.class,
                       TopicEntity.class,
                       VideoEntity.class},
-          version = 4,
+          version = 6,
           exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {

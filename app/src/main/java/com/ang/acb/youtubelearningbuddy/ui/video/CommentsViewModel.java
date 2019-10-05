@@ -27,8 +27,8 @@ public class CommentsViewModel extends ViewModel {
         });
     }
 
-    public MutableLiveData<String> getVideoId() {
-        return videoId;
+    public void setVideoId(String value) {
+        videoId.setValue(value);
     }
 
     public LiveData<Resource<List<CommentEntity>>> getComments() {

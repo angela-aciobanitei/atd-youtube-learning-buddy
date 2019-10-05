@@ -72,6 +72,4 @@ public abstract class CommentDao {
 
         return commentEntity;
     }
-
-
 }

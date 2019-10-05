@@ -20,11 +20,11 @@ import static androidx.room.ForeignKey.CASCADE;
  */
 @Entity(tableName = "comment",
         foreignKeys = @ForeignKey(entity = VideoEntity.class,
-                                  parentColumns = "id",
+                                  parentColumns = "youtube_video_id",
                                   childColumns = "youtube_video_id",
                                   onDelete = CASCADE,
                                   onUpdate = CASCADE),
-        indices = {@Index(value = {"youtube_video_id"})}
+        indices = {@Index(value = {"youtube_video_id"}, unique = true)}
 )
 public class CommentEntity {
 

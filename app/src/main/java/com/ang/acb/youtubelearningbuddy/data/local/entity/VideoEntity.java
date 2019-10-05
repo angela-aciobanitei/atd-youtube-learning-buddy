@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import javax.inject.Inject;
@@ -15,7 +16,8 @@ import javax.inject.Inject;
  * Also, since a topic can have any number of videos, and a video can be included in
  * any number of topics, we need to define a many-to-many relationship between them.
  */
-@Entity(tableName = "video")
+@Entity(tableName = "video",
+        indices = {@Index(value = {"youtube_video_id"}, unique = true)})
 public class VideoEntity {
 
     @NonNull
