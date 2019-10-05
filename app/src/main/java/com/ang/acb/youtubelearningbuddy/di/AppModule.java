@@ -82,7 +82,7 @@ class AppModule {
                 HttpUrl originalHttpUrl = original.url();
 
                 HttpUrl url = originalHttpUrl.newBuilder()
-                        .addQueryParameter("api_key", BuildConfig.YOU_TUBE_API_KEY)
+                        .addQueryParameter("key", BuildConfig.YOU_TUBE_API_KEY)
                         .build();
 
                 Request request = original.newBuilder().url(url).build();
@@ -123,7 +123,7 @@ class AppModule {
                 // Retrofit adapter that converts the Retrofit2.Call into a
                 // LiveData of ApiResponse.
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
-                // TODO .client(client)
+                .client(client)
                 .build()
                 .create(ApiService.class);
     }

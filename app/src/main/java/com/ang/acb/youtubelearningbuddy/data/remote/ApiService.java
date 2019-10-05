@@ -20,9 +20,9 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     // TODO See: https://developers.google.com/youtube/v3/docs/search/list#parameters
-    @GET("search?part=snippet&type=video&order=rating")
-    LiveData<ApiResponse<SearchVideosResponse>> searchVideos(@Query("q") String query,
-                                                             @Query("api_key") String apiKey);
+    // Ex: GET https://www.googleapis.com/youtube/v3/search?part=snippet&order=rating&q=android&type=video&key=[YOUR_API_KEY] HTTP/1.1
+    @GET("search?part=snippet&order=rating&type=video")
+    LiveData<ApiResponse<SearchVideosResponse>> searchVideos(@Query("q") String query);
 
     @GET("search?part=snippet&type=video&order=rating")
     Call<SearchVideosResponse> searchVideos2(@Query("q") String query,

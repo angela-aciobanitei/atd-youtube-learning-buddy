@@ -125,7 +125,9 @@ public class SearchFragment extends Fragment {
             binding.setResource(result);
             binding.setResultCount((result == null || result.data == null)
                     ? 0 : result.data.size());
-            videosAdapter.submitList(result == null ? null : result.data);
+            if (result != null && result.data != null) {
+                videosAdapter.submitList(result.data);
+            }
             binding.executePendingBindings();
         });
     }

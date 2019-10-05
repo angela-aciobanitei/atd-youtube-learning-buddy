@@ -36,25 +36,30 @@ public abstract class  VideoDao {
         List<SearchResult> searchResults = response.getSearchResults();
         for (SearchResult searchResult : searchResults) {
             VideoEntity videoEntity = getVideoFromSearchResult(searchResult);
-            insertVideo(videoEntity);
+            if (videoEntity != null) insertVideo(videoEntity);
         }
     }
 
     private VideoEntity getVideoFromSearchResult(SearchResult searchResult) {
         String videoId = searchResult.getSearchResultId().getVideoId();
-        SearchResultSnippet snippet = searchResult.getSearchResultSnippet();
-        String publishedAt = snippet.getVideoPublishedAt();
-        String title = snippet.getVideoTitle();
-        String description = snippet.getVideoDescription();
-        String thumbnailUrl = snippet.getVideoThumbnails().getHighResolutionVersion().getUrl();
+        VideoEntity videoEntity = null;
+        if (videoId != null) {
+            SearchResultSnippet snippet = searchResult.getSearchResultSnippet();
+            String publishedAt = snippet.getVideoPublishedAt();
+            String title = snippet.getVideoTitle();
+            String description = snippet.getVideoDescription();
+            String thumbnailUrl = snippet.getVideoThumbnails().getHighResolutionVersion().getUrl();
 
-        return new VideoEntity(videoId, publishedAt, title, description, thumbnailUrl);
+            videoEntity = new VideoEntity(videoId, publishedAt, title, description, thumbnailUrl);
+        }
+
+        return videoEntity;
     }
 
-    @Query("SELECT * FROM search_results WHERE query = :query")
+    @Query("SELECT * FROM search_results WHERE `query` = :query")
     public abstract LiveData<SearchEntity> search(String query);
 
-    @Query("SELECT * FROM search_results WHERE query = :query")
+    @Query("SELECT * FROM search_results WHERE `query` = :query")
     public abstract SearchEntity findSearchResult(String query);
 
     @Query("SELECT * FROM video WHERE id = :id")

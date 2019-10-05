@@ -52,8 +52,8 @@ public class VideosRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<SearchVideosResponse>> createCall() {
-                // TODO Create the call to YOU TUBE API.
-                return apiService.searchVideos(query, BuildConfig.YOU_TUBE_API_KEY);
+                // Create the call to YOU TUBE API.
+                return apiService.searchVideos(query);
             }
 
             @Override
