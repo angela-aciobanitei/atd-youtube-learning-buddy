@@ -115,13 +115,20 @@ public class VideoDetailsFragment extends Fragment {
     private void populateUi() {
         commentsViewModel.getComments().observe(getViewLifecycleOwner(), result -> {
             binding.setResource(result);
-            int resultCount = (result == null || result.data == null) ? 0 : result.data.size();
-            binding.setCommentsCount(resultCount);
+            int commentsCount = (result == null || result.data == null) ? 0 : result.data.size();
+            if (result != null && result.status == Resource.Status.SUCCESS && commentsCount == 0){
+                binding.noResultsText.setText(getString(R.string.no_comments_for_this_video));
+            }
+            if (result!= null && result.message != null && result.message.contains("disabled comments")) {
+                binding.noResultsText.setText(getString(R.string.comments_disabled));
+                binding.networkState.rootLinearLayout.setVisibility(View.GONE);
+            }
+
+
             if(result != null && result.data != null) {
                 commentsAdapter.submitList(result.data);
             }
             binding.executePendingBindings();
         });
     }
-
 }

@@ -28,45 +28,9 @@ import java.util.List;
  */
 public class VideoListResponse {
 
-    @SerializedName("nextPageToken")
-    @Expose
-    private String nextPageToken;
-
-    @SerializedName("prevPageToken")
-    @Expose
-    private String prevPageToken;
-
-    @SerializedName("pageInfo")
-    @Expose
-    private SearchResultPageInfo searchResultPageInfo;
-
     @SerializedName("items")
     @Expose
     private List<VideoResource> videoResources;
-
-    public String getNextPageToken() {
-        return nextPageToken;
-    }
-
-    public void setNextPageToken(String nextPageToken) {
-        this.nextPageToken = nextPageToken;
-    }
-
-    public String getPrevPageToken() {
-        return prevPageToken;
-    }
-
-    public void setPrevPageToken(String prevPageToken) {
-        this.prevPageToken = prevPageToken;
-    }
-
-    public SearchResultPageInfo getSearchResultPageInfo() {
-        return searchResultPageInfo;
-    }
-
-    public void setSearchResultPageInfo(SearchResultPageInfo searchResultPageInfo) {
-        this.searchResultPageInfo = searchResultPageInfo;
-    }
 
     public List<VideoResource> getVideoResources() {
         return videoResources;

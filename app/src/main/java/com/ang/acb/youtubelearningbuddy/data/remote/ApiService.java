@@ -26,9 +26,9 @@ public interface ApiService {
     Call<SearchVideosResponse> searchVideos(@Query("q") String query,
                                             @Query("pageToken") String pageToken);
 
-    // TODO See: https://developers.google.com/youtube/v3/docs/videos/list#parameters
-    @GET("videos?part=snippet")
-    Call<VideoListResponse> getVideo(@Query("id") String videoId);
+    // See: https://developers.google.com/youtube/v3/docs/videos/list#parameters
+    @GET("videos?part=statistics")
+    Call<VideoListResponse> getVideoStatistics(@Query("id") String videoId);
 
     // See: https://developers.google.com/youtube/v3/docs/commentThreads/list#parameters
     @GET("commentThreads?part=snippet%2Creplies")

@@ -59,6 +59,7 @@ public class CommentEntity {
         this.authorDisplayName = authorDisplayName;
         this.authorProfileImageUrl = authorProfileImageUrl;
         this.displayText = displayText;
+        this.publishedAt = publishedAt;
     }
 
     @Ignore
@@ -69,6 +70,7 @@ public class CommentEntity {
         this.authorDisplayName = authorDisplayName;
         this.authorProfileImageUrl = authorProfileImageUrl;
         this.displayText = displayText;
+        this.publishedAt = publishedAt;
     }
 
     public long getId() {

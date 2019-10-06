@@ -1,0 +1,87 @@
+{
+   "kind":"youtube#videoListResponse",
+   "etag":"\"p4VTdlkQv3HQeTEaXgvLePAydmU/Hbd6F8QeHRGV1Y8MMbwER5Czuo8\"",
+   "pageInfo":{
+      "totalResults":1,
+      "resultsPerPage":1
+   },
+   "items":[
+      {
+         "kind":"youtube#video",
+         "etag":"\"p4VTdlkQv3HQeTEaXgvLePAydmU/OVc_8V6CeP7UqjeF6t0PyEDbRho\"",
+         "id":"eIrMbAQSU34",
+         "snippet":{
+            "publishedAt":"2019-07-15T16:00:12.000Z",
+            "channelId":"UCWv7vMbMWH4-V0ZXdmDpPBA",
+            "title":"Java Tutorial for Beginners [2019]",
+            "description":"Java tutorial for beginners - Learn Java, the language behind millions of apps and websites. \n👍Subscribe for more Java tutorials like this: https://goo.gl/6PYaGF\n💥Get my Ultimate Java Mastery series with an early-bird discount: http://bit.ly/2xNOwXT\n\n📕Get My FREE #Java Cheat Sheet:\nhttp://bit.ly/2JNlQnw\n\nTABLE OF CONTENTS \n\n0:00:00 Introduction \n0:01:46 Installing Java\n0:03:59 Anatomy of a Java Program \n0:08:41 Your First Java Program \n0:15:59 Cheat Sheet \n0:16:29 How Java Code Gets Executed \n0:22:54 Course Structure\n0:25:22 Types\n0:25:57 Variables\n0:29:07 Primitive Types\n0:34:27 Reference Types\n0:39:15 Primitive Types vs Reference Types \n0:43:39 Strings\n0:50:42 Escape Sequences \n0:53:22 Arrays\n0:58:47 Multi-Dimensional Arrays \n1:01:23 Constants\n1:03:15 Arithmetic Expressions \n1:07:18 Order of Operations \n1:08:40 Casting\n1:15:08 The Math Class \n1:19:50 Formatting Numbers \n1:25:40 Reading Input\n1:30:45 Project: Mortgage Calculator \n1:32:55 Solution: Mortgage Calculator \n1:37:14 Types Summary\n1:38:43 Control Flow \n1:39:30 Comparison Operators \n1:41:16 Logical Operators\n1:45:52 If Statements\n1:50:18 Simplifying If Statements \n1:53:47 The Ternary Operator\n1:56:16 Switch Statements\n2:00:07 Exercise: FizzBuzz\n2:06:05 For Loops\n2:09:53 While Loops\n2:14:19 Do...While Loops\n2:15:36 Break and Continue\n2:18:52 For-Each Loop\n2:21:59 Project: Mortgage Calculator \n2:23:27 Solution: Mortgage Calculator \n2:28:28 Control Flow Summary \n2:29:25 Clean Coding\n\n#Programming\n\nCONNECT \n\nCourses: http://codewithmosh.com\nBlog: http://programmingwithmosh.com\nFacebook: https://www.facebook.com/programmingwithmosh/\nTwitter: https://twitter.com/moshhamedani",
+            "thumbnails":{
+               "default":{
+                  "url":"https://i.ytimg.com/vi/eIrMbAQSU34/default.jpg",
+                  "width":120,
+                  "height":90
+               },
+               "medium":{
+                  "url":"https://i.ytimg.com/vi/eIrMbAQSU34/mqdefault.jpg",
+                  "width":320,
+                  "height":180
+               },
+               "high":{
+                  "url":"https://i.ytimg.com/vi/eIrMbAQSU34/hqdefault.jpg",
+                  "width":480,
+                  "height":360
+               },
+               "standard":{
+                  "url":"https://i.ytimg.com/vi/eIrMbAQSU34/sddefault.jpg",
+                  "width":640,
+                  "height":480
+               },
+               "maxres":{
+                  "url":"https://i.ytimg.com/vi/eIrMbAQSU34/maxresdefault.jpg",
+                  "width":1280,
+                  "height":720
+               }
+            },
+            "channelTitle":"Programming with Mosh",
+            "tags":[
+               "java",
+               "java tutorial",
+               "java tutorial for beginners",
+               "learn java",
+               "java course",
+               "java 12",
+               "java 8",
+               "java 8 tutorial",
+               "java programming",
+               "java programming for beginners",
+               "java training",
+               "java for beginners",
+               "java 8 tutorial with examples",
+               "java 8 course",
+               "java programming tutorial",
+               "programming",
+               "tutorial",
+               "beginners",
+               "programming with mosh",
+               "code with mosh",
+               "mosh hamedani",
+               "learn to code"
+            ],
+            "categoryId":"27",
+            "liveBroadcastContent":"none",
+            "localized":{
+               "title":"Java Tutorial for Beginners [2019]",
+               "description":"Java tutorial for beginners - Learn Java, the language behind millions of apps and websites. \n👍Subscribe for more Java tutorials like this: https://goo.gl/6PYaGF\n💥Get my Ultimate Java Mastery series with an early-bird discount: http://bit.ly/2xNOwXT\n\n📕Get My FREE #Java Cheat Sheet:\nhttp://bit.ly/2JNlQnw\n\nTABLE OF CONTENTS \n\n0:00:00 Introduction \n0:01:46 Installing Java\n0:03:59 Anatomy of a Java Program \n0:08:41 Your First Java Program \n0:15:59 Cheat Sheet \n0:16:29 How Java Code Gets Executed \n0:22:54 Course Structure\n0:25:22 Types\n0:25:57 Variables\n0:29:07 Primitive Types\n0:34:27 Reference Types\n0:39:15 Primitive Types vs Reference Types \n0:43:39 Strings\n0:50:42 Escape Sequences \n0:53:22 Arrays\n0:58:47 Multi-Dimensional Arrays \n1:01:23 Constants\n1:03:15 Arithmetic Expressions \n1:07:18 Order of Operations \n1:08:40 Casting\n1:15:08 The Math Class \n1:19:50 Formatting Numbers \n1:25:40 Reading Input\n1:30:45 Project: Mortgage Calculator \n1:32:55 Solution: Mortgage Calculator \n1:37:14 Types Summary\n1:38:43 Control Flow \n1:39:30 Comparison Operators \n1:41:16 Logical Operators\n1:45:52 If Statements\n1:50:18 Simplifying If Statements \n1:53:47 The Ternary Operator\n1:56:16 Switch Statements\n2:00:07 Exercise: FizzBuzz\n2:06:05 For Loops\n2:09:53 While Loops\n2:14:19 Do...While Loops\n2:15:36 Break and Continue\n2:18:52 For-Each Loop\n2:21:59 Project: Mortgage Calculator \n2:23:27 Solution: Mortgage Calculator \n2:28:28 Control Flow Summary \n2:29:25 Clean Coding\n\n#Programming\n\nCONNECT \n\nCourses: http://codewithmosh.com\nBlog: http://programmingwithmosh.com\nFacebook: https://www.facebook.com/programmingwithmosh/\nTwitter: https://twitter.com/moshhamedani"
+            },
+            "defaultAudioLanguage":"en"
+         },
+         "statistics":{
+            "viewCount":"366711",
+            "likeCount":"11803",
+            "dislikeCount":"128",
+            "favoriteCount":"0",
+            "commentCount":"1227"
+         }
+      }
+   ]
+}

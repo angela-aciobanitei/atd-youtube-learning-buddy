@@ -1,5 +1,8 @@
 package com.ang.acb.youtubelearningbuddy.data.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * A video resource represents a YouTube video.
  * See: https://developers.google.com/youtube/v3/docs/videos#resource
@@ -245,4 +248,15 @@ package com.ang.acb.youtubelearningbuddy.data.model;
  *
  */
 public class VideoResource {
+
+    @SerializedName("id")
+    @Expose
+    private String id;
+
+    @SerializedName("statistics")
+    @Expose
+    private VideoStatistics videoStatistics;
+
+
 }
+
