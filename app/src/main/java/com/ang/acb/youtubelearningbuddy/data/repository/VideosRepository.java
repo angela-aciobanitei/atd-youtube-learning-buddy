@@ -35,6 +35,7 @@ public class VideosRepository {
     private AppDatabase database;
     private ApiService apiService;
     private AppExecutors executors;
+    private long roomVideoId = -1;
 
     @Inject
     VideosRepository(AppDatabase database, ApiService apiService, AppExecutors executors) {
@@ -92,22 +93,25 @@ public class VideosRepository {
         }.asLiveData();
     }
 
-    public LiveData<Resource<List<CommentEntity>>> getComments(String videoId) {
+    public LiveData<Resource<List<CommentEntity>>> getComments(String youTubeVideoId) {
         return new NetworkBoundResource<List<CommentEntity>, CommentThreadListResponse>(executors) {
 
             @NonNull
             @Override
             protected LiveData<ApiResponse<CommentThreadListResponse>> createCall() {
                 // Create the call to YOU TUBE API.
-                return apiService.getComments(videoId);
+                return apiService.getComments(youTubeVideoId);
             }
 
             @Override
             protected void saveCallResult(@NonNull CommentThreadListResponse response) {
-                // Save the YOU TUBE API response into the database.
-                database.runInTransaction(() -> {
-                    database.commentDao().insertCommentsFromResponse(response);
-                });
+                // Before trying to save the comments for a specific video in the db,
+                // make sure that the video (which is the parent) actually exists in
+                // the db, to avoid foreign key constraint fails.
+                roomVideoId = database.videoDao().getVideoId(youTubeVideoId);
+                if (roomVideoId != -1) {
+                    database.commentDao().insertCommentsFromResponse(roomVideoId, response);
+                }
             }
 
             @Override
@@ -119,7 +123,7 @@ public class VideosRepository {
             @Override
             protected LiveData<List<CommentEntity>> loadFromDb() {
                 // Get the cached data from the database.
-                return database.commentDao().getCommentsForVideo(videoId);
+                return database.commentDao().getCommentsForVideo(youTubeVideoId);
             }
 
             @NonNull
@@ -127,9 +131,4 @@ public class VideosRepository {
             protected void onFetchFailed() {}
         }.asLiveData();
     }
-
-
-
-
-
-    }
+}

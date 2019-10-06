@@ -44,30 +44,31 @@ public abstract class CommentDao {
     @Query("SELECT * FROM comment WHERE comment.youtube_video_id = :youtubeVideoId")
     public abstract LiveData<List<CommentEntity>> getCommentsForVideo(String youtubeVideoId);
 
-    public void insertCommentsFromResponse(CommentThreadListResponse response) {
+    public void insertCommentsFromResponse(long roomVideoId, CommentThreadListResponse response) {
         List<CommentThread> commentThreads = response.getCommentThreads();
         for (CommentThread commentThread : commentThreads) {
-            CommentEntity commentEntity = getCommentFromResult(commentThread);
+            CommentEntity commentEntity = getCommentFromResult(roomVideoId, commentThread);
             if (commentEntity != null) {
                 insertComment(commentEntity);
             }
         }
     }
 
-    private CommentEntity getCommentFromResult(CommentThread commentThread) {
+    private CommentEntity getCommentFromResult(long roomVideoId, CommentThread commentThread) {
         String commentThreadId = commentThread.getCommentThreadId();
         CommentEntity commentEntity = null;
         if (commentThreadId != null) {
             CommentThreadSnippet threadSnippet = commentThread.getCommentThreadSnippet();
             String youtubeVideoId = threadSnippet.getVideoId();
             CommentTopLevel topLevelComment = threadSnippet.getTopLevelComment();
-            String textDisplay = topLevelComment.getTextDisplay();
             CommentTopLevelSnippet commentSnippet = topLevelComment.getTopLevelCommentSnippet();
             String authorDisplayName = commentSnippet.getAuthorDisplayName();
             String authorProfileImageUrl = commentSnippet.getAuthorProfileImageUrl();
+            String textDisplay = commentSnippet.getTextDisplay();
+            String publishedAt = commentSnippet.getPublishedAt();
 
-            commentEntity = new CommentEntity(youtubeVideoId, authorDisplayName,
-                                              authorProfileImageUrl, textDisplay);
+            commentEntity = new CommentEntity(roomVideoId, youtubeVideoId, authorDisplayName,
+                                              authorProfileImageUrl, textDisplay, publishedAt);
         }
 
         return commentEntity;

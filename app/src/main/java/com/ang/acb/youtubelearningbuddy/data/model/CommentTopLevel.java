@@ -45,14 +45,6 @@ public class CommentTopLevel {
     @Expose
     private CommentTopLevelSnippet topLevelCommentSnippet;
 
-    @SerializedName("videoId")
-    @Expose
-    private SearchResultId videoId;
-
-    @SerializedName("textDisplay")
-    @Expose
-    private String textDisplay;
-
     public String getTopLevelCommentId() {
         return topLevelCommentId;
     }
@@ -67,13 +59,5 @@ public class CommentTopLevel {
 
     public void setTopLevelCommentSnippet(CommentTopLevelSnippet topLevelCommentSnippet) {
         this.topLevelCommentSnippet = topLevelCommentSnippet;
-    }
-
-    public String getTextDisplay() {
-        return textDisplay;
-    }
-
-    public void setTextDisplay(String textDisplay) {
-        this.textDisplay = textDisplay;
     }
 }

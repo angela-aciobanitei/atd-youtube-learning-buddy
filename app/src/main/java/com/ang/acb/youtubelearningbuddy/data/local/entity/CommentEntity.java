@@ -20,11 +20,11 @@ import static androidx.room.ForeignKey.CASCADE;
  */
 @Entity(tableName = "comment",
         foreignKeys = @ForeignKey(entity = VideoEntity.class,
-                                  parentColumns = "youtube_video_id",
-                                  childColumns = "youtube_video_id",
+                                  parentColumns = "id",
+                                  childColumns = "room_video_id",
                                   onDelete = CASCADE,
                                   onUpdate = CASCADE),
-        indices = {@Index(value = {"youtube_video_id"}, unique = true)}
+        indices = {@Index(value = {"room_video_id"})}
 )
 public class CommentEntity {
 
@@ -32,6 +32,9 @@ public class CommentEntity {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
+
+    @ColumnInfo(name = "room_video_id")
+    private long roomVideoId;
 
     @ColumnInfo(name = "youtube_video_id")
     private String youTubeVideoId;
@@ -45,9 +48,13 @@ public class CommentEntity {
     @ColumnInfo(name = "display_text")
     private String displayText;
 
-    public CommentEntity(long id, String youTubeVideoId, String authorDisplayName,
-                         String authorProfileImageUrl, String displayText) {
+    @ColumnInfo(name = "published_at")
+    private String publishedAt;
+
+    public CommentEntity(long id, long roomVideoId, String youTubeVideoId, String authorDisplayName,
+                         String authorProfileImageUrl, String displayText, String publishedAt) {
         this.id = id;
+        this.roomVideoId = roomVideoId;
         this.youTubeVideoId = youTubeVideoId;
         this.authorDisplayName = authorDisplayName;
         this.authorProfileImageUrl = authorProfileImageUrl;
@@ -55,8 +62,9 @@ public class CommentEntity {
     }
 
     @Ignore
-    public CommentEntity(String youTubeVideoId, String authorDisplayName,
-                         String authorProfileImageUrl, String displayText) {
+    public CommentEntity(long roomVideoId, String youTubeVideoId, String authorDisplayName,
+                         String authorProfileImageUrl, String displayText, String publishedAt) {
+        this.roomVideoId = roomVideoId;
         this.youTubeVideoId = youTubeVideoId;
         this.authorDisplayName = authorDisplayName;
         this.authorProfileImageUrl = authorProfileImageUrl;
@@ -69,6 +77,14 @@ public class CommentEntity {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getRoomVideoId() {
+        return roomVideoId;
+    }
+
+    public void setRoomVideoId(long roomVideoId) {
+        this.roomVideoId = roomVideoId;
     }
 
     public String getYouTubeVideoId() {
@@ -101,5 +117,13 @@ public class CommentEntity {
 
     public void setDisplayText(String displayText) {
         this.displayText = displayText;
+    }
+
+    public String getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
     }
 }

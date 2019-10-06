@@ -12,6 +12,30 @@ public class CommentTopLevelSnippet {
     @Expose
     private String authorProfileImageUrl;
 
+    @SerializedName("videoId")
+    @Expose
+    private String videoId;
+
+    @SerializedName("textDisplay")
+    @Expose
+    private String textDisplay;
+
+    @SerializedName("publishedAt")
+    @Expose
+    private String publishedAt;
+
+    @SerializedName("likeCount")
+    @Expose
+    private int likeCount;
+
+    public String getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
+    }
+
     public String getAuthorDisplayName() {
         return authorDisplayName;
     }
@@ -26,5 +50,29 @@ public class CommentTopLevelSnippet {
 
     public void setAuthorProfileImageUrl(String authorProfileImageUrl) {
         this.authorProfileImageUrl = authorProfileImageUrl;
+    }
+
+    public String getTextDisplay() {
+        return textDisplay;
+    }
+
+    public void setTextDisplay(String textDisplay) {
+        this.textDisplay = textDisplay;
+    }
+
+    public String getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
     }
 }

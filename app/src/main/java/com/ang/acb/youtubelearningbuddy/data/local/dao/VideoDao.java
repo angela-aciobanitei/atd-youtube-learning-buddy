@@ -79,7 +79,10 @@ public abstract class  VideoDao {
     public abstract LiveData<VideoEntity> getVideoByYouTubeId(String youtubeId);
 
     @Transaction
+    @Query("SELECT id FROM video WHERE youtube_video_id = :youtubeId")
+    public abstract long getVideoId(String youtubeId);
+
+    @Transaction
     @Query("SELECT * FROM video WHERE youtube_video_id in (:youTubeVideoIds)")
     public abstract LiveData<List<VideoEntity>> loadVideosByIds(List<String> youTubeVideoIds);
-
 }
