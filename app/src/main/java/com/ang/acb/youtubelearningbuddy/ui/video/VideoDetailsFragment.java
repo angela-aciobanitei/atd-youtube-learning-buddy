@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -16,18 +17,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ang.acb.youtubelearningbuddy.BuildConfig;
 import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.model.Resource;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentVideoDetailsBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.NavigationController;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragmentX;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
-public class VideoDetailsFragment extends Fragment {
+public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnInitializedListener {
 
     private static final String ARG_YOUTUBE_VIDEO_ID = "ARG_YOUTUBE_VIDEO_ID";
 
@@ -88,6 +95,7 @@ public class VideoDetailsFragment extends Fragment {
         initViewModel();
         initAdapter();
         displayComments();
+        displayVideo();
     }
 
     private void initViewModel() {
@@ -122,5 +130,33 @@ public class VideoDetailsFragment extends Fragment {
             }
             binding.executePendingBindings();
         });
+    }
+
+    private void displayVideo() {
+        // Hide action bar
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity()))
+                .getSupportActionBar()).hide();
+
+        // See: https://stackoverflow.com/questions/19848142/how-to-load-youtubeplayer-using-youtubeplayerfragment-inside-another-fragment
+        // See: https://gist.github.com/medyo/f226b967213c3b8ec6f6bebb5338a492
+        YouTubePlayerSupportFragmentX youTubeFragment = YouTubePlayerSupportFragmentX.newInstance();
+        youTubeFragment.initialize(BuildConfig.YOU_TUBE_API_KEY, this);
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.video_container, youTubeFragment)
+                .commit();
+    }
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider,
+                                        YouTubePlayer youTubePlayer, boolean b) {
+        youTubePlayer.setShowFullscreenButton(false);
+        youTubePlayer.loadVideo(youtubeVideoId);
+        youTubePlayer.play();
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider,
+                                        YouTubeInitializationResult youTubeInitializationResult) {
+
     }
 }

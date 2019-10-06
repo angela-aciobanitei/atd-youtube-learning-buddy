@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">YouTubeLearningBuddy</string>
-
+    <string name="app_name">YouTubeLearn</string>
     <string name="search_hint">Search videos</string>
     <string name="empty_search_result">No results for <b>%s</b></string>
     <string name="search_result_count"><b>%s</b> results for <b>%s</b></string>
