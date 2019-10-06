@@ -1,10 +1,7 @@
 package com.ang.acb.youtubelearningbuddy.ui.video;
 
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -33,8 +30,6 @@ import dagger.android.support.AndroidSupportInjection;
 public class VideoDetailsFragment extends Fragment {
 
     private static final String ARG_YOUTUBE_VIDEO_ID = "ARG_YOUTUBE_VIDEO_ID";
-    private static final String YOUTUBE_WEB_BASE_URL = "https://www.youtube.com/watch?v=";
-    private static final String YOUTUBE_APP_BASE_URL = "vnd.youtube:";
 
     private String youtubeVideoId;
     private FragmentVideoDetailsBinding binding;
@@ -127,16 +122,5 @@ public class VideoDetailsFragment extends Fragment {
             }
             binding.executePendingBindings();
         });
-    }
-
-    public void watchYoutubeVideo(Context context, String id){
-        // See: https://stackoverflow.com/questions/574195/android-youtube-app-play-video-intent
-        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE_APP_BASE_URL + id));
-        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE_WEB_BASE_URL + id));
-        try {
-            context.startActivity(appIntent);
-        } catch (ActivityNotFoundException ex) {
-            context.startActivity(webIntent);
-        }
     }
 }

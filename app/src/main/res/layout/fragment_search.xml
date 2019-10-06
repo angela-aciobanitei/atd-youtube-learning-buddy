@@ -11,7 +11,7 @@
         <import type="java.util.List"/>
 
         <variable name="query" type="String"/>
-        <variable name="resultCount" type="int"/>
+        <variable name="searchCount" type="int"/>
         <variable name="resource" type="Resource" />
         <variable name="callback" type="RetryCallback" />
     </data>
@@ -49,8 +49,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="@dimen/horizontal_margin"
             android:layout_marginEnd="@dimen/horizontal_margin"
-            android:text="@{@string/search_result_count(resultCount, query)}"
-            app:toggleVisibility="@{resource.status == Status.SUCCESS &amp;&amp; resultCount != 0}"
+            android:text="@{@string/search_result_count(searchCount, query)}"
+            app:toggleVisibility="@{resource.status == Status.SUCCESS &amp;&amp; searchCount != 0}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_input_layout"
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{@string/empty_search_result(query)}"
-            app:toggleVisibility="@{resource.status == Status.SUCCESS &amp;&amp; resultCount == 0}"
+            app:toggleVisibility="@{resource.status == Status.SUCCESS &amp;&amp; searchCount == 0}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
