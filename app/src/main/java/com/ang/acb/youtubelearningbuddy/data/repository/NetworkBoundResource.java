@@ -126,21 +126,21 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     @WorkerThread
     protected abstract void saveCallResult(@NonNull RequestType item);
 
-    // Called when the fetch fails. The child class may want to reset
-    // components like rate limiter.
+    // Called to get the cached data from the database.
     @NonNull
     @MainThread
-    protected abstract void onFetchFailed();
+    protected abstract LiveData<ResultType> loadFromDb();
 
     // Called with the data in the database to decide whether to fetch
     // potentially updated data from the network.
     @MainThread
     protected abstract boolean shouldFetch(@Nullable ResultType data);
 
-    // Called to get the cached data from the database.
+    // Called when the fetch fails. The child class may want to reset
+    // components like rate limiter.
     @NonNull
     @MainThread
-    protected abstract LiveData<ResultType> loadFromDb();
+    protected abstract void onFetchFailed();
 
     // Returns a LiveData object that represents the resource that's
     // implemented in the base class.

@@ -127,8 +127,8 @@ public class SearchFragment extends Fragment {
     private void populateUi() {
         searchViewModel.getSearchResults().observe(this, result -> {
             binding.setResource(result);
-            int resultCount = (result == null || result.data == null) ? 0 : result.data.size();
-            binding.setResultCount(resultCount);
+            int dataSize = (result == null || result.data == null) ? 0 : result.data.size();
+            binding.setResultCount(dataSize);
             if (result != null && result.data != null) {
                 videosAdapter.submitList(result.data);
             }

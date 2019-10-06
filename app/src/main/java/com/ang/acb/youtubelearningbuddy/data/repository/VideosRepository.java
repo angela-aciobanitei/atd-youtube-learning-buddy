@@ -23,6 +23,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import timber.log.Timber;
+
 /**
  * Repository module for handling data operations.
  *
@@ -35,7 +37,6 @@ public class VideosRepository {
     private AppDatabase database;
     private ApiService apiService;
     private AppExecutors executors;
-    private long roomVideoId = -1;
 
     @Inject
     VideosRepository(AppDatabase database, ApiService apiService, AppExecutors executors) {
@@ -55,7 +56,7 @@ public class VideosRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<SearchVideosResponse>> createCall() {
-                // Create the call to YOU TUBE API.
+                Timber.d("Create API call to YouTube search.list method.");
                 return apiService.searchVideos(query);
             }
 
@@ -68,23 +69,25 @@ public class VideosRepository {
 
                 database.runInTransaction(() -> {
                     long searchId = database.videoDao().insertSearchResult(searchResult);
-                    List<Long> insertedIds = database.videoDao().insertVideosFromResponse(response);
+                    Timber.d("Inserted search result with ID= %s in the db", searchId);
+                    int savedVideosIds = database.videoDao().insertVideosFromResponse(response);
+                    Timber.d("Inserted %s videos in the db", savedVideosIds);
+                });
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<VideoEntity>> loadFromDb() {
+                Timber.d("Get the cached videos from the database");
+                return Transformations.switchMap(database.videoDao().search(query), searchData -> {
+                    if (searchData == null) return AbsentLiveData.create();
+                    else return database.videoDao().loadVideosByIds(searchData.youTubeVideoIds);
                 });
             }
 
             @Override
             protected boolean shouldFetch(@Nullable List<VideoEntity> dbData) {
                 return dbData == null || dbData.isEmpty();
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<List<VideoEntity>> loadFromDb() {
-                // Get the cached data from the database.
-                return Transformations.switchMap(database.videoDao().search(query), searchData -> {
-                    if (searchData == null) return AbsentLiveData.create();
-                    else return database.videoDao().loadVideosByIds(searchData.youTubeVideoIds);
-                });
             }
 
             @NonNull
@@ -99,7 +102,7 @@ public class VideosRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<CommentThreadListResponse>> createCall() {
-                // Create the call to YOU TUBE API.
+                Timber.d("Create API call to YouTube commentThreads.list method.");
                 return apiService.getComments(youTubeVideoId);
             }
 
@@ -108,22 +111,25 @@ public class VideosRepository {
                 // Before trying to save the comments for a specific video in the db,
                 // make sure that the video (which is the parent) actually exists in
                 // the db, to avoid foreign key constraint fails.
-                roomVideoId = database.videoDao().getVideoId(youTubeVideoId);
-                if (roomVideoId != -1) {
-                    database.commentDao().insertCommentsFromResponse(roomVideoId, response);
-                }
-            }
+                database.runInTransaction(() -> {
+                    long roomVideoId = database.videoDao().getVideoId(youTubeVideoId);
+                    int inserted = database.commentDao().insertCommentsFromResponse(roomVideoId, response);
+                    Timber.d("Inserted %s comments in the db for video with Room ID= %s",
+                            inserted, roomVideoId);
 
-            @Override
-            protected boolean shouldFetch(@Nullable List<CommentEntity> dbData) {
-                return dbData == null || dbData.isEmpty();
+                });
             }
 
             @NonNull
             @Override
             protected LiveData<List<CommentEntity>> loadFromDb() {
-                // Get the cached data from the database.
+                Timber.d("Get comments from db for video with YouTube ID= %s", youTubeVideoId);
                 return database.commentDao().getCommentsForVideo(youTubeVideoId);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<CommentEntity> dbData) {
+                return dbData == null || dbData.isEmpty();
             }
 
             @NonNull

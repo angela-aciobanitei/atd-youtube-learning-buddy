@@ -25,6 +25,10 @@ import java.util.List;
 @Dao
 public abstract class  VideoDao {
 
+    // Note: If the @Insert method receives only 1 parameter, it can return a long,
+    // which is the new rowId for the inserted item. If the parameter is an array or
+    // a collection, it should return long[] or List<Long> instead.
+    // See: https://developer.android.com/training/data-storage/room/accessing-data#convenience-insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insertVideo(VideoEntity video);
 
@@ -34,17 +38,16 @@ public abstract class  VideoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insertSearchResult(SearchEntity result);
 
-    public List<Long> insertVideosFromResponse(SearchVideosResponse response) {
+    public int insertVideosFromResponse(SearchVideosResponse response) {
         List<SearchResult> searchResults = response.getSearchResults();
         List<Long> videoIds = new ArrayList<>();
         for (SearchResult searchResult : searchResults) {
             VideoEntity videoEntity = getVideoFromSearchResult(searchResult);
             if (videoEntity != null) {
-                insertVideo(videoEntity);
-                videoIds.add(videoEntity.getId());
+                videoIds.add(insertVideo(videoEntity));
             }
         }
-        return videoIds;
+        return videoIds.size();
     }
 
     private VideoEntity getVideoFromSearchResult(SearchResult searchResult) {

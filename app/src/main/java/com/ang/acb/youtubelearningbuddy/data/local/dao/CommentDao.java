@@ -31,7 +31,7 @@ import java.util.List;
 public abstract class CommentDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertComment(CommentEntity commentEntity);
+    public abstract long insertComment(CommentEntity commentEntity);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertComments(List<CommentEntity> comments);
@@ -44,14 +44,17 @@ public abstract class CommentDao {
     @Query("SELECT * FROM comment WHERE comment.youtube_video_id = :youtubeVideoId")
     public abstract LiveData<List<CommentEntity>> getCommentsForVideo(String youtubeVideoId);
 
-    public void insertCommentsFromResponse(long roomVideoId, CommentThreadListResponse response) {
+    public int insertCommentsFromResponse(long roomVideoId, CommentThreadListResponse response) {
         List<CommentThread> commentThreads = response.getCommentThreads();
+        List<Long> ids = new ArrayList<>();
         for (CommentThread commentThread : commentThreads) {
             CommentEntity commentEntity = getCommentFromResult(roomVideoId, commentThread);
             if (commentEntity != null) {
-                insertComment(commentEntity);
+                ids.add(insertComment(commentEntity));
             }
         }
+
+        return ids.size();
     }
 
     private CommentEntity getCommentFromResult(long roomVideoId, CommentThread commentThread) {

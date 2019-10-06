@@ -1,12 +1,14 @@
 package com.ang.acb.youtubelearningbuddy.ui.video;
 
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -18,16 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ang.acb.youtubelearningbuddy.R;
-import com.ang.acb.youtubelearningbuddy.data.local.entity.CommentEntity;
 import com.ang.acb.youtubelearningbuddy.data.model.Resource;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentVideoDetailsBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.NavigationController;
-import com.ang.acb.youtubelearningbuddy.ui.search.SearchViewModel;
-import com.ang.acb.youtubelearningbuddy.ui.search.VideosAdapter;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,6 +33,8 @@ import dagger.android.support.AndroidSupportInjection;
 public class VideoDetailsFragment extends Fragment {
 
     private static final String ARG_YOUTUBE_VIDEO_ID = "ARG_YOUTUBE_VIDEO_ID";
+    private static final String YOUTUBE_WEB_BASE_URL = "https://www.youtube.com/watch?v=";
+    private static final String YOUTUBE_APP_BASE_URL = "vnd.youtube:";
 
     private String youtubeVideoId;
     private FragmentVideoDetailsBinding binding;
@@ -93,7 +92,7 @@ public class VideoDetailsFragment extends Fragment {
 
         initViewModel();
         initAdapter();
-        populateUi();
+        displayComments();
     }
 
     private void initViewModel() {
@@ -112,7 +111,7 @@ public class VideoDetailsFragment extends Fragment {
         binding.rvComments.setAdapter(commentsAdapter);
     }
 
-    private void populateUi() {
+    private void displayComments() {
         commentsViewModel.getComments().observe(getViewLifecycleOwner(), result -> {
             binding.setResource(result);
             int commentsCount = (result == null || result.data == null) ? 0 : result.data.size();
@@ -123,12 +122,21 @@ public class VideoDetailsFragment extends Fragment {
                 binding.noResultsText.setText(getString(R.string.comments_disabled));
                 binding.networkState.rootLinearLayout.setVisibility(View.GONE);
             }
-
-
             if(result != null && result.data != null) {
                 commentsAdapter.submitList(result.data);
             }
             binding.executePendingBindings();
         });
+    }
+
+    public void watchYoutubeVideo(Context context, String id){
+        // See: https://stackoverflow.com/questions/574195/android-youtube-app-play-video-intent
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE_APP_BASE_URL + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE_WEB_BASE_URL + id));
+        try {
+            context.startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            context.startActivity(webIntent);
+        }
     }
 }
