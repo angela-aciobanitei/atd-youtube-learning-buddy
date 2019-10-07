@@ -11,7 +11,6 @@ import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.data.model.CommentThreadListResponse;
 import com.ang.acb.youtubelearningbuddy.data.model.Resource;
-import com.ang.acb.youtubelearningbuddy.data.model.SearchResult;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchVideosResponse;
 import com.ang.acb.youtubelearningbuddy.data.remote.ApiResponse;
 import com.ang.acb.youtubelearningbuddy.data.remote.ApiService;

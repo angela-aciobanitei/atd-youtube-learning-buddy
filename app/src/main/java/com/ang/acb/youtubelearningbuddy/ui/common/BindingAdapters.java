@@ -10,7 +10,6 @@ import com.ang.acb.youtubelearningbuddy.utils.GlideApp;
 import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 
 /**
  * Binding adapters are responsible for making the appropriate framework calls to set values.
@@ -28,7 +27,6 @@ public class BindingAdapters {
 
     @BindingAdapter({"imageUrl"})
     public static void bindImage(ImageView imageView, String imageUrl) {
-        // Bind sandwich image
         GlideApp.with(imageView.getContext())
                 .load(imageUrl)
                 .transform(new CenterCrop(), new RoundedCorners((int)

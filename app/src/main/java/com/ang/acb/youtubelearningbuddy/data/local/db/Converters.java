@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Converters {
+
     @TypeConverter
     public static List<String> fromString(String value) {
         Type listType = new TypeToken<ArrayList<String>>() {}.getType();

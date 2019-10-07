@@ -12,8 +12,10 @@ import androidx.fragment.app.FragmentActivity;
 import com.google.android.youtube.player.internal.ab;
 
 /**
- * A workaround this this issue: YouTubePlayerSupportFragment not compatible with androidX.
- * https://gist.github.com/medyo/f226b967213c3b8ec6f6bebb5338a492
+ * A workaround for this issue: YouTubePlayerSupportFragment not compatible with androidX.
+ *
+ * See: https://stackoverflow.com/questions/52577000/youtube-player-support-fragment-no-longer-working-on-android-studio-3-2-android
+ * See: https://gist.github.com/medyo/f226b967213c3b8ec6f6bebb5338a492
  */
 
 public class YouTubePlayerSupportFragmentX extends Fragment implements YouTubePlayer.Provider {

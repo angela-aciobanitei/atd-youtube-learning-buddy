@@ -4,11 +4,9 @@ package com.ang.acb.youtubelearningbuddy.ui.video;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -16,21 +14,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ang.acb.youtubelearningbuddy.BuildConfig;
 import com.ang.acb.youtubelearningbuddy.R;
-import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.data.model.Resource;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentVideoDetailsBinding;
+import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
 import com.ang.acb.youtubelearningbuddy.ui.common.NavigationController;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.android.youtube.player.YouTubePlayerSupportFragmentX;
 
 import org.jetbrains.annotations.NotNull;
@@ -81,8 +77,6 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
 
         if (getArguments() != null) {
             youtubeVideoId = getArguments().getString(ARG_YOUTUBE_VIDEO_ID);
@@ -149,8 +143,12 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     }
 
     private void initYouTubePlayer() {
+        // FIXME: Hide action bar
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity()))
+                .getSupportActionBar()).hide();
+
         // See: https://stackoverflow.com/questions/19848142/how-to-load-youtubeplayer-using-youtubeplayerfragment-inside-another-fragment
-        // See: https://gist.github.com/medyo/f226b967213c3b8ec6f6bebb5338a492
+        // See: https://stackoverflow.com/questions/52577000/youtube-player-support-fragment-no-longer-working-on-android-studio-3-2-android
         YouTubePlayerSupportFragmentX youTubeFragment = YouTubePlayerSupportFragmentX.newInstance();
         youTubeFragment.initialize(BuildConfig.YOU_TUBE_API_KEY, this);
         getChildFragmentManager().beginTransaction()
@@ -160,35 +158,19 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider,
-                                        YouTubePlayer youTubePlayer, boolean b) {
-        youTubePlayer.setShowFullscreenButton(false);
+                                        YouTubePlayer youTubePlayer, boolean wasRestored) {
         youTubePlayer.loadVideo(youtubeVideoId);
         youTubePlayer.play();
+
     }
 
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider,
                                         YouTubeInitializationResult result) {
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.topic_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // Handle menu item selection
-        switch (item.getItemId()) {
-            case R.id.action_add_to_topic:
-                Toast.makeText(getActivity(), "Add to Topic", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_remove_from_topic:
-                Toast.makeText(getActivity(), "Remove from Topic", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        Toast.makeText(
+                getActivity(),
+                getString(R.string.player_init_failed),
+                Toast.LENGTH_LONG)
+                .show();
     }
 }

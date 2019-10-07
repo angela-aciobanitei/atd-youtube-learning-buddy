@@ -47,6 +47,15 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="video_container" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/video_details_title"
             android:layout_width="match_parent"
@@ -56,8 +65,8 @@
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:text="@{video.title}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/barrier"
             tools:text="@tools:sample/lorem"/>
 

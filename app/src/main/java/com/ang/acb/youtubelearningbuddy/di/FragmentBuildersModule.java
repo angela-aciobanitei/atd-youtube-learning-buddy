@@ -1,6 +1,5 @@
 package com.ang.acb.youtubelearningbuddy.di;
 
-import com.ang.acb.youtubelearningbuddy.ui.pager.ViewPagerFragment;
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicDetailsFragment;
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsFragment;
 import com.ang.acb.youtubelearningbuddy.ui.search.SearchFragment;
@@ -11,9 +10,6 @@ import dagger.android.ContributesAndroidInjector;
 
 @Module
 abstract class FragmentBuildersModule {
-
-    @ContributesAndroidInjector
-    abstract ViewPagerFragment contributeViewPagerFragment();
 
     @ContributesAndroidInjector
     abstract SearchFragment contributeSearchFragment();

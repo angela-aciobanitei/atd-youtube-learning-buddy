@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 
+import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentSearchBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.NavigationController;
 
