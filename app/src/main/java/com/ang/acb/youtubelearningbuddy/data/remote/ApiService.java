@@ -22,6 +22,6 @@ public interface ApiService {
 
     // See: https://developers.google.com/youtube/v3/docs/commentThreads/list#parameters
     // See: https://developers.google.com/youtube/v3/guides/implementation/comments
-    @GET("commentThreads?part=snippet")
+    @GET("commentThreads?part=snippet&order=relevance&maxResults=50")
     LiveData<ApiResponse<CommentThreadListResponse>> getComments(@Query("videoId") String videoId);
 }

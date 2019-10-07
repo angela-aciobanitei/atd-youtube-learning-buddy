@@ -33,7 +33,7 @@ public class BindingAdapters {
                 .load(imageUrl)
                 .transform(new CenterCrop(), new RoundedCorners((int)
                            UiUtils.dipToPixels(imageView.getContext(), 4)))
-                .placeholder(R.drawable.ic_ondemand_video_black_24dp)
+                .placeholder(R.color.colorImagePlaceholder)
                 .into(imageView);
     }
 }

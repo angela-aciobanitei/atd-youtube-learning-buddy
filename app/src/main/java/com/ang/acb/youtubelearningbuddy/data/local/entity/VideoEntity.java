@@ -7,9 +7,6 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import javax.inject.Inject;
-
-
 /**
  * Immutable model class for a video. Note: Since a video can have zero or more
  * comments, we need to define a one-to-many relationship between these two entities.

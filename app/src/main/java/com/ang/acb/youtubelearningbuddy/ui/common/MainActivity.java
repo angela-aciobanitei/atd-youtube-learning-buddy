@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.ang.acb.youtubelearningbuddy.R;
 
@@ -34,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         return dispatchingAndroidInjector;
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Note: when using Dagger for injecting Activity
@@ -44,8 +45,16 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupToolbar();
+
         if (savedInstanceState == null) {
             navigationController.navigateToSearch();
+        }
+    }
+
+    private void setupToolbar() {
+        if (getSupportActionBar() != null ){
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
 }

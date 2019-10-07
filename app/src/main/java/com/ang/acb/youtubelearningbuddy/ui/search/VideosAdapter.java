@@ -10,11 +10,7 @@ import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.VideoItemBinding;
 import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
 
-import java.time.Instant;
-import java.time.format.DateTimeParseException;
 import java.util.List;
-
-import timber.log.Timber;
 
 public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

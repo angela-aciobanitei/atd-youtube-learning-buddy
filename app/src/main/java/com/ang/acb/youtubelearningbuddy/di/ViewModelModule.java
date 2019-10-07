@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsViewModel;
 import com.ang.acb.youtubelearningbuddy.ui.search.SearchViewModel;
-import com.ang.acb.youtubelearningbuddy.ui.video.CommentsViewModel;
+import com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsViewModel;
 import com.ang.acb.youtubelearningbuddy.ui.viewmodel.ViewModelFactory;
 
 import dagger.Binds;
@@ -22,8 +22,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(CommentsViewModel.class)
-    abstract ViewModel bindCommentsViewModel(CommentsViewModel commentsViewModel);
+    @ViewModelKey(VideoDetailsViewModel.class)
+    abstract ViewModel bindVideoDetailsViewModel(VideoDetailsViewModel videoDetailsViewModel);
 
     @Binds
     @IntoMap

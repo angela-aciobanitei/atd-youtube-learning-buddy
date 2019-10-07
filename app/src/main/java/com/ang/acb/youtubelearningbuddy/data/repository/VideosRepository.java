@@ -137,4 +137,9 @@ public class VideosRepository {
             protected void onFetchFailed() {}
         }.asLiveData();
     }
+
+    public LiveData<VideoEntity> getVideoDetails(String id) {
+        return database.videoDao().getVideoByYouTubeId(id);
+    }
+
 }
