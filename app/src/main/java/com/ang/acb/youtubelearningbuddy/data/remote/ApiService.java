@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import com.ang.acb.youtubelearningbuddy.data.model.CommentThreadListResponse;
 import com.ang.acb.youtubelearningbuddy.data.model.SearchVideosResponse;
-import com.ang.acb.youtubelearningbuddy.data.model.VideoListResponse;
 
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -19,7 +17,7 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     // See: https://developers.google.com/youtube/v3/docs/search/list#parameters
-    @GET("search?part=id%2Csnippet&type=video&maxResults=50")
+    @GET("search?part=snippet&type=video&order=relevance&regionCode=US&relevanceLanguage=en&safeSearch=strict&maxResults=50")
     LiveData<ApiResponse<SearchVideosResponse>> searchVideos(@Query("q") String query);
 
     // See: https://developers.google.com/youtube/v3/docs/commentThreads/list#parameters

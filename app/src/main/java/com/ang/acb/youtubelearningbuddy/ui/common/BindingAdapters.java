@@ -32,7 +32,7 @@ public class BindingAdapters {
         GlideApp.with(imageView.getContext())
                 .load(imageUrl)
                 .transform(new CenterCrop(), new RoundedCorners((int)
-                           UiUtils.dipToPixels(imageView.getContext(), 8)))
+                           UiUtils.dipToPixels(imageView.getContext(), 4)))
                 .placeholder(R.drawable.ic_ondemand_video_black_24dp)
                 .into(imageView);
     }

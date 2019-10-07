@@ -23,10 +23,19 @@ be in a non-binding layout file.-->
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/video_item_thumbnail"
-            android:layout_width="@dimen/item_video_image_width"
-            android:layout_height="@dimen/item_video_image_height"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
             android:layout_marginStart="@dimen/horizontal_margin"
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:layout_marginTop="@dimen/vertical_margin"
@@ -34,9 +43,10 @@ be in a non-binding layout file.-->
             android:contentDescription="@string/video_thumbnail_content_description"
             android:scaleType="centerCrop"
             app:imageUrl="@{video.defaultThumbnailUrl}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <TextView
@@ -46,17 +56,17 @@ be in a non-binding layout file.-->
             android:layout_marginStart="@dimen/horizontal_margin"
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:layout_marginTop="@dimen/vertical_margin"
-            android:maxLines="1"
+            android:maxLines="3"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:text="@{video.title}"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/video_item_thumbnail"
+            app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="@tools:sample/lorem/random"/>
 
         <TextView
-            android:id="@+id/video_item_description"
+            android:id="@+id/video_item_published_at"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/horizontal_margin"
@@ -65,12 +75,11 @@ be in a non-binding layout file.-->
             android:maxLines="2"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:text="@{video.description}"
-            app:layout_constraintStart_toEndOf="@id/video_item_thumbnail"
+            app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@id/video_item_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="@tools:sample/lorem/random"/>
+            tools:text="2019-08-01T17:06:03.000Z"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

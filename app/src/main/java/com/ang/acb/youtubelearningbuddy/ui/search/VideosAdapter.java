@@ -8,8 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.VideoItemBinding;
+import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
 
+import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -75,6 +80,9 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void bindTo(VideoEntity videoEntity) {
             // Bind data for this item.
             binding.setVideo(videoEntity);
+            // Date is an RFC 3339 formatted date-time value (1970-01-01T00:00:00Z).
+            binding.videoItemPublishedAt.setText(UiUtils.formatPublishedAtDate(
+                    videoEntity.getPublishedAt()).toString());
 
             // Binding must be executed immediately.
             binding.executePendingBindings();
