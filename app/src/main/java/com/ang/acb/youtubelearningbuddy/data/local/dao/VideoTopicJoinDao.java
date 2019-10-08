@@ -1,5 +1,6 @@
 package com.ang.acb.youtubelearningbuddy.data.local.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -24,15 +25,15 @@ public interface VideoTopicJoinDao {
     @Insert
     void insert(VideoTopicJoin videoTopicJoin);
 
-    @Query("SELECT id, topic_name FROM topic " +
+    @Query("SELECT id, name, created_at FROM topic " +
             "INNER JOIN video_topic_join " +
             "ON topic.id=video_topic_join.topicId " +
             "WHERE video_topic_join.videoId=:videoId")
-    List<TopicEntity> getTopicsForVideo(final long videoId);
+    LiveData<List<TopicEntity>> getTopicsForVideo(final long videoId);
 
     @Query("SELECT id, youtube_video_id, published_at, title, description, default_thumbnail_url, high_thumbnail_url FROM video " +
             "INNER JOIN video_topic_join " +
             "ON video.id=video_topic_join.videoId " +
             "WHERE video_topic_join.topicId=:topicId")
-    List<VideoEntity> getVideosForTopic(final long topicId);
+    LiveData<List<VideoEntity>> getVideosForTopic(final long topicId);
 }

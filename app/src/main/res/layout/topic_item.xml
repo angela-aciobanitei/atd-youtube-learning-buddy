@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="topic"
+            type="com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@{topic.name}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:drawableStart="@drawable/ic_video_library_black_24dp"
+            android:drawablePadding="8dp"
+            android:drawableTint="@color/colorAccent"
+            tools:text="@tools:sample/lorem"/>
+
+    </LinearLayout>
+</layout>

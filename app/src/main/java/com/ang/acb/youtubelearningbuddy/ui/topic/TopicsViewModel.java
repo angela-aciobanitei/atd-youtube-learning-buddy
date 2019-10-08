@@ -1,8 +1,19 @@
 package com.ang.acb.youtubelearningbuddy.ui.topic;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.ang.acb.youtubelearningbuddy.data.local.entity.CommentEntity;
+import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
+import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
+import com.ang.acb.youtubelearningbuddy.data.model.Resource;
+import com.ang.acb.youtubelearningbuddy.data.repository.TopicsRepository;
 import com.ang.acb.youtubelearningbuddy.data.repository.VideosRepository;
+import com.ang.acb.youtubelearningbuddy.utils.AbsentLiveData;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -15,7 +26,38 @@ import javax.inject.Inject;
  */
 public class TopicsViewModel extends ViewModel {
 
+    private final MutableLiveData<Long> videoId = new MutableLiveData<>();
+    private final MutableLiveData<Long> topicId = new MutableLiveData<>();
+    private final LiveData<List<TopicEntity>> topicsForVideo;
+    private final LiveData<List<VideoEntity>> videosForTopic;
     @Inject
-    public TopicsViewModel(VideosRepository repository) {
+    TopicsViewModel(TopicsRepository repository) {
+        topicsForVideo = Transformations.switchMap(videoId, id -> {
+            if (id == null) return AbsentLiveData.create();
+            else return repository.getTopicsForVideo(id);
+        });
+
+        videosForTopic = Transformations.switchMap(topicId, id -> {
+            if (id == null) return AbsentLiveData.create();
+            else return repository.getVideosForTopic(id);
+        });
     }
+
+    public void setVideoId(long value) {
+        videoId.setValue(value);
+    }
+
+    public void setTopicId(long value) {
+        topicId.setValue(value);
+    }
+
+    public LiveData<List<TopicEntity>> getTopicsForVideo() {
+        return topicsForVideo;
+    }
+
+    public LiveData<List<VideoEntity>> getVideosForTopic() {
+        return videosForTopic;
+    }
+
+
 }

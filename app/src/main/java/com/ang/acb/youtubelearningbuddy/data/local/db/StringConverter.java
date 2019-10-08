@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Converters {
+public class StringConverter {
 
     @TypeConverter
     public static List<String> fromString(String value) {

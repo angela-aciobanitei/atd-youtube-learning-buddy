@@ -20,9 +20,9 @@ import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 public interface TopicDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTopic(TopicEntity topic);
+    long insertTopic(TopicEntity topic);
 
     @Transaction
     @Query("SELECT * FROM topic WHERE id = :id")
-    LiveData<TopicEntity> getTopicById(String id);
+    LiveData<TopicEntity> getTopicById(long id);
 }
