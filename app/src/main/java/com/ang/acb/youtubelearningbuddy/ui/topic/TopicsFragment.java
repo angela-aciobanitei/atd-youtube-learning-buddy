@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,10 +16,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
@@ -113,26 +118,46 @@ public class TopicsFragment extends Fragment {
     }
 
     private void createNewTopicDialog() {
+        // See: https://www.journaldev.com/22153/android-custom-alert-dialog
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getHostActivity().getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.create_new_topic_dialog, null);
+        View dialogView = getHostActivity().getLayoutInflater()
+                .inflate(R.layout.create_new_topic_dialog, null);
         dialogBuilder.setView(dialogView);
-        final EditText editText = dialogView.findViewById(R.id.dialog_edit_text);
+        setupDialogButtons(dialogBuilder, dialogView);
 
-        // TODO Positive button is inactive while edit text input is empty
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+
+        customizeDialogButtons(dialog);
+    }
+
+    private void setupDialogButtons(AlertDialog.Builder dialogBuilder, View dialogView){
+        // TODO: Positive button is inactive while edit text input is empty.
+        final EditText editText = dialogView.findViewById(R.id.dialog_edit_text);
         dialogBuilder.setPositiveButton(R.string.dialog_pos_btn, (dialog, whichButton) -> {
             String input = editText.getText().toString();
-            if (input.trim().length() != 0) {
-                topicsViewModel.createTopic(input);
-            } else {
-                dialog.dismiss();
-            }
+            if (input.trim().length() != 0) topicsViewModel.createTopic(input);
+            else dialog.dismiss();
         });
 
         dialogBuilder.setNegativeButton(R.string.dialog_neg_btn, (dialog, whichButton) ->
-                dialog.cancel());
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
+            dialog.cancel());
+    }
+
+    private void customizeDialogButtons(AlertDialog dialog) {
+        Button posBtn = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        posBtn.setBackgroundColor(ContextCompat.getColor(
+                getContext(), android.R.color.transparent));
+        posBtn.setTextColor(ContextCompat.getColor(
+                getContext(),R.color.colorAccent));
+        posBtn.setPadding(16, 0, 16, 0);
+
+        Button negBtn = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        posBtn.setBackgroundColor(ContextCompat.getColor(
+                getContext(), android.R.color.transparent));
+        negBtn.setTextColor(ContextCompat.getColor(
+                getContext(),R.color.colorAccent));
+        negBtn.setPadding(16, 0, 16, 0);
     }
 
     private void populateUi() {
