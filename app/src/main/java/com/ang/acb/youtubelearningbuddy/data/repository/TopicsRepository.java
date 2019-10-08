@@ -8,6 +8,7 @@ import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.data.remote.ApiService;
 import com.ang.acb.youtubelearningbuddy.utils.AppExecutors;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,5 +40,14 @@ public class TopicsRepository {
 
     public LiveData<List<VideoEntity>> getVideosForTopic(final long topicId) {
         return database.videoTopicJoinDao().getVideosForTopic(topicId);
+    }
+
+    public LiveData<List<TopicEntity>> getAllTopics() {
+        return database.topicDao().getAllTopics();
+    }
+
+    public void createTopic(String name) {
+        executors.diskIO().execute(() ->
+            database.topicDao().insertTopic(new TopicEntity(name, new Date())));
     }
 }

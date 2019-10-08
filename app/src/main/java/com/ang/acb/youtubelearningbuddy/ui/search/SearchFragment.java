@@ -135,7 +135,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void populateUi() {
-        searchViewModel.getSearchResults().observe(this, result -> {
+        searchViewModel.getSearchResults().observe(getViewLifecycleOwner(), result -> {
             binding.setResource(result);
             int searchCount = (result == null || result.data == null) ? 0 : result.data.size();
             binding.setSearchCount(searchCount);

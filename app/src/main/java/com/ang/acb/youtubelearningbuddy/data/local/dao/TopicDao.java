@@ -10,6 +10,8 @@ import androidx.room.Transaction;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 
+import java.util.List;
+
 /**
  * Interface for database access on {@link VideoEntity} related operations.
  *
@@ -25,4 +27,8 @@ public interface TopicDao {
     @Transaction
     @Query("SELECT * FROM topic WHERE id = :id")
     LiveData<TopicEntity> getTopicById(long id);
+
+    @Transaction
+    @Query("SELECT * FROM topic")
+    LiveData<List<TopicEntity>> getAllTopics();
 }

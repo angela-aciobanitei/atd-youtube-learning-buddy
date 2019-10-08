@@ -19,4 +19,9 @@
     <string name="video_description_label">Description</string>
     <string name="no_topics">No topics created yet</string>
     <string name="create_new_topic">Create new topic</string>
+    <string name="dialog_pos_btn">OK</string>
+    <string name="dialog_neg_btn">CANCEL</string>
+    <string name="topic_name">Topic name:</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
 </resources>

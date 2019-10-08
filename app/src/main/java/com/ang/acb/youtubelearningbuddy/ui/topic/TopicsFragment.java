@@ -1,11 +1,14 @@
 package com.ang.acb.youtubelearningbuddy.ui.topic;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -15,8 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.ang.acb.youtubelearningbuddy.R;
+import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentTopicsBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
 import com.ang.acb.youtubelearningbuddy.ui.common.NavigationController;
@@ -24,6 +29,8 @@ import com.ang.acb.youtubelearningbuddy.ui.search.SearchViewModel;
 import com.ang.acb.youtubelearningbuddy.ui.search.VideosAdapter;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -74,6 +81,8 @@ public class TopicsFragment extends Fragment {
         setupToolbarTitle();
         initViewModel();
         initAdapter();
+        handleNewTopicCreation();
+        populateUi();
     }
 
     private void setupToolbarTitle() {
@@ -97,6 +106,43 @@ public class TopicsFragment extends Fragment {
         topicsAdapter = new TopicsAdapter(topicItem ->
                 navigationController.navigateToTopicDetails(topicItem.getId()));
         binding.rvTopics.setAdapter(topicsAdapter);
+    }
+
+    private void handleNewTopicCreation() {
+        binding.createTopicCardView.setOnClickListener(view -> createNewTopicDialog());
+    }
+
+    private void createNewTopicDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getHostActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.create_new_topic_dialog, null);
+        dialogBuilder.setView(dialogView);
+        final EditText editText = dialogView.findViewById(R.id.dialog_edit_text);
+
+        // TODO Positive button is inactive while edit text input is empty
+        dialogBuilder.setPositiveButton(R.string.dialog_pos_btn, (dialog, whichButton) -> {
+            String input = editText.getText().toString();
+            if (input.trim().length() != 0) {
+                topicsViewModel.createTopic(input);
+            } else {
+                dialog.dismiss();
+            }
+        });
+
+        dialogBuilder.setNegativeButton(R.string.dialog_neg_btn, (dialog, whichButton) ->
+                dialog.cancel());
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+    }
+
+    private void populateUi() {
+        topicsViewModel.getAllTopics().observe(getViewLifecycleOwner(), result -> {
+            binding.setTopicCount((result == null) ? 0 : result.size());
+            if (result != null) {
+                topicsAdapter.submitList(result);
+            }
+            binding.executePendingBindings();
+        });
     }
 
     private MainActivity getHostActivity(){

@@ -30,8 +30,13 @@ public class TopicsViewModel extends ViewModel {
     private final MutableLiveData<Long> topicId = new MutableLiveData<>();
     private final LiveData<List<TopicEntity>> topicsForVideo;
     private final LiveData<List<VideoEntity>> videosForTopic;
+    private LiveData<List<TopicEntity>> allTopics;
+    private TopicsRepository repository;
+
+
     @Inject
     TopicsViewModel(TopicsRepository repository) {
+        this.repository = repository;
         topicsForVideo = Transformations.switchMap(videoId, id -> {
             if (id == null) return AbsentLiveData.create();
             else return repository.getTopicsForVideo(id);
@@ -59,5 +64,12 @@ public class TopicsViewModel extends ViewModel {
         return videosForTopic;
     }
 
+    public LiveData<List<TopicEntity>> getAllTopics() {
+        return repository.getAllTopics();
+    }
 
+
+    public void createTopic(String name) {
+        repository.createTopic(name);
+    }
 }
