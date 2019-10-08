@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.room.Room;
 
 import com.ang.acb.youtubelearningbuddy.BuildConfig;
+import com.ang.acb.youtubelearningbuddy.data.local.dao.VideoTopicJoinDao;
 import com.ang.acb.youtubelearningbuddy.data.local.db.AppDatabase;
 import com.ang.acb.youtubelearningbuddy.data.local.dao.CommentDao;
 import com.ang.acb.youtubelearningbuddy.data.local.dao.TopicDao;
@@ -66,6 +67,12 @@ class AppModule {
     @Provides
     VideoDao provideVideoDao(AppDatabase database) {
         return database.videoDao();
+    }
+
+    @Singleton
+    @Provides
+    VideoTopicJoinDao provideVideoTopicJoinDao(AppDatabase database) {
+        return database.videoTopicJoinDao();
     }
 
     @Singleton
