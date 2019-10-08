@@ -25,4 +25,11 @@
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
     <string name="new_topic">New Topic</string>
+    <string name="video_added_to_favorites">Video added to favorites</string>
+    <string name="video_removed_from_favorites">Video removed from favorites</string>
+    <string name="favorites_image_view">Add or remove from favorites image view</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_favorites">No favorite videos added yet</string>
 </resources>

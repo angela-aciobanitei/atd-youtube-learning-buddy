@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                     return true;
 
                 case R.id.action_show_favorites:
-                    // TODO navigationController.navigateToFavorites();
+                    navigationController.navigateToFavorites();
                     return true;
             }
 

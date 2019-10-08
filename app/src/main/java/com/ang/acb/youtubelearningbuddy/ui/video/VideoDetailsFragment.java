@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -23,6 +24,7 @@ import com.ang.acb.youtubelearningbuddy.data.model.Resource;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentVideoDetailsBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
 import com.ang.acb.youtubelearningbuddy.ui.common.NavigationController;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
@@ -97,6 +99,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
         initYouTubePlayer();
         displayComments();
         displayVideoDetails();
+        handleFavoriteClick();
     }
 
     private void initViewModel() {
@@ -117,8 +120,25 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
 
     private void displayVideoDetails() {
         detailsViewModel.getVideo().observe(getViewLifecycleOwner(), video -> {
+            if (detailsViewModel.isFavorite()) {
+                binding.addRemoveFromFavorites.setImageResource(
+                        R.drawable.ic_favorite_black_24dp);
+            } else {
+                binding.addRemoveFromFavorites.setImageResource(
+                        R.drawable.ic_favorite_border_black_24dp);
+            }
+
             binding.setVideo(video);
         });
+    }
+
+    private void handleFavoriteClick() {
+        binding.addRemoveFromFavorites.setOnClickListener(view ->
+                detailsViewModel.onFavoriteClicked());
+
+        // Observe the Snackbar messages showed when adding/removing video from favorites.
+        detailsViewModel.getSnackbarMessage().observe(this, (Observer<Integer>) message ->
+                Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_SHORT).show());
     }
 
     private void displayComments() {

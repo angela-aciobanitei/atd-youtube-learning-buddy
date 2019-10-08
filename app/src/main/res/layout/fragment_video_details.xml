@@ -29,12 +29,34 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <ImageView
+            android:id="@+id/add_remove_from_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/vertical_margin"
+            android:layout_margin="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/video_container"
+            android:contentDescription="@string/favorites_image_view"
+            tools:src="@drawable/ic_favorite_black_24dp"/>
+
+        <ImageView
+            android:id="@+id/add_to_topics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/vertical_margin"
+            android:layout_margin="16dp"
+            app:layout_constraintEnd_toStartOf="@id/add_remove_from_favorites"
+            app:layout_constraintTop_toBottomOf="@id/video_container"
+            android:contentDescription="@string/favorites_image_view"
+            android:src="@drawable/ic_library_add_black_24dp"/>
+
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="video_container" />
+            app:constraint_referenced_ids="add_remove_from_favorites,add_to_topics" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/video_details_nested_scroll_view"

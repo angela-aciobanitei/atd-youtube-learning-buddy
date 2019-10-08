@@ -59,10 +59,9 @@ public abstract class  VideoDao {
             String title = snippet.getVideoTitle();
             String description = snippet.getVideoDescription();
             String defaultThumbUrl = snippet.getVideoThumbnails().getDefaultResolutionVersion().getUrl();
-            String highThumbUrl = snippet.getVideoThumbnails().getHighResolutionVersion().getUrl();
 
             videoEntity = new VideoEntity(videoId, publishedAt, title, description,
-                                          defaultThumbUrl, highThumbUrl);
+                                          defaultThumbUrl,false);
         }
 
         return videoEntity;
@@ -88,4 +87,13 @@ public abstract class  VideoDao {
     @Transaction
     @Query("SELECT * FROM video WHERE youtube_video_id in (:youTubeVideoIds)")
     public abstract LiveData<List<VideoEntity>> loadVideosByIds(List<String> youTubeVideoIds);
+
+    @Query("SELECT * FROM video WHERE is_favorite = 1")
+    public abstract LiveData<List<VideoEntity>> getAllFavoriteVideos();
+
+    @Query("UPDATE video SET is_favorite = 1 WHERE id = :videoId")
+    public abstract void markAsFavorite(long videoId);
+
+    @Query("UPDATE video SET is_favorite = 0 WHERE id = :videoId")
+    public abstract void markAsNotFavorite(long videoId);
 }

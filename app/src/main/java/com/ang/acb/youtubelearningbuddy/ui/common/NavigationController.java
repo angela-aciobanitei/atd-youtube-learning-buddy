@@ -3,6 +3,7 @@ package com.ang.acb.youtubelearningbuddy.ui.common;
 import androidx.fragment.app.FragmentManager;
 
 import com.ang.acb.youtubelearningbuddy.R;
+import com.ang.acb.youtubelearningbuddy.ui.favorites.FavoriteVideosFragment;
 import com.ang.acb.youtubelearningbuddy.ui.search.SearchFragment;
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicDetailsFragment;
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsFragment;
@@ -36,7 +37,11 @@ public class NavigationController {
                 .commitAllowingStateLoss();
     }
 
-
+    public void navigateToFavorites() {
+        fragmentManager.beginTransaction()
+                .replace(containerId, new FavoriteVideosFragment())
+                .commitAllowingStateLoss();
+    }
 
     public void navigateToVideoDetails(String youtubeVideoId) {
         VideoDetailsFragment fragment = VideoDetailsFragment.newInstance(youtubeVideoId);

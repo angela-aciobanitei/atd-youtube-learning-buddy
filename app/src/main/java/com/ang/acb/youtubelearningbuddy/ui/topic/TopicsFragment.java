@@ -153,7 +153,7 @@ public class TopicsFragment extends Fragment {
         posBtn.setPadding(16, 0, 16, 0);
 
         Button negBtn = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        posBtn.setBackgroundColor(ContextCompat.getColor(
+        negBtn.setBackgroundColor(ContextCompat.getColor(
                 getContext(), android.R.color.transparent));
         negBtn.setTextColor(ContextCompat.getColor(
                 getContext(),R.color.colorAccent));

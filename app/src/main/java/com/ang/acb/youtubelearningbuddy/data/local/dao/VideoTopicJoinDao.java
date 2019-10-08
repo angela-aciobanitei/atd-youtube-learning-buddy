@@ -31,7 +31,7 @@ public interface VideoTopicJoinDao {
             "WHERE video_topic_join.videoId=:videoId")
     LiveData<List<TopicEntity>> getTopicsForVideo(final long videoId);
 
-    @Query("SELECT id, youtube_video_id, published_at, title, description, default_thumbnail_url, high_thumbnail_url FROM video " +
+    @Query("SELECT id, youtube_video_id, published_at, title, description, default_thumbnail_url, is_favorite FROM video " +
             "INNER JOIN video_topic_join " +
             "ON video.id=video_topic_join.videoId " +
             "WHERE video_topic_join.topicId=:topicId")

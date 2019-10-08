@@ -17,7 +17,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<VideoEntity> videos;
     private VideoClickCallback clickCallback;
 
-    VideosAdapter(VideoClickCallback clickCallback) {
+    public VideosAdapter(VideoClickCallback clickCallback) {
         this.clickCallback = clickCallback;
     }
 

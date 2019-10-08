@@ -1,5 +1,6 @@
 package com.ang.acb.youtubelearningbuddy.di;
 
+import com.ang.acb.youtubelearningbuddy.ui.favorites.FavoriteVideosFragment;
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicDetailsFragment;
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsFragment;
 import com.ang.acb.youtubelearningbuddy.ui.search.SearchFragment;
@@ -22,4 +23,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract VideoDetailsFragment contributeVideoDetailsFragment();
+
+    @ContributesAndroidInjector
+    abstract FavoriteVideosFragment contributeFavoriteVideosFragment();
 }

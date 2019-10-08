@@ -141,4 +141,22 @@ public class VideosRepository {
         return database.videoDao().getVideoByYouTubeId(id);
     }
 
+    public LiveData<List<VideoEntity>> getAllFavoriteVideos() {
+        return database.videoDao().getAllFavoriteVideos();
+    }
+
+    public void markAsFavorite(final VideoEntity videoEntity) {
+        executors.diskIO().execute(() -> {
+            Timber.d("Adding video to favorites");
+            database.videoDao().markAsFavorite(videoEntity.getId());
+        });
+    }
+
+    public void markAsNotFavorite(final VideoEntity videoEntity) {
+        executors.diskIO().execute(() -> {
+            Timber.d("Removing video from favorites");
+            database.videoDao().markAsNotFavorite(videoEntity.getId());
+        });
+    }
+
 }

@@ -35,29 +35,29 @@ public class VideoEntity {
     @ColumnInfo(name = "default_thumbnail_url")
     private String defaultThumbnailUrl;
 
-    @ColumnInfo(name = "high_thumbnail_url")
-    private String highThumbnailUrl;
+    @ColumnInfo(name = "is_favorite")
+    private boolean isFavorite;
 
     public VideoEntity(long id, String youTubeVideoId, String publishedAt, String title,
-                       String description, String defaultThumbnailUrl, String highThumbnailUrl) {
+                       String description, String defaultThumbnailUrl, boolean isFavorite) {
         this.id = id;
         this.youTubeVideoId = youTubeVideoId;
         this.publishedAt = publishedAt;
         this.title = title;
         this.description = description;
         this.defaultThumbnailUrl = defaultThumbnailUrl;
-        this.highThumbnailUrl = highThumbnailUrl;
+        this.isFavorite = isFavorite;
     }
 
     @Ignore
     public VideoEntity(String youTubeVideoId, String publishedAt, String title, String description,
-                       String defaultThumbnailUrl, String highThumbnailUrl) {
+                       String defaultThumbnailUrl, boolean isFavorite) {
         this.youTubeVideoId = youTubeVideoId;
         this.publishedAt = publishedAt;
         this.title = title;
         this.description = description;
         this.defaultThumbnailUrl = defaultThumbnailUrl;
-        this.highThumbnailUrl = highThumbnailUrl;
+        this.isFavorite = isFavorite;
     }
 
     public long getId() {
@@ -108,11 +108,7 @@ public class VideoEntity {
         this.defaultThumbnailUrl = defaultThumbnailUrl;
     }
 
-    public String getHighThumbnailUrl() {
-        return highThumbnailUrl;
-    }
-
-    public void setHighThumbnailUrl(String highThumbnailUrl) {
-        this.highThumbnailUrl = highThumbnailUrl;
+    public boolean isFavorite() {
+        return isFavorite;
     }
 }

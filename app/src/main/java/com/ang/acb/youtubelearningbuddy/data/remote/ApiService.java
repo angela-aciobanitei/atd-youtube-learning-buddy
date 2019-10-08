@@ -17,7 +17,7 @@ import retrofit2.http.Query;
 public interface ApiService {
 
     // See: https://developers.google.com/youtube/v3/docs/search/list#parameters
-    @GET("search?part=snippet&type=video&order=relevance&regionCode=US&relevanceLanguage=en&safeSearch=strict&maxResults=50")
+    @GET("search?part=snippet&type=video&order=relevance&regionCode=US&chart=mostPopular&relevanceLanguage=en&safeSearch=strict&maxResults=50")
     LiveData<ApiResponse<SearchVideosResponse>> searchVideos(@Query("q") String query);
 
     // See: https://developers.google.com/youtube/v3/docs/commentThreads/list#parameters
