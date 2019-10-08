@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -30,8 +29,6 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.android.youtube.player.YouTubePlayerSupportFragmentX;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -111,11 +108,11 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     private void initAdapter(){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), RecyclerView.VERTICAL, false);
-        binding.rvComments.setLayoutManager(layoutManager);
-        binding.rvComments.addItemDecoration(new DividerItemDecoration(
+        binding.videoDetailsInfo.rvComments.setLayoutManager(layoutManager);
+        binding.videoDetailsInfo.rvComments.addItemDecoration(new DividerItemDecoration(
                 getContext(), LinearLayoutManager.VERTICAL));
         commentsAdapter = new CommentsAdapter();
-        binding.rvComments.setAdapter(commentsAdapter);
+        binding.videoDetailsInfo.rvComments.setAdapter(commentsAdapter);
     }
 
     private void displayVideoDetails() {
@@ -129,10 +126,10 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
             binding.setResource(result);
             int commentsCount = (result == null || result.data == null) ? 0 : result.data.size();
             if (result != null && result.status == Resource.Status.SUCCESS && commentsCount == 0){
-                binding.noResultsText.setText(getString(R.string.no_comments_for_this_video));
+                binding.videoDetailsInfo.noResultsText.setText(getString(R.string.no_comments_for_this_video));
             }
             if (result!= null && result.message != null && result.message.contains("disabled comments")) {
-                binding.noResultsText.setText(getString(R.string.comments_disabled));
+                binding.videoDetailsInfo.noResultsText.setText(getString(R.string.comments_disabled));
                 binding.networkState.rootLinearLayout.setVisibility(View.GONE);
             }
             if(result != null && result.data != null) {
@@ -143,10 +140,6 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     }
 
     private void initYouTubePlayer() {
-        // FIXME: Hide action bar
-        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity()))
-                .getSupportActionBar()).hide();
-
         // See: https://stackoverflow.com/questions/19848142/how-to-load-youtubeplayer-using-youtubeplayerfragment-inside-another-fragment
         // See: https://stackoverflow.com/questions/52577000/youtube-player-support-fragment-no-longer-working-on-android-studio-3-2-android
         YouTubePlayerSupportFragmentX youTubeFragment = YouTubePlayerSupportFragmentX.newInstance();
@@ -172,5 +165,9 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
                 getString(R.string.player_init_failed),
                 Toast.LENGTH_LONG)
                 .show();
+    }
+
+    private MainActivity getHostActivity(){
+        return  (MainActivity) getActivity();
     }
 }

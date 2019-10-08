@@ -4,6 +4,7 @@ package com.ang.acb.youtubelearningbuddy.ui.topic;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ang.acb.youtubelearningbuddy.R;
+import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -44,4 +46,21 @@ public class TopicsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_topics, container, false);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setupToolbarTitle();
+    }
+
+    private void setupToolbarTitle() {
+        if (getHostActivity().getSupportActionBar() != null) {
+            getHostActivity().getSupportActionBar()
+                    .setTitle(getString(R.string.action_show_topics));
+        }
+    }
+
+    private MainActivity getHostActivity(){
+        return  (MainActivity) getActivity();
+    }
 }

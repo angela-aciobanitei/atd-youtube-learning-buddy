@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         app:statusBarBackground="@color/colorPrimaryDark"
-        tools:context=".ui.movielist.MainActivity">
+        tools:context=".ui.common.MainActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/main_app_bar"
@@ -42,7 +42,7 @@
             <View
                 android:id="@+id/view_divider_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:background="?android:attr/listDivider"/>
 
             <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -11,6 +11,6 @@
 
     <!--Toolbar themes. -->
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
 </resources>

@@ -23,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentSearchBinding;
+import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
 import com.ang.acb.youtubelearningbuddy.ui.common.NavigationController;
 
 import org.jetbrains.annotations.NotNull;
@@ -68,14 +69,22 @@ public class SearchFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        setupToolbarTitle();
         initViewModel();
         initAdapter();
         populateUi();
         initSearchInputListener();
     }
 
+    private void setupToolbarTitle() {
+        if (getHostActivity().getSupportActionBar() != null) {
+            getHostActivity().getSupportActionBar()
+                    .setTitle(getString(R.string.app_name));
+        }
+    }
+
     private void initViewModel() {
-        searchViewModel = ViewModelProviders.of(this, viewModelFactory)
+        searchViewModel = ViewModelProviders.of(getHostActivity(), viewModelFactory)
                 .get(SearchViewModel.class);
     }
 
@@ -135,6 +144,10 @@ public class SearchFragment extends Fragment {
             }
             binding.executePendingBindings();
         });
+    }
+
+    private MainActivity getHostActivity(){
+        return  (MainActivity) getActivity();
     }
 
 }

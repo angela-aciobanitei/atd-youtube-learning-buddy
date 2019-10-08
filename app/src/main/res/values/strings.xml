@@ -16,4 +16,5 @@
     <string name="action_search">Search</string>
     <string name="action_show_topics">Topics</string>
     <string name="action_show_favorites">Favorites</string>
+    <string name="video_description_label">Description</string>
 </resources>

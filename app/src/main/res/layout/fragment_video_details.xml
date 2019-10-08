@@ -29,17 +29,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <ImageView
-            android:id="@+id/placeholder_image"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/video_placeholder_image"
-            app:layout_constraintDimensionRatio="H,16:9"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier"
             android:layout_width="match_parent"
@@ -47,77 +36,21 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="video_container" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.8"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/video_details_title"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/video_details_nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:text="@{video.title}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:clipToPadding="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barrier"
-            tools:text="@tools:sample/lorem"/>
+            app:layout_constraintTop_toBottomOf="@id/barrier">
 
-        <TextView
-            android:id="@+id/video_details_description"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:text="@{video.description}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/video_details_title"
-            tools:text="@tools:sample/lorem"/>
+            <include
+                android:id="@+id/video_details_info"
+                layout="@layout/content_video_partial_details"
+                app:video="@{video}" />
 
-        <TextView
-            android:id="@+id/comments_label"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:text="@string/comments_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/video_details_description"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_comments"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/vertical_margin"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/comments_label"
-            tools:listitem="@layout/comment_item" />
-
-        <TextView
-            android:id="@+id/no_results_text"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/comments_label" />
+        </androidx.core.widget.NestedScrollView>
 
         <include layout="@layout/network_state"
             android:id="@+id/network_state"
