@@ -20,7 +20,7 @@ public class FavoriteVideosViewModel extends ViewModel {
         this.repository = repository;
     }
 
-    public LiveData<List<VideoEntity>> getFavoriteListLiveData() {
+    public LiveData<List<VideoEntity>> getFavorites() {
         if (favorites == null) {
             favorites = repository.getAllFavoriteVideos();
         }

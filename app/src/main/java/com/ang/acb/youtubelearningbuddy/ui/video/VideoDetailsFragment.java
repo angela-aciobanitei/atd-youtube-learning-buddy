@@ -120,21 +120,16 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
 
     private void displayVideoDetails() {
         detailsViewModel.getVideo().observe(getViewLifecycleOwner(), video -> {
-            if (detailsViewModel.isFavorite()) {
-                binding.addRemoveFromFavorites.setImageResource(
-                        R.drawable.ic_favorite_black_24dp);
-            } else {
-                binding.addRemoveFromFavorites.setImageResource(
-                        R.drawable.ic_favorite_border_black_24dp);
-            }
-
+            detailsViewModel.setFavorite(video.isFavorite());
+            binding.setIsFavorite(video.isFavorite());
             binding.setVideo(video);
         });
     }
 
     private void handleFavoriteClick() {
-        binding.addRemoveFromFavorites.setOnClickListener(view ->
-                detailsViewModel.onFavoriteClicked());
+        binding.icFavorites.setOnClickListener(view -> {
+            detailsViewModel.onFavoriteClicked();
+        });
 
         // Observe the Snackbar messages showed when adding/removing video from favorites.
         detailsViewModel.getSnackbarMessage().observe(this, (Observer<Integer>) message ->

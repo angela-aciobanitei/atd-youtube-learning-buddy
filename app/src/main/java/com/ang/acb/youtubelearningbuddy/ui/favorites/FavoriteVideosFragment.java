@@ -100,7 +100,7 @@ public class FavoriteVideosFragment extends Fragment {
     }
 
     private void populateUi() {
-        favoritesViewModel.getFavoriteListLiveData().observe(getViewLifecycleOwner(), result -> {
+        favoritesViewModel.getFavorites().observe(getViewLifecycleOwner(), result -> {
             binding.setFavoritesCount((result == null) ? 0 : result.size());
             if (result != null) {
                 videosAdapter.submitList(result);

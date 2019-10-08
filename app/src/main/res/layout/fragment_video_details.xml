@@ -11,6 +11,7 @@
         <import type="com.ang.acb.youtubelearningbuddy.ui.common.RetryCallback"/>
 
         <variable name="video" type="VideoEntity" />
+        <variable name="isFavorite" type="boolean" />
         <variable name="resource" type="Resource" />
         <variable name="callback" type="RetryCallback" />
     </data>
@@ -30,14 +31,15 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
-            android:id="@+id/add_remove_from_favorites"
+            android:id="@+id/ic_favorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/vertical_margin"
             android:layout_margin="16dp"
+            android:contentDescription="@string/favorites_image_view"
+            app:setFavoriteSrc="@{isFavorite}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/video_container"
-            android:contentDescription="@string/favorites_image_view"
             tools:src="@drawable/ic_favorite_black_24dp"/>
 
         <ImageView
@@ -46,7 +48,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/vertical_margin"
             android:layout_margin="16dp"
-            app:layout_constraintEnd_toStartOf="@id/add_remove_from_favorites"
+            app:layout_constraintEnd_toStartOf="@id/ic_favorites"
             app:layout_constraintTop_toBottomOf="@id/video_container"
             android:contentDescription="@string/favorites_image_view"
             android:src="@drawable/ic_library_add_black_24dp"/>
@@ -56,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="add_remove_from_favorites,add_to_topics" />
+            app:constraint_referenced_ids="ic_favorites,add_to_topics" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/video_details_nested_scroll_view"

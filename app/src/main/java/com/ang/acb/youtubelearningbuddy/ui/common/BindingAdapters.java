@@ -25,6 +25,14 @@ public class BindingAdapters {
         else view.setVisibility(View.GONE);
     }
 
+    @BindingAdapter("setFavoriteSrc")
+    public static void setFavoriteSrc(ImageView imageView, Boolean isFavorite) {
+        if (isFavorite) imageView.setImageResource(
+                R.drawable.ic_favorite_black_24dp);
+        else imageView.setImageResource(
+                R.drawable.ic_favorite_border_black_24dp);
+    }
+
     @BindingAdapter({"imageUrl"})
     public static void bindImage(ImageView imageView, String imageUrl) {
         GlideApp.with(imageView.getContext())
