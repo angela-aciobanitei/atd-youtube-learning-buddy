@@ -101,6 +101,7 @@ public class FavoriteVideosFragment extends Fragment {
 
     private void populateUi() {
         favoritesViewModel.getFavorites().observe(getViewLifecycleOwner(), result -> {
+            // FIXME: Empty state text view is displayed at first even if fav is true
             binding.setFavoritesCount((result == null) ? 0 : result.size());
             if (result != null) {
                 videosAdapter.submitList(result);

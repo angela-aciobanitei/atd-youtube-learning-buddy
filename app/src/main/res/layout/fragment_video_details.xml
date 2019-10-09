@@ -50,7 +50,7 @@
             android:layout_margin="16dp"
             app:layout_constraintEnd_toStartOf="@id/ic_favorites"
             app:layout_constraintTop_toBottomOf="@id/video_container"
-            android:contentDescription="@string/favorites_image_view"
+            android:contentDescription="@string/action_add_to_topic"
             android:src="@drawable/ic_library_add_black_24dp"/>
 
         <androidx.constraintlayout.widget.Barrier
