@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity" />
 
         <variable name="video" type="VideoEntity" />
+        <variable name="commentsCount" type="int"/>
     </data>
 
     <LinearLayout
@@ -17,26 +17,6 @@
         android:layout_marginBottom="?attr/actionBarSize">
 
         <TextView
-            android:id="@+id/video_details_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:text="@{video.title}"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            tools:text="@tools:sample/lorem"/>
-
-        <View
-            android:id="@+id/view_divider_title"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"/>
-
-        <TextView
             android:id="@+id/video_description_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +24,8 @@
             android:layout_marginStart="@dimen/horizontal_margin"
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:text="@string/video_description_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:toggleVisibility="@{video.description != null}"/>
 
         <TextView
             android:id="@+id/video_details_description"
@@ -56,13 +37,15 @@
             android:layout_marginBottom="@dimen/vertical_margin"
             android:text="@{video.description}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:toggleVisibility="@{video.description != null}"
             tools:text="@tools:sample/lorem"/>
 
         <View
             android:id="@+id/view_divider_desc"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:attr/listDivider"/>
+            android:background="?android:attr/listDivider"
+            app:toggleVisibility="@{commentsCount != 0}"/>
 
         <TextView
             android:id="@+id/comments_label"
@@ -81,7 +64,8 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/comment_item" />
+            tools:listitem="@layout/comment_item"
+            app:toggleVisibility="@{commentsCount != 0}"/>
 
         <TextView
             android:id="@+id/no_results_text"

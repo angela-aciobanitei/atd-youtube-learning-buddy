@@ -140,6 +140,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
         detailsViewModel.getComments().observe(getViewLifecycleOwner(), result -> {
             binding.setResource(result);
             int commentsCount = (result == null || result.data == null) ? 0 : result.data.size();
+            binding.setCommentsCount(commentsCount);
             if (result != null && result.status == Resource.Status.SUCCESS && commentsCount == 0){
                 binding.videoDetailsInfo.noResultsText.setText(getString(R.string.no_comments_for_this_video));
             }
