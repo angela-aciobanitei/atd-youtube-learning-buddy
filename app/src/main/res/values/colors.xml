@@ -3,6 +3,9 @@
     <color name="colorPrimary">#F0672B</color>
     <color name="colorPrimaryDark">#E65100</color>
     <color name="colorAccent">#065FD4</color>
-    <color name="colorImagePlaceholder">#ffe0e0e0</color>
+    <color name="colorImagePlaceholder">#FFE0E0E0</color>
+    <color name="colorGrey700">#616161</color>
+    <color name="colorGrey600">#757575</color>
+    <color name="colorGrey500">#9E9E9E</color>
 </resources>
 

@@ -28,9 +28,9 @@ public class BindingAdapters {
     @BindingAdapter("setFavoriteSrc")
     public static void setFavoriteSrc(ImageView imageView, Boolean isFavorite) {
         if (isFavorite) imageView.setImageResource(
-                R.drawable.ic_favorite_black_24dp);
+                R.drawable.ic_favorite_orange);
         else imageView.setImageResource(
-                R.drawable.ic_favorite_border_black_24dp);
+                R.drawable.ic_favorite_border_orange);
     }
 
     @BindingAdapter({"imageUrl"})

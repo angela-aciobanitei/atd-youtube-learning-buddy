@@ -20,8 +20,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:descendantFocusability="blocksDescendants">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:id="@+id/video_container"
@@ -67,7 +66,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/barrier1"
-            app:layout_constraintBottom_toTopOf="@+id/barrier2"/>
+            app:layout_constraintBottom_toTopOf="@+id/barrier2"
+            app:toggleVisibility="@{video.title != null}"/>
 
         <ImageView
             android:id="@+id/ic_favorites"
@@ -82,7 +82,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/barrier1"
             app:layout_constraintBottom_toTopOf="@+id/barrier2"
-            tools:src="@drawable/ic_favorite_black_24dp"/>
+            app:toggleVisibility="@{video != null}"
+            tools:src="@drawable/ic_favorite_orange"/>
 
         <ImageView
             android:id="@+id/ic_add_to_topics"
@@ -93,11 +94,12 @@
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
             android:contentDescription="@string/action_add_to_topic"
-            android:src="@drawable/ic_library_add_black_24dp"
+            android:src="@drawable/ic_library_add_orange"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintEnd_toStartOf="@id/ic_favorites"
             app:layout_constraintTop_toBottomOf="@+id/barrier1"
-            app:layout_constraintBottom_toTopOf="@+id/barrier2" />
+            app:layout_constraintBottom_toTopOf="@+id/barrier2"
+            app:toggleVisibility="@{video != null}"/>
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier2"
@@ -113,16 +115,18 @@
             android:background="?android:attr/listDivider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/barrier2"/>
+            app:layout_constraintTop_toBottomOf="@id/barrier2"
+            app:toggleVisibility="@{video.title != null}"/>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/video_details_nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
+            android:paddingBottom="?attr/actionBarSize"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/video_details_title">
+            app:layout_constraintTop_toBottomOf="@id/video_details_title"
+            app:toggleVisibility="@{video != null}">
 
             <include
                 android:id="@+id/video_details_info"

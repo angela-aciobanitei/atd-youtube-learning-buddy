@@ -102,9 +102,12 @@ public class FavoriteVideosFragment extends Fragment {
     private void populateUi() {
         favoritesViewModel.getFavorites().observe(getViewLifecycleOwner(), result -> {
             // FIXME: Empty state text view is displayed at first even if fav is true
+            int favoritesCount = (result == null) ? 0 : result.size();
             binding.setFavoritesCount((result == null) ? 0 : result.size());
-            if (result != null) {
+            if (favoritesCount !=0) {
                 videosAdapter.submitList(result);
+            } else {
+                binding.favoritesEmptyState.setText(R.string.no_favorites);
             }
             binding.executePendingBindings();
         });

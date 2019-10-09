@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/AppBarOverlay"
-                app:popupTheme="@style/PopupOverlay" />
+                app:popupTheme="@style/PopupOverlay"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -40,7 +40,6 @@
             android:layout_gravity="bottom">
 
             <View
-                android:id="@+id/view_divider_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"/>

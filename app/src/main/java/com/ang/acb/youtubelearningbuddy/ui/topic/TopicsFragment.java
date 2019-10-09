@@ -106,15 +106,13 @@ public class TopicsFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), RecyclerView.VERTICAL, false);
         binding.rvTopics.setLayoutManager(layoutManager);
-        binding.rvTopics.addItemDecoration(new DividerItemDecoration(
-                getContext(), LinearLayoutManager.VERTICAL));
         topicsAdapter = new TopicsAdapter(topicItem ->
                 navigationController.navigateToTopicDetails(topicItem.getId()));
         binding.rvTopics.setAdapter(topicsAdapter);
     }
 
     private void handleNewTopicCreation() {
-        binding.createTopicCardView.setOnClickListener(view -> createNewTopicDialog());
+        binding.newTopicButton.setOnClickListener(view -> createNewTopicDialog());
     }
 
     private void createNewTopicDialog() {
