@@ -9,52 +9,38 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentTopicsBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
-import com.ang.acb.youtubelearningbuddy.ui.common.NavigationController;
-import com.ang.acb.youtubelearningbuddy.ui.search.SearchViewModel;
-import com.ang.acb.youtubelearningbuddy.ui.search.VideosAdapter;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class TopicsFragment extends Fragment {
 
+    private static final String ARG_TOPIC_ID = "ARG_TOPIC_ID";
     private FragmentTopicsBinding binding;
     private TopicsViewModel topicsViewModel;
     private TopicsAdapter topicsAdapter;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-
-    @Inject
-    NavigationController navigationController;
 
     // Required empty public constructor
     public TopicsFragment() {}
@@ -93,7 +79,7 @@ public class TopicsFragment extends Fragment {
     private void setupToolbarTitle() {
         if (getHostActivity().getSupportActionBar() != null) {
             getHostActivity().getSupportActionBar()
-                    .setTitle(getString(R.string.action_show_topics));
+                    .setTitle(getString(R.string.topics));
         }
     }
 
@@ -106,9 +92,15 @@ public class TopicsFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), RecyclerView.VERTICAL, false);
         binding.rvTopics.setLayoutManager(layoutManager);
-        topicsAdapter = new TopicsAdapter(topicItem ->
-                navigationController.navigateToTopicDetails(topicItem.getId()));
+        topicsAdapter = new TopicsAdapter(this::onTopicClick);
         binding.rvTopics.setAdapter(topicsAdapter);
+    }
+
+    private void onTopicClick(TopicEntity topicEntity) {
+        Bundle args = new Bundle();
+        args.putLong(ARG_TOPIC_ID, topicEntity.getId());
+        NavHostFragment.findNavController(TopicsFragment.this)
+                .navigate(R.id.action_topic_list_to_topic_details, args);
     }
 
     private void handleNewTopicCreation() {

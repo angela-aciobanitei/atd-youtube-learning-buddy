@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/search_videos">
+
+    <!-- Navigate from Search Fragment to Video Details Fragment (and back/up) -->
+    <fragment
+        android:id="@+id/search_videos"
+        android:label="@string/search_videos"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.search.SearchFragment"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_search_to_video_details"
+            app:destination="@id/video_details"
+            app:popUpTo="@string/search_videos"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left">
+            <argument
+                android:name="youtubeVideoId"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/video_details"
+        android:label="@string/video_details"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment"
+        tools:layout="@layout/fragment_video_details"/>
+
+    <!-- Navigate from Topics Fragment to Topic Details Fragment,
+         navigate from Topic Details Fragment to Video Details Fragment -->
+    <fragment
+        android:id="@+id/topics"
+        android:label="@string/topics"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.topic.TopicsFragment"
+        tools:layout="@layout/fragment_topics">
+        <action
+            android:id="@+id/action_topic_list_to_topic_details"
+            app:destination="@id/topic_details"
+            app:popUpTo="@id/topics"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left">
+            <argument
+                android:name="topicId"
+                app:argType="long" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/topic_details"
+        android:label="@string/topic_details"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.topic.TopicDetailsFragment"
+        tools:layout="@layout/fragment_topic_details">
+        <action
+            android:id="@+id/action_topic_details_to_video_details"
+            app:destination="@id/video_details"
+            app:popUpTo="@+id/topic_details"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left">
+            <argument
+                android:name="youtubeVideoId"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <!-- Navigate from Favorite Videos to Video Details Fragment (and back/up) -->
+    <fragment
+        android:id="@+id/favorites"
+        android:label="@string/favorites"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.favorites.FavoriteVideosFragment"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favorites_to_video_details"
+            app:destination="@id/video_details"
+            app:popUpTo="@id/favorites"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left">
+            <argument
+                android:name="youtubeVideoId"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+</navigation>

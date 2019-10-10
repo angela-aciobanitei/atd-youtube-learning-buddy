@@ -23,11 +23,9 @@ import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.model.Resource;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentVideoDetailsBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
-import com.ang.acb.youtubelearningbuddy.ui.common.NavigationController;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.android.youtube.player.YouTubePlayerSupportFragmentX;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +36,7 @@ import dagger.android.support.AndroidSupportInjection;
 
 public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnInitializedListener {
 
-    private static final String ARG_YOUTUBE_VIDEO_ID = "ARG_YOUTUBE_VIDEO_ID";
+    public static final String ARG_YOUTUBE_VIDEO_ID = "ARG_YOUTUBE_VIDEO_ID";
 
     private String youtubeVideoId;
     private FragmentVideoDetailsBinding binding;
@@ -48,8 +46,6 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-    @Inject
-    NavigationController navigationController;
 
     // Required empty public constructor
     public VideoDetailsFragment() {}
@@ -100,6 +96,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
         displayComments();
         displayVideoDetails();
         handleFavoriteClick();
+        handleRetryEvents();
     }
 
     private void initViewModel() {
@@ -123,7 +120,13 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
             detailsViewModel.setFavorite(video.isFavorite());
             binding.setIsFavorite(video.isFavorite());
             binding.setVideo(video);
+            // setupToolbarTitle(video.getTitle());
         });
+    }
+
+    private void handleRetryEvents() {
+        // Handle retry event in case of network failure.
+        binding.setRetryCallback(() -> detailsViewModel.retry(youtubeVideoId));
     }
 
     private void handleFavoriteClick() {
@@ -131,7 +134,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
             detailsViewModel.onFavoriteClicked();
         });
 
-        // Observe the Snackbar messages showed when adding/removing video from favorites.
+        // Observe the Snackbar messages displayed when adding/removing video from favorites.
         detailsViewModel.getSnackbarMessage().observe(this, (Observer<Integer>) message ->
                 Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_SHORT).show());
     }
@@ -170,7 +173,6 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
                                         YouTubePlayer youTubePlayer, boolean wasRestored) {
         youTubePlayer.loadVideo(youtubeVideoId);
         youTubePlayer.play();
-
     }
 
     @Override
@@ -181,6 +183,13 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
                 getString(R.string.player_init_failed),
                 Toast.LENGTH_LONG)
                 .show();
+    }
+
+    private void setupToolbarTitle(String title) {
+        if (getHostActivity().getSupportActionBar() != null) {
+            getHostActivity().getSupportActionBar()
+                    .setTitle(title);
+        }
     }
 
     private MainActivity getHostActivity(){

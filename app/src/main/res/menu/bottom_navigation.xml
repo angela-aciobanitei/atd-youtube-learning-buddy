@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_search_videos"
-        android:icon="@drawable/ic_youtube_searched_for_black_24dp"
-        android:title="@string/action_search" />
+        android:id="@+id/search_videos"
+        android:title="@string/search_videos"
+        android:icon="@drawable/ic_youtube_search" />
 
     <item
-        android:id="@+id/action_show_topics"
-        android:icon="@drawable/ic_video_library_black_24dp"
-        android:title="@string/action_show_topics"/>
+        android:id="@+id/topics"
+        android:title="@string/topics"
+        android:icon="@drawable/ic_video_library" />
 
     <item
-        android:id="@+id/action_show_favorites"
-        android:icon="@drawable/ic_favorite_orange"
-        android:title="@string/action_show_favorites"/>
+        android:id="@+id/favorites"
+        android:title="@string/favorites"
+        android:icon="@drawable/ic_favorite" />
 
 </menu>

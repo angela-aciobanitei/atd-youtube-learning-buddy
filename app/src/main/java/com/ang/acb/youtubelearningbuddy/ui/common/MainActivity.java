@@ -1,24 +1,15 @@
 package com.ang.acb.youtubelearningbuddy.ui.common;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.ang.acb.youtubelearningbuddy.R;
-import com.ang.acb.youtubelearningbuddy.databinding.ActivityMainBinding;
-import com.ang.acb.youtubelearningbuddy.utils.NavigationUtils;
-
-import java.util.Arrays;
-import java.util.List;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import javax.inject.Inject;
 
@@ -32,10 +23,6 @@ import dagger.android.support.HasSupportFragmentInjector;
  * An activity that inflates a layout that has a NavHostFragment.
  */
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
-
-    private ActivityMainBinding binding;
-
-    private LiveData<NavController> currentNavController;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -54,62 +41,21 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         // objects, inject as early as possible.
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        // Inflate view and obtain an instance of the binding class.
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-        // Specify the current activity as the lifecycle owner.
-        binding.setLifecycleOwner(this);
-
-        if (savedInstanceState == null) {
-            setupBottomNavigationBar();
-        } // Else, need to wait for onRestoreInstanceState
+        setupBottomNavigationView();
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        // Now that BottomNavigationBar has restored its instance state
-        // and its selectedItemId, we can proceed with setting up the
-        // BottomNavigationBar with Navigation
-        setupBottomNavigationBar();
-    }
-
-    private void setupBottomNavigationBar() {
-        List<Integer> navGraphIds = Arrays.asList(
-                R.navigation.search,
-                R.navigation.topics,
-                R.navigation.favorites);
-
-
-        LiveData<NavController> controller = NavigationUtils.setupWithNavController(
-                binding.mainBottomNavigation,
-                navGraphIds,
-                getSupportFragmentManager(),
-                R.id.main_fragment_container,
-                getIntent());
-
-        // Whenever the selected controller changes, setup the action bar.
-        controller.observe(this, new Observer<NavController>() {
-            @Override
-            public void onChanged(NavController navController) {
-                NavigationUI.setupActionBarWithNavController(MainActivity.this, navController);
-            }
-        });
-
-        currentNavController = controller;
+    private void setupBottomNavigationView() {
+        // See: https://stackoverflow.com/questions/50577356/android-jetpack-navigation-bottomnavigationview-with-youtube-or-instagram-like
+        BottomNavigationView bottomNavigationView = findViewById(R.id.main_bottom_navigation);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        NavigationUI.setupActionBarWithNavController(this, navController);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        // Returns true if Up navigation completed successfully
-        // and this Activity was finished, false otherwise.
-        if (currentNavController != null) {
-            NavController controller = currentNavController.getValue();
-            if (controller != null) {
-                return controller.navigateUp();
-            }
-        }
-        return false;
+        return Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp();
     }
 }

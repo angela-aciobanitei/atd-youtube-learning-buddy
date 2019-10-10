@@ -23,7 +23,7 @@
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
-            android:contentDescription="@string/video_thumbnail_content_description"
+            android:contentDescription="@string/author_profile_image"
             android:scaleType="centerCrop"
             app:imageUrl="@{comment.authorProfileImageUrl}"
             app:layout_constraintStart_toStartOf="parent"

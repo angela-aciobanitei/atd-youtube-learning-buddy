@@ -13,7 +13,7 @@
         <variable name="query" type="String"/>
         <variable name="searchCount" type="int"/>
         <variable name="resource" type="Resource" />
-        <variable name="callback" type="RetryCallback" />
+        <variable name="retryCallback" type="RetryCallback" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,7 +74,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_input_layout"
             app:resource="@{resource}"
-            app:callback="@{() -> callback.retry()}"/>
+            app:retryCallback="@{() -> retryCallback.retry()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

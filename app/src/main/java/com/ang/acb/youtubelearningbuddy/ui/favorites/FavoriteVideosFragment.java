@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,18 +18,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ang.acb.youtubelearningbuddy.R;
+import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentFavoritesBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
-import com.ang.acb.youtubelearningbuddy.ui.common.NavigationController;
 import com.ang.acb.youtubelearningbuddy.ui.search.VideosAdapter;
-import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsAdapter;
-import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
+
+import static com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment.ARG_YOUTUBE_VIDEO_ID;
 
 public class FavoriteVideosFragment extends Fragment {
 
@@ -38,10 +39,6 @@ public class FavoriteVideosFragment extends Fragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-
-    @Inject
-    NavigationController navigationController;
-
 
     // Required empty public constructor
     public FavoriteVideosFragment() {}
@@ -79,7 +76,7 @@ public class FavoriteVideosFragment extends Fragment {
     private void setupToolbarTitle() {
         if (getHostActivity().getSupportActionBar() != null) {
             getHostActivity().getSupportActionBar()
-                    .setTitle(getString(R.string.action_show_favorites));
+                    .setTitle(getString(R.string.favorites));
         }
     }
 
@@ -94,14 +91,19 @@ public class FavoriteVideosFragment extends Fragment {
         binding.rvFavorites.setLayoutManager(layoutManager);
         binding.rvFavorites.addItemDecoration(new DividerItemDecoration(
                 getContext(), LinearLayoutManager.VERTICAL));
-        videosAdapter = new VideosAdapter(videoItem ->
-                navigationController.navigateToVideoDetails(videoItem.getYouTubeVideoId()));
+        videosAdapter = new VideosAdapter(this::onVideoClick);
         binding.rvFavorites.setAdapter(videosAdapter);
+    }
+
+    private void onVideoClick(VideoEntity videoEntity) {
+        Bundle args = new Bundle();
+        args.putString(ARG_YOUTUBE_VIDEO_ID, videoEntity.getYouTubeVideoId());
+        NavHostFragment.findNavController(FavoriteVideosFragment.this)
+                .navigate(R.id.action_favorites_to_video_details, args);
     }
 
     private void populateUi() {
         favoritesViewModel.getFavorites().observe(getViewLifecycleOwner(), result -> {
-            // FIXME: Empty state text view is displayed at first even if fav is true
             int favoritesCount = (result == null) ? 0 : result.size();
             binding.setFavoritesCount((result == null) ? 0 : result.size());
             if (favoritesCount !=0) {

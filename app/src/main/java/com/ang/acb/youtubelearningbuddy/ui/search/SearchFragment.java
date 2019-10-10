@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,15 +23,17 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import com.ang.acb.youtubelearningbuddy.R;
+import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentSearchBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
-import com.ang.acb.youtubelearningbuddy.ui.common.NavigationController;
 
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
+
+import static com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment.ARG_YOUTUBE_VIDEO_ID;
 
 public class SearchFragment extends Fragment {
 
@@ -40,9 +43,6 @@ public class SearchFragment extends Fragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-
-    @Inject
-    NavigationController navigationController;
 
     // Required empty public constructor
     public SearchFragment() {}
@@ -74,6 +74,7 @@ public class SearchFragment extends Fragment {
         initAdapter();
         populateUi();
         initSearchInputListener();
+        handleRetryEvents();
     }
 
     private void setupToolbarTitle() {
@@ -94,9 +95,15 @@ public class SearchFragment extends Fragment {
         binding.rvVideos.setLayoutManager(layoutManager);
         binding.rvVideos.addItemDecoration(new DividerItemDecoration(
                 getContext(), LinearLayoutManager.VERTICAL));
-        videosAdapter = new VideosAdapter(videoItem ->
-                navigationController.navigateToVideoDetails(videoItem.getYouTubeVideoId()));
+        videosAdapter = new VideosAdapter(this::onVideoClick);
         binding.rvVideos.setAdapter(videosAdapter);
+    }
+
+    private void onVideoClick(VideoEntity videoEntity) {
+        Bundle args = new Bundle();
+        args.putString(ARG_YOUTUBE_VIDEO_ID, videoEntity.getYouTubeVideoId());
+        NavHostFragment.findNavController(SearchFragment.this)
+                .navigate(R.id.action_search_to_video_details, args);
     }
 
     private void initSearchInputListener() {
@@ -146,8 +153,12 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    private void handleRetryEvents() {
+        // Handle retry event in case of network failure.
+        binding.setRetryCallback(() -> searchViewModel.retry());
+    }
+
     private MainActivity getHostActivity(){
         return  (MainActivity) getActivity();
     }
-
 }

@@ -22,7 +22,7 @@
             android:padding="8dp"
             android:text="@{topic.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:drawableStart="@drawable/ic_video_library_black_24dp"
+            android:drawableStart="@drawable/ic_video_library"
             android:drawablePadding="8dp"
             android:drawableTint="@color/colorAccent"
             tools:text="@tools:sample/lorem"/>

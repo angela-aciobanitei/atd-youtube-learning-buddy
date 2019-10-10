@@ -9,7 +9,7 @@
         <import type="com.ang.acb.youtubelearningbuddy.ui.common.RetryCallback" />
 
         <variable name="resource" type="Resource" />
-        <variable name="callback" type="RetryCallback" />
+        <variable name="retryCallback" type="RetryCallback" />
     </data>
 
     <LinearLayout
@@ -37,7 +37,7 @@
             android:layout_margin="8dp"
             android:layout_gravity="center"
             android:text="@string/action_retry"
-            android:onClick="@{() -> callback.retry()}"
+            android:onClick="@{() -> retryCallback.retry()}"
             app:toggleVisibility="@{resource.status == Status.ERROR}" />
 
         <TextView

@@ -7,7 +7,6 @@ import com.ang.acb.youtubelearningbuddy.ui.favorites.FavoriteVideosViewModel;
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsViewModel;
 import com.ang.acb.youtubelearningbuddy.ui.search.SearchViewModel;
 import com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsViewModel;
-import com.ang.acb.youtubelearningbuddy.ui.viewmodel.ViewModelFactory;
 
 import dagger.Binds;
 import dagger.Module;

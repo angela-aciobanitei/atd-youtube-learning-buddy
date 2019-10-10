@@ -53,7 +53,7 @@ public class SearchViewModel extends ViewModel {
         query.setValue(input);
     }
 
-    void refresh() {
+    void retry() {
         if (query.getValue() != null) {
             query.setValue(query.getValue());
         }

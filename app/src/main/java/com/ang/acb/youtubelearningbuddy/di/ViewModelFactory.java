@@ -1,4 +1,4 @@
-package com.ang.acb.youtubelearningbuddy.ui.viewmodel;
+package com.ang.acb.youtubelearningbuddy.di;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;

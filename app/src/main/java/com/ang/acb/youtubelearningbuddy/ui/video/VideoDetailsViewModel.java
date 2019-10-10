@@ -46,6 +46,13 @@ public class VideoDetailsViewModel extends ViewModel {
         videoId.setValue(value);
     }
 
+    public void retry(String value) {
+        String id = videoId.getValue();
+        if (id != null && !id.isEmpty()){
+            videoId.setValue(value);
+        }
+    }
+
     public LiveData<Resource<List<CommentEntity>>> getComments() {
         return comments;
     }
