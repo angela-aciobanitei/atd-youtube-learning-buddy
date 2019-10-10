@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/topics"
+    app:startDestination="@id/topic_list">
+
+    <!-- Navigate from Topics Fragment to Topic Details Fragment,
+         navigate from Topic Details Fragment to Video Details Fragment -->
+    <fragment
+        android:id="@+id/topic_list"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.topic.TopicsFragment"
+        android:label="@string/fragment_topics"
+        tools:layout="@layout/fragment_topics">
+        <action
+            android:id="@+id/action_topic_list_to_topic_details"
+            app:destination="@id/topic_details">
+            <argument
+                android:name="topicId"
+                app:argType="long" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/topic_details"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.topic.TopicDetailsFragment"
+        android:label="@string/fragment_topic_details"
+        tools:layout="@layout/fragment_topic_details">
+        <action
+            android:id="@+id/action_topic_details_to_video_details"
+            app:destination="@id/video_details">
+            <argument
+                android:name="youtubeVideoId"
+                app:argType="String" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/video_details"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment"
+        android:label="@string/fragment_video_details"
+        tools:layout="@layout/fragment_video_details"/>
+
+</navigation>

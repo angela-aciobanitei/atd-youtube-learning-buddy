@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/favorites"
+    app:startDestination="@id/favorite_videos">
+
+    <!-- Navigate from Favorite Videos to Video Details Fragment (and back/up) -->
+    <fragment
+        android:id="@+id/favorite_videos"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.favorites.FavoriteVideosFragment"
+        android:label="@string/fragment_favorites"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favorite_videos_to_video_details"
+            app:destination="@id/video_details">
+            <argument
+                android:name="youtubeVideoId"
+                app:argType="String" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/video_details"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment"
+        android:label="@string/fragment_video_details"
+        tools:layout="@layout/fragment_video_details"/>
+
+</navigation>

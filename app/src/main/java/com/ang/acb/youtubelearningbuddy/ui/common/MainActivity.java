@@ -3,6 +3,10 @@ package com.ang.acb.youtubelearningbuddy.ui.common;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +15,10 @@ import android.view.MenuItem;
 
 import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.databinding.ActivityMainBinding;
+import com.ang.acb.youtubelearningbuddy.utils.NavigationUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,8 +35,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     private ActivityMainBinding binding;
 
-    @Inject
-    NavigationController navigationController;
+    private LiveData<NavController> currentNavController;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -54,36 +61,55 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         // Specify the current activity as the lifecycle owner.
         binding.setLifecycleOwner(this);
 
-        // Show video search fragment by default
         if (savedInstanceState == null) {
-            navigationController.navigateToSearch();
-        }
-
-        // Setup toolbar
-        setSupportActionBar(binding.mainToolbar);
-
-        setupBottomNavigationView();
+            setupBottomNavigationBar();
+        } // Else, need to wait for onRestoreInstanceState
     }
 
-    private void setupBottomNavigationView() {
-        binding.mainBottomNavigation.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.action_search_videos:
-                    navigationController.navigateToSearch();
-                    return true;
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Now that BottomNavigationBar has restored its instance state
+        // and its selectedItemId, we can proceed with setting up the
+        // BottomNavigationBar with Navigation
+        setupBottomNavigationBar();
+    }
 
-                case R.id.action_show_topics:
-                    navigationController.navigateToTopics();
-                    return true;
+    private void setupBottomNavigationBar() {
+        List<Integer> navGraphIds = Arrays.asList(
+                R.navigation.search,
+                R.navigation.topics,
+                R.navigation.favorites);
 
-                case R.id.action_show_favorites:
-                    navigationController.navigateToFavorites();
-                    return true;
+
+        LiveData<NavController> controller = NavigationUtils.setupWithNavController(
+                binding.mainBottomNavigation,
+                navGraphIds,
+                getSupportFragmentManager(),
+                R.id.main_fragment_container,
+                getIntent());
+
+        // Whenever the selected controller changes, setup the action bar.
+        controller.observe(this, new Observer<NavController>() {
+            @Override
+            public void onChanged(NavController navController) {
+                NavigationUI.setupActionBarWithNavController(MainActivity.this, navController);
             }
-
-            return false;
         });
+
+        currentNavController = controller;
     }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        // Returns true if Up navigation completed successfully
+        // and this Activity was finished, false otherwise.
+        if (currentNavController != null) {
+            NavController controller = currentNavController.getValue();
+            if (controller != null) {
+                return controller.navigateUp();
+            }
+        }
+        return false;
+    }
 }
