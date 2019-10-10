@@ -1,4 +1,4 @@
-package com.ang.acb.youtubelearningbuddy.data.model;
+package com.ang.acb.youtubelearningbuddy.data.vo;
 
 import androidx.annotation.NonNull;
 

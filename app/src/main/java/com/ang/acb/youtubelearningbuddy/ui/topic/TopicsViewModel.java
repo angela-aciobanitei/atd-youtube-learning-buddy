@@ -5,12 +5,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-import com.ang.acb.youtubelearningbuddy.data.local.entity.CommentEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
-import com.ang.acb.youtubelearningbuddy.data.model.Resource;
 import com.ang.acb.youtubelearningbuddy.data.repository.TopicsRepository;
-import com.ang.acb.youtubelearningbuddy.data.repository.VideosRepository;
 import com.ang.acb.youtubelearningbuddy.utils.AbsentLiveData;
 
 import java.util.List;

@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.ang.acb.youtubelearningbuddy.data.model.Resource"/>
-        <import type="com.ang.acb.youtubelearningbuddy.data.model.Resource.Status"/>
+        <import type="com.ang.acb.youtubelearningbuddy.data.vo.Resource"/>
+        <import type="com.ang.acb.youtubelearningbuddy.data.vo.Resource.Status"/>
         <import type="com.ang.acb.youtubelearningbuddy.ui.common.RetryCallback"/>
         <import type="java.util.List"/>
 

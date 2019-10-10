@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.ang.acb.youtubelearningbuddy.data.model.Resource" />
-        <import type="com.ang.acb.youtubelearningbuddy.data.model.Resource.Status" />
+        <import type="com.ang.acb.youtubelearningbuddy.data.vo.Resource" />
+        <import type="com.ang.acb.youtubelearningbuddy.data.vo.Resource.Status" />
         <import type="com.ang.acb.youtubelearningbuddy.ui.common.RetryCallback" />
 
         <variable name="resource" type="Resource" />
@@ -19,7 +19,6 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="16dp">
-<!--    FIXME    app:toggleVisibility="@{resource.data == null}">-->
 
         <ProgressBar
             android:id="@+id/progress_bar"

@@ -9,7 +9,7 @@
     <item
         android:id="@+id/topics"
         android:title="@string/topics"
-        android:icon="@drawable/ic_video_library" />
+        android:icon="@drawable/ic_topics" />
 
     <item
         android:id="@+id/favorites"

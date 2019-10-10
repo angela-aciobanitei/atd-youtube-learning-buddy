@@ -8,11 +8,11 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.ang.acb.youtubelearningbuddy.data.local.entity.CommentEntity;
-import com.ang.acb.youtubelearningbuddy.data.model.CommentThread;
-import com.ang.acb.youtubelearningbuddy.data.model.CommentThreadListResponse;
-import com.ang.acb.youtubelearningbuddy.data.model.CommentThreadSnippet;
-import com.ang.acb.youtubelearningbuddy.data.model.CommentTopLevel;
-import com.ang.acb.youtubelearningbuddy.data.model.CommentTopLevelSnippet;
+import com.ang.acb.youtubelearningbuddy.data.vo.CommentThread;
+import com.ang.acb.youtubelearningbuddy.data.vo.CommentThreadListResponse;
+import com.ang.acb.youtubelearningbuddy.data.vo.CommentThreadSnippet;
+import com.ang.acb.youtubelearningbuddy.data.vo.CommentTopLevel;
+import com.ang.acb.youtubelearningbuddy.data.vo.CommentTopLevelSnippet;
 
 import java.util.ArrayList;
 import java.util.List;

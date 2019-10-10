@@ -6,8 +6,8 @@
 
     <data>
         <import type="com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity" />
-        <import type="com.ang.acb.youtubelearningbuddy.data.model.Resource"/>
-        <import type="com.ang.acb.youtubelearningbuddy.data.model.Resource.Status"/>
+        <import type="com.ang.acb.youtubelearningbuddy.data.vo.Resource"/>
+        <import type="com.ang.acb.youtubelearningbuddy.data.vo.Resource.Status"/>
         <import type="com.ang.acb.youtubelearningbuddy.ui.common.RetryCallback"/>
 
         <variable name="video" type="VideoEntity" />
@@ -78,12 +78,13 @@
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
             android:contentDescription="@string/favorites_icon"
+            android:tint="@color/colorPrimary"
             app:setFavoriteSrc="@{isFavorite}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/barrier1"
             app:layout_constraintBottom_toTopOf="@+id/barrier2"
             app:toggleVisibility="@{video != null}"
-            tools:src="@drawable/ic_favorite_orange"/>
+            tools:src="@drawable/ic_favorite"/>
 
         <ImageView
             android:id="@+id/ic_add_to_topics"
@@ -94,7 +95,8 @@
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
             android:contentDescription="@string/add_to_topic_icon"
-            android:src="@drawable/ic_library_add_orange"
+            android:src="@drawable/ic_topics_add"
+            android:tint="@color/colorPrimary"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintEnd_toStartOf="@id/ic_favorites"
             app:layout_constraintTop_toBottomOf="@+id/barrier1"

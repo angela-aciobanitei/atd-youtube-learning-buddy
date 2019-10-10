@@ -2,8 +2,8 @@ package com.ang.acb.youtubelearningbuddy.data.remote;
 
 import androidx.lifecycle.LiveData;
 
-import com.ang.acb.youtubelearningbuddy.data.model.CommentThreadListResponse;
-import com.ang.acb.youtubelearningbuddy.data.model.SearchVideosResponse;
+import com.ang.acb.youtubelearningbuddy.data.vo.CommentThreadListResponse;
+import com.ang.acb.youtubelearningbuddy.data.vo.SearchVideosResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;

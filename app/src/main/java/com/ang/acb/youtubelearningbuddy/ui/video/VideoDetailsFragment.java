@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.ang.acb.youtubelearningbuddy.BuildConfig;
 import com.ang.acb.youtubelearningbuddy.R;
-import com.ang.acb.youtubelearningbuddy.data.model.Resource;
+import com.ang.acb.youtubelearningbuddy.data.vo.Resource;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentVideoDetailsBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
 import com.google.android.material.snackbar.Snackbar;
@@ -178,10 +178,9 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider,
                                         YouTubeInitializationResult result) {
-        Toast.makeText(
-                getActivity(),
+        Snackbar.make(binding.getRoot(),
                 getString(R.string.player_init_failed),
-                Toast.LENGTH_LONG)
+                Snackbar.LENGTH_SHORT)
                 .show();
     }
 

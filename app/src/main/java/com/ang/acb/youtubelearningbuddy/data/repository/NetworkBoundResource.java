@@ -7,7 +7,7 @@ import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
-import com.ang.acb.youtubelearningbuddy.data.model.Resource;
+import com.ang.acb.youtubelearningbuddy.data.vo.Resource;
 import com.ang.acb.youtubelearningbuddy.data.remote.ApiResponse;
 import com.ang.acb.youtubelearningbuddy.utils.AppExecutors;
 import com.ang.acb.youtubelearningbuddy.utils.Objects;

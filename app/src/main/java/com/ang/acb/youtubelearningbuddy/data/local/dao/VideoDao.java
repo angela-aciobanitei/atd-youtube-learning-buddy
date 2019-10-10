@@ -9,9 +9,9 @@ import androidx.room.Transaction;
 
 import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
-import com.ang.acb.youtubelearningbuddy.data.model.SearchResult;
-import com.ang.acb.youtubelearningbuddy.data.model.SearchResultSnippet;
-import com.ang.acb.youtubelearningbuddy.data.model.SearchVideosResponse;
+import com.ang.acb.youtubelearningbuddy.data.vo.SearchResult;
+import com.ang.acb.youtubelearningbuddy.data.vo.SearchResultSnippet;
+import com.ang.acb.youtubelearningbuddy.data.vo.SearchVideosResponse;
 
 import java.util.ArrayList;
 import java.util.List;

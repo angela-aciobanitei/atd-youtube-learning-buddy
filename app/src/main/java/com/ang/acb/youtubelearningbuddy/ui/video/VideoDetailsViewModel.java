@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.CommentEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
-import com.ang.acb.youtubelearningbuddy.data.model.Resource;
+import com.ang.acb.youtubelearningbuddy.data.vo.Resource;
 import com.ang.acb.youtubelearningbuddy.data.repository.VideosRepository;
 import com.ang.acb.youtubelearningbuddy.utils.AbsentLiveData;
 import com.ang.acb.youtubelearningbuddy.utils.SnackbarMessage;
