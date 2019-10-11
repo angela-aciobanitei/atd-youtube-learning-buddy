@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Data binding layout files are slightly different and start
-with a root tag of <layout> followed by a <data> element and a
-view root element. This view element is what your root would
-be in a non-binding layout file.-->
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- The variables within <data> describe the properties that
-    will be used within this layout. Expressions within the layout
-    are written in the attribute properties using the "@{}"-->
     <data>
-
         <variable
             name="video"
             type="com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity" />
     </data>
 
-    <!-- UI layout's root element -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -36,10 +27,10 @@ be in a non-binding layout file.-->
             android:id="@+id/video_item_thumbnail"
             android:layout_width="0dp"
             android:layout_height="80dp"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/video_item_horizontal_margin"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="@dimen/video_item_vertical_margin"
+            android:layout_marginBottom="@dimen/video_item_vertical_margin"
             android:contentDescription="@string/video_thumbnail"
             android:scaleType="centerCrop"
             app:imageUrl="@{video.defaultThumbnailUrl}"
@@ -53,9 +44,10 @@ be in a non-binding layout file.-->
             android:id="@+id/video_item_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/video_item_horizontal_margin"
+            android:layout_marginTop="@dimen/video_item_vertical_margin"
+            android:layout_marginBottom="@dimen/video_item_vertical_margin"
             android:maxLines="3"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -69,16 +61,16 @@ be in a non-binding layout file.-->
             android:id="@+id/video_item_published_at"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:maxLines="2"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/video_item_horizontal_margin"
+            android:layout_marginTop="@dimen/video_item_vertical_margin"
+            android:layout_marginBottom="@dimen/video_item_vertical_margin"
+            android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@id/video_item_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="2019-08-01T17:06:03.000Z"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.ang.acb.youtubelearningbuddy.ui.search;
+package com.ang.acb.youtubelearningbuddy.ui.common;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

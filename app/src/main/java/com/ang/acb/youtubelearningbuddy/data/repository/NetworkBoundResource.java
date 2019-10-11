@@ -12,7 +12,6 @@ import com.ang.acb.youtubelearningbuddy.data.remote.ApiResponse;
 import com.ang.acb.youtubelearningbuddy.utils.AppExecutors;
 import com.ang.acb.youtubelearningbuddy.utils.Objects;
 
-
 /**
  * A generic class that can provide a resource backed by both the SQLite database and the network.
  * It defines two type parameters, ResultType and RequestType, because the data type returned from

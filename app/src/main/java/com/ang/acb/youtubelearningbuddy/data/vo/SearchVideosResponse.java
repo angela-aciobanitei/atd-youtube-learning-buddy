@@ -47,11 +47,11 @@ public class SearchVideosResponse {
 
     @SerializedName("pageInfo")
     @Expose
-    private SearchResultPageInfo searchResultPageInfo;
+    private SearchResponsePageInfo searchResponsePageInfo;
 
     @SerializedName("items")
     @Expose
-    private List<SearchResult> searchResults;
+    private List<SearchResource> searchResources;
 
     public String getNextPageToken() {
         return nextPageToken;
@@ -69,33 +69,33 @@ public class SearchVideosResponse {
         this.prevPageToken = prevPageToken;
     }
 
-    public SearchResultPageInfo getSearchResultPageInfo() {
-        return searchResultPageInfo;
+    public SearchResponsePageInfo getSearchResponsePageInfo() {
+        return searchResponsePageInfo;
     }
 
-    public void setSearchResultPageInfo(SearchResultPageInfo searchResultPageInfo) {
-        this.searchResultPageInfo = searchResultPageInfo;
+    public void setSearchResponsePageInfo(SearchResponsePageInfo searchResponsePageInfo) {
+        this.searchResponsePageInfo = searchResponsePageInfo;
     }
 
-    public List<SearchResult> getSearchResults() {
-        return searchResults;
+    public List<SearchResource> getSearchResources() {
+        return searchResources;
     }
 
-    public void setSearchResults(List<SearchResult> searchResults) {
-        this.searchResults = searchResults;
+    public void setSearchResources(List<SearchResource> searchResources) {
+        this.searchResources = searchResources;
     }
 
     @NonNull
     public List<String> getVideoIds() {
         List<String> videoIds = new ArrayList<>();
-        for (SearchResult searchResult : searchResults) {
-            videoIds.add(searchResult.getSearchResultId().getVideoId());
+        for (SearchResource searchResource : searchResources) {
+            videoIds.add(searchResource.getSearchResourceId().getVideoId());
         }
         return videoIds;
     }
 
     public int getTotalResults() {
-        return searchResultPageInfo.getSearchVideosTotalResults();
+        return searchResponsePageInfo.getSearchVideosTotalResults();
     }
 
 

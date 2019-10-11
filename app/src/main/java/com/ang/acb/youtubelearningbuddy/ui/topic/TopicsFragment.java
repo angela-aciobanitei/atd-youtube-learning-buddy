@@ -34,7 +34,8 @@ import dagger.android.support.AndroidSupportInjection;
 
 public class TopicsFragment extends Fragment {
 
-    private static final String ARG_TOPIC_ID = "ARG_TOPIC_ID";
+    public static final String ARG_TOPIC_ID = "ARG_TOPIC_ID";
+
     private FragmentTopicsBinding binding;
     private TopicsViewModel topicsViewModel;
     private TopicsAdapter topicsAdapter;
@@ -44,7 +45,6 @@ public class TopicsFragment extends Fragment {
 
     // Required empty public constructor
     public TopicsFragment() {}
-
 
     @Override
     public void onAttach(@NotNull Context context) {
@@ -56,11 +56,10 @@ public class TopicsFragment extends Fragment {
         super.onAttach(context);
     }
 
-
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment.
         binding = FragmentTopicsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -97,6 +96,8 @@ public class TopicsFragment extends Fragment {
     }
 
     private void onTopicClick(TopicEntity topicEntity) {
+        // On item click navigate to topic details fragment
+        // and send the topic ID as bundle argument.
         Bundle args = new Bundle();
         args.putLong(ARG_TOPIC_ID, topicEntity.getId());
         NavHostFragment.findNavController(TopicsFragment.this)
@@ -152,10 +153,9 @@ public class TopicsFragment extends Fragment {
 
     private void populateUi() {
         topicsViewModel.getAllTopics().observe(getViewLifecycleOwner(), result -> {
-            binding.setTopicCount((result == null) ? 0 : result.size());
-            if (result != null) {
-                topicsAdapter.submitList(result);
-            }
+            int topicCount = (result == null) ? 0 : result.size();
+            if (topicCount != 0) topicsAdapter.submitList(result);
+            else binding.topicsEmptyState.setText(R.string.no_topics);
             binding.executePendingBindings();
         });
     }

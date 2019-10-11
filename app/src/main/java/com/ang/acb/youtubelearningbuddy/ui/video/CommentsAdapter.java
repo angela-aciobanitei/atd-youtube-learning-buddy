@@ -39,6 +39,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void submitList(List<CommentEntity> comments) {
+        // Update list data.
         this.comments = comments;
         // Notify any registered observers
         // that the data set has changed.
@@ -54,7 +55,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(binding.getRoot());
             this.binding = binding;
         }
-
 
         void bindTo(CommentEntity commentEntity) {
             // Bind data for this item.

@@ -3,7 +3,7 @@ package com.ang.acb.youtubelearningbuddy.data.vo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ThumbnailsDefault {
+public class ThumbnailsHigh {
 
     @SerializedName("url")
     @Expose

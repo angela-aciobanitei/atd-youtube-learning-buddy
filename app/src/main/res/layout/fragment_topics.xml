@@ -4,10 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable name="topicCount" type="int"/>
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topics_root_layout"
         android:layout_width="match_parent"
@@ -44,7 +40,6 @@
             app:layout_constraintTop_toBottomOf="@id/new_topic_button"
             tools:listitem="@layout/topic_item"/>
 
-        <!-- Empty state layout -->
         <TextView
             android:id="@+id/topics_empty_state"
             android:layout_width="match_parent"
@@ -52,12 +47,10 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_margin="16dp"
-            android:text="@string/no_topics"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:toggleVisibility="@{topicCount == 0}"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

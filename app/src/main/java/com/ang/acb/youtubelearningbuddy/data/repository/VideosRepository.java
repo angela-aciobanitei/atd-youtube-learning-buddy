@@ -80,7 +80,7 @@ public class VideosRepository {
                 Timber.d("Get the cached videos from the database");
                 return Transformations.switchMap(database.videoDao().search(query), searchData -> {
                     if (searchData == null) return AbsentLiveData.create();
-                    else return database.videoDao().loadVideosByIds(searchData.youTubeVideoIds);
+                    else return database.videoDao().loadVideosByYouTubeIds(searchData.youTubeVideoIds);
                 });
             }
 
@@ -111,7 +111,7 @@ public class VideosRepository {
                 // make sure that the video (which is the parent) actually exists in
                 // the db, to avoid foreign key constraint fails.
                 database.runInTransaction(() -> {
-                    long roomVideoId = database.videoDao().getVideoId(youTubeVideoId);
+                    long roomVideoId = database.videoDao().getRoomVideoId(youTubeVideoId);
                     int inserted = database.commentDao().insertCommentsFromResponse(roomVideoId, response);
                     Timber.d("Inserted %s comments in the db for video with Room ID= %s",
                             inserted, roomVideoId);

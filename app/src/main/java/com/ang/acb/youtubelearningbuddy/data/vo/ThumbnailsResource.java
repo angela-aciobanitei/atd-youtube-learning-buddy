@@ -34,15 +34,15 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ThumbnailsResource {
 
-    @SerializedName("default")
+    @SerializedName("high")
     @Expose
-    private ThumbnailsDefault defaultResolutionVersion;
+    private ThumbnailsHigh highResolutionVersion;
 
-    public ThumbnailsDefault getDefaultResolutionVersion() {
-        return defaultResolutionVersion;
+    public ThumbnailsHigh getHighResolutionVersion() {
+        return highResolutionVersion;
     }
 
-    public void setDefaultResolutionVersion(ThumbnailsDefault defaultResolutionVersion) {
-        this.defaultResolutionVersion = defaultResolutionVersion;
+    public void setHighResolutionVersion(ThumbnailsHigh highResolutionVersion) {
+        this.highResolutionVersion = highResolutionVersion;
     }
 }

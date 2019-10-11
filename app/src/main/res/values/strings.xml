@@ -34,6 +34,7 @@
     <string name="favorites">Favorites</string>
     <string name="video_details">Video Details</string>
     <string name="topic_details">Topic Details</string>
+    <string name="no_videos_for_topic">No videos for this topic yet</string>
 
 
 </resources>

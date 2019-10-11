@@ -62,9 +62,11 @@ public class TopicsViewModel extends ViewModel {
     }
 
     public LiveData<List<TopicEntity>> getAllTopics() {
-        return repository.getAllTopics();
+        if (allTopics == null ) {
+            allTopics = repository.getAllTopics();
+        }
+        return allTopics;
     }
-
 
     public void createTopic(String name) {
         repository.createTopic(name);

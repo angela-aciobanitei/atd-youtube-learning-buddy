@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +25,7 @@ import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentSearchBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
+import com.ang.acb.youtubelearningbuddy.ui.common.VideosAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -93,8 +93,6 @@ public class SearchFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), RecyclerView.VERTICAL, false);
         binding.rvVideos.setLayoutManager(layoutManager);
-        binding.rvVideos.addItemDecoration(new DividerItemDecoration(
-                getContext(), LinearLayoutManager.VERTICAL));
         videosAdapter = new VideosAdapter(this::onVideoClick);
         binding.rvVideos.setAdapter(videosAdapter);
     }

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +20,7 @@ import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentFavoritesBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
-import com.ang.acb.youtubelearningbuddy.ui.search.VideosAdapter;
+import com.ang.acb.youtubelearningbuddy.ui.common.VideosAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -89,8 +88,6 @@ public class FavoriteVideosFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), RecyclerView.VERTICAL, false);
         binding.rvFavorites.setLayoutManager(layoutManager);
-        binding.rvFavorites.addItemDecoration(new DividerItemDecoration(
-                getContext(), LinearLayoutManager.VERTICAL));
         videosAdapter = new VideosAdapter(this::onVideoClick);
         binding.rvFavorites.setAdapter(videosAdapter);
     }
@@ -104,13 +101,12 @@ public class FavoriteVideosFragment extends Fragment {
 
     private void populateUi() {
         favoritesViewModel.getFavorites().observe(getViewLifecycleOwner(), result -> {
+            // If result is null or empty, display message, else update data.
             int favoritesCount = (result == null) ? 0 : result.size();
-            binding.setFavoritesCount((result == null) ? 0 : result.size());
-            if (favoritesCount !=0) {
-                videosAdapter.submitList(result);
-            } else {
-                binding.favoritesEmptyState.setText(R.string.no_favorites);
-            }
+            if(favoritesCount != 0) videosAdapter.submitList(result);
+            else binding.favoritesEmptyState.setText(R.string.no_favorites);
+
+            // Binding must be executed immediately.
             binding.executePendingBindings();
         });
     }

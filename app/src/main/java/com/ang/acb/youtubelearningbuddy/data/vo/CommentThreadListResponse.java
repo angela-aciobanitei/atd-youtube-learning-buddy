@@ -38,10 +38,6 @@ public class CommentThreadListResponse {
     @Expose
     private String nextPageToken;
 
-    @SerializedName("pageInfo")
-    @Expose
-    private CommentThreadsPageInfo commentThreadsPageInfo;
-
     @SerializedName("items")
     @Expose
     private List<CommentThread> commentThreads;
@@ -52,14 +48,6 @@ public class CommentThreadListResponse {
 
     public void setNextPageToken(String nextPageToken) {
         this.nextPageToken = nextPageToken;
-    }
-
-    public CommentThreadsPageInfo getCommentThreadsPageInfo() {
-        return commentThreadsPageInfo;
-    }
-
-    public void setCommentThreadsPageInfo(CommentThreadsPageInfo commentThreadsPageInfo) {
-        this.commentThreadsPageInfo = commentThreadsPageInfo;
     }
 
     public List<CommentThread> getCommentThreads() {

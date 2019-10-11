@@ -9,8 +9,8 @@ import androidx.room.Transaction;
 
 import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
-import com.ang.acb.youtubelearningbuddy.data.vo.SearchResult;
-import com.ang.acb.youtubelearningbuddy.data.vo.SearchResultSnippet;
+import com.ang.acb.youtubelearningbuddy.data.vo.SearchResource;
+import com.ang.acb.youtubelearningbuddy.data.vo.SearchResourceSnippet;
 import com.ang.acb.youtubelearningbuddy.data.vo.SearchVideosResponse;
 
 import java.util.ArrayList;
@@ -25,10 +25,6 @@ import java.util.List;
 @Dao
 public abstract class  VideoDao {
 
-    // Note: If the @Insert method receives only 1 parameter, it can return a long,
-    // which is the new rowId for the inserted item. If the parameter is an array or
-    // a collection, it should return long[] or List<Long> instead.
-    // See: https://developer.android.com/training/data-storage/room/accessing-data#convenience-insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insertVideo(VideoEntity video);
 
@@ -39,29 +35,30 @@ public abstract class  VideoDao {
     public abstract long insertSearchResult(SearchEntity result);
 
     public int insertVideosFromResponse(SearchVideosResponse response) {
-        List<SearchResult> searchResults = response.getSearchResults();
+        List<SearchResource> searchResources = response.getSearchResources();
         List<Long> videoIds = new ArrayList<>();
-        for (SearchResult searchResult : searchResults) {
-            VideoEntity videoEntity = getVideoFromSearchResult(searchResult);
+        for (SearchResource searchResource : searchResources) {
+            VideoEntity videoEntity = getVideoFromSearchResult(searchResource);
             if (videoEntity != null) {
                 videoIds.add(insertVideo(videoEntity));
             }
         }
+
         return videoIds.size();
     }
 
-    private VideoEntity getVideoFromSearchResult(SearchResult searchResult) {
-        String videoId = searchResult.getSearchResultId().getVideoId();
+    private VideoEntity getVideoFromSearchResult(SearchResource searchResource) {
+        String videoId = searchResource.getSearchResourceId().getVideoId();
         VideoEntity videoEntity = null;
         if (videoId != null) {
-            SearchResultSnippet snippet = searchResult.getSearchResultSnippet();
+            SearchResourceSnippet snippet = searchResource.getSearchResourceSnippet();
             String publishedAt = snippet.getVideoPublishedAt();
             String title = snippet.getVideoTitle();
             String description = snippet.getVideoDescription();
-            String defaultThumbUrl = snippet.getVideoThumbnails().getDefaultResolutionVersion().getUrl();
+            String highThumbUrl = snippet.getVideoThumbnails().getHighResolutionVersion().getUrl();
 
             videoEntity = new VideoEntity(videoId, publishedAt, title, description,
-                                          defaultThumbUrl,false);
+                                          highThumbUrl,false);
         }
 
         return videoEntity;
@@ -69,9 +66,6 @@ public abstract class  VideoDao {
 
     @Query("SELECT * FROM search_results WHERE `query` = :query")
     public abstract LiveData<SearchEntity> search(String query);
-
-    @Query("SELECT * FROM search_results WHERE `query` = :query")
-    public abstract SearchEntity findSearchResult(String query);
 
     @Query("SELECT * FROM video WHERE id = :id")
     public abstract LiveData<VideoEntity> getVideoByRoomId(long id);
@@ -82,11 +76,11 @@ public abstract class  VideoDao {
 
     @Transaction
     @Query("SELECT id FROM video WHERE youtube_video_id = :youtubeId")
-    public abstract long getVideoId(String youtubeId);
+    public abstract long getRoomVideoId(String youtubeId);
 
     @Transaction
     @Query("SELECT * FROM video WHERE youtube_video_id in (:youTubeVideoIds)")
-    public abstract LiveData<List<VideoEntity>> loadVideosByIds(List<String> youTubeVideoIds);
+    public abstract LiveData<List<VideoEntity>> loadVideosByYouTubeIds(List<String> youTubeVideoIds);
 
     @Query("SELECT * FROM video WHERE is_favorite = 1")
     public abstract LiveData<List<VideoEntity>> getAllFavoriteVideos();

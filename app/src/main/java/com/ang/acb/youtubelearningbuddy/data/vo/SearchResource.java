@@ -36,29 +36,29 @@ import com.google.gson.annotations.SerializedName;
  *   }
  * }
  */
-public class SearchResult {
+public class SearchResource {
 
     @SerializedName("id")
     @Expose
-    private SearchResultId searchResultId;
+    private SearchResourceId searchResourceId;
 
     @SerializedName("snippet")
     @Expose
-    private SearchResultSnippet searchResultSnippet;
+    private SearchResourceSnippet searchResourceSnippet;
 
-    public SearchResultId getSearchResultId() {
-        return searchResultId;
+    public SearchResourceId getSearchResourceId() {
+        return searchResourceId;
     }
 
-    public void setSearchResultId(SearchResultId searchResultId) {
-        this.searchResultId = searchResultId;
+    public void setSearchResourceId(SearchResourceId searchResourceId) {
+        this.searchResourceId = searchResourceId;
     }
 
-    public SearchResultSnippet getSearchResultSnippet() {
-        return searchResultSnippet;
+    public SearchResourceSnippet getSearchResourceSnippet() {
+        return searchResourceSnippet;
     }
 
-    public void setSearchResultSnippet(SearchResultSnippet searchResultSnippet) {
-        this.searchResultSnippet = searchResultSnippet;
+    public void setSearchResourceSnippet(SearchResourceSnippet searchResourceSnippet) {
+        this.searchResourceSnippet = searchResourceSnippet;
     }
 }

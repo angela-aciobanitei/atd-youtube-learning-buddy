@@ -15,11 +15,7 @@
         <action
             android:id="@+id/action_search_to_video_details"
             app:destination="@id/video_details"
-            app:popUpTo="@string/search_videos"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left">
+            app:popUpTo="@string/search_videos">
             <argument
                 android:name="youtubeVideoId"
                 app:argType="string" />
@@ -42,11 +38,7 @@
         <action
             android:id="@+id/action_topic_list_to_topic_details"
             app:destination="@id/topic_details"
-            app:popUpTo="@id/topics"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left">
+            app:popUpTo="@id/topics">
             <argument
                 android:name="topicId"
                 app:argType="long" />
@@ -61,11 +53,7 @@
         <action
             android:id="@+id/action_topic_details_to_video_details"
             app:destination="@id/video_details"
-            app:popUpTo="@+id/topic_details"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left">
+            app:popUpTo="@+id/topic_details">
             <argument
                 android:name="youtubeVideoId"
                 app:argType="string" />
@@ -81,11 +69,7 @@
         <action
             android:id="@+id/action_favorites_to_video_details"
             app:destination="@id/video_details"
-            app:popUpTo="@id/favorites"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left">
+            app:popUpTo="@id/favorites">
             <argument
                 android:name="youtubeVideoId"
                 app:argType="string" />

@@ -3,7 +3,7 @@ package com.ang.acb.youtubelearningbuddy.data.vo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SearchResultSnippet {
+public class SearchResourceSnippet {
 
     // The date and time when the resource was originally published.
     // The value is specified in ISO 8601 (YYYY-MM-DDThh:mm:ss.sZ) format.
