@@ -9,9 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,28 +23,40 @@ import android.widget.EditText;
 
 import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
-import com.ang.acb.youtubelearningbuddy.databinding.FragmentTopicsBinding;
+import com.ang.acb.youtubelearningbuddy.databinding.FragmentTopicSelectBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
-public class TopicsFragment extends Fragment {
+import static com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment.ARG_ROOM_VIDEO_ID;
 
-    public static final String ARG_TOPIC_ID = "ARG_TOPIC_ID";
+public class SelectTopicsFragment extends Fragment {
 
-    private FragmentTopicsBinding binding;
+    private FragmentTopicSelectBinding binding;
     private TopicsViewModel topicsViewModel;
-    private TopicsAdapter topicsAdapter;
+    private SelectTopicsAdapter selectAdapter;
+    private long roomVideoId;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
     // Required empty public constructor
-    public TopicsFragment() {}
+    public SelectTopicsFragment() {}
+
+    public static SelectTopicsFragment newInstance(long roomVideoId) {
+        SelectTopicsFragment fragment = new SelectTopicsFragment();
+        Bundle args = new Bundle();
+        args.putLong(ARG_ROOM_VIDEO_ID, roomVideoId);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Override
     public void onAttach(@NotNull Context context) {
@@ -57,10 +69,19 @@ public class TopicsFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            roomVideoId = getArguments().getLong(ARG_ROOM_VIDEO_ID);
+        }
+    }
+
+    @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment.
-        binding = FragmentTopicsBinding.inflate(inflater, container, false);
+        // Inflate the layout for this fragment
+        binding = FragmentTopicSelectBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -68,48 +89,32 @@ public class TopicsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setupToolbarTitle();
         initViewModel();
         initAdapter();
         handleNewTopicCreation();
         populateUi();
     }
 
-    private void setupToolbarTitle() {
-        if (getHostActivity().getSupportActionBar() != null) {
-            getHostActivity().getSupportActionBar()
-                    .setTitle(getString(R.string.topics));
-        }
-    }
-
     private void initViewModel() {
         topicsViewModel = ViewModelProviders.of(getHostActivity(), viewModelFactory)
                 .get(TopicsViewModel.class);
+        topicsViewModel.setVideoId(roomVideoId);
     }
 
     private void initAdapter(){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), RecyclerView.VERTICAL, false);
-        binding.rvTopics.setLayoutManager(layoutManager);
-        topicsAdapter = new TopicsAdapter(this::onTopicClick);
-        binding.rvTopics.setAdapter(topicsAdapter);
+        binding.rvTopicsSelect.setLayoutManager(layoutManager);
+        selectAdapter = new SelectTopicsAdapter();
+        binding.rvTopicsSelect.setAdapter(selectAdapter);
     }
 
-    private void onTopicClick(TopicEntity topicEntity) {
-        // On item click navigate to topic details fragment
-        // and send the topic ID as bundle argument.
-        Bundle args = new Bundle();
-        args.putLong(ARG_TOPIC_ID, topicEntity.getId());
-        NavHostFragment.findNavController(TopicsFragment.this)
-                .navigate(R.id.action_topic_list_to_topic_details, args);
-    }
 
     private void handleNewTopicCreation() {
         binding.newTopicButton.setOnClickListener(view -> createNewTopicDialog());
     }
 
     private void createNewTopicDialog() {
-        // See: https://www.journaldev.com/22153/android-custom-alert-dialog
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         View dialogView = getHostActivity().getLayoutInflater()
                 .inflate(R.layout.create_new_topic_dialog, null);
@@ -131,7 +136,7 @@ public class TopicsFragment extends Fragment {
         });
 
         dialogBuilder.setNegativeButton(R.string.dialog_neg_btn, (dialog, whichButton) ->
-            dialog.cancel());
+                dialog.cancel());
     }
 
     private void customizeDialogButtons(AlertDialog dialog) {
@@ -152,15 +157,17 @@ public class TopicsFragment extends Fragment {
 
     private void populateUi() {
         topicsViewModel.getAllTopics().observe(getViewLifecycleOwner(), result -> {
-            int topicsCount = (result == null) ? 0 : result.size();
-            binding.setTopicsCount(topicsCount);
-            if (topicsCount != 0) topicsAdapter.submitList(result);
-            else binding.topicsEmptyState.setText(R.string.no_topics);
+            if (result != null) selectAdapter.submitList(result);
             binding.executePendingBindings();
+        });
+
+        topicsViewModel.getTopicsForVideo().observe(getViewLifecycleOwner(), result -> {
+
         });
     }
 
     private MainActivity getHostActivity(){
         return  (MainActivity) getActivity();
     }
+
 }

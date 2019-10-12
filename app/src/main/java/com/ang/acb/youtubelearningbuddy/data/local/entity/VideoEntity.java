@@ -13,13 +13,12 @@ import androidx.room.PrimaryKey;
  * Also, since a topic can have any number of videos, and a video can be included in
  * any number of topics, we need to define a many-to-many relationship between them.
  */
-@Entity(tableName = "video",
-        indices = {@Index(value = {"youtube_video_id"}, unique = true)})
+@Entity(tableName = "video")
 public class VideoEntity {
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "id", index = true)
     private long id;
 
     @ColumnInfo(name = "youtube_video_id")
@@ -32,31 +31,31 @@ public class VideoEntity {
 
     private String description;
 
-    @ColumnInfo(name = "default_thumbnail_url")
-    private String defaultThumbnailUrl;
+    @ColumnInfo(name = "high_thumbnail_url")
+    private String highThumbnailUrl;
 
     @ColumnInfo(name = "is_favorite")
     private boolean isFavorite;
 
     public VideoEntity(long id, String youTubeVideoId, String publishedAt, String title,
-                       String description, String defaultThumbnailUrl, boolean isFavorite) {
+                       String description, String highThumbnailUrl, boolean isFavorite) {
         this.id = id;
         this.youTubeVideoId = youTubeVideoId;
         this.publishedAt = publishedAt;
         this.title = title;
         this.description = description;
-        this.defaultThumbnailUrl = defaultThumbnailUrl;
+        this.highThumbnailUrl = highThumbnailUrl;
         this.isFavorite = isFavorite;
     }
 
     @Ignore
     public VideoEntity(String youTubeVideoId, String publishedAt, String title, String description,
-                       String defaultThumbnailUrl, boolean isFavorite) {
+                       String highThumbnailUrl, boolean isFavorite) {
         this.youTubeVideoId = youTubeVideoId;
         this.publishedAt = publishedAt;
         this.title = title;
         this.description = description;
-        this.defaultThumbnailUrl = defaultThumbnailUrl;
+        this.highThumbnailUrl = highThumbnailUrl;
         this.isFavorite = isFavorite;
     }
 
@@ -100,12 +99,12 @@ public class VideoEntity {
         this.description = description;
     }
 
-    public String getDefaultThumbnailUrl() {
-        return defaultThumbnailUrl;
+    public String getHighThumbnailUrl() {
+        return highThumbnailUrl;
     }
 
-    public void setDefaultThumbnailUrl(String defaultThumbnailUrl) {
-        this.defaultThumbnailUrl = defaultThumbnailUrl;
+    public void setHighThumbnailUrl(String highThumbnailUrl) {
+        this.highThumbnailUrl = highThumbnailUrl;
     }
 
     public boolean isFavorite() {

@@ -33,7 +33,7 @@
             android:layout_marginBottom="@dimen/video_item_vertical_margin"
             android:contentDescription="@string/video_thumbnail"
             android:scaleType="centerCrop"
-            app:imageUrl="@{video.defaultThumbnailUrl}"
+            app:imageUrl="@{video.highThumbnailUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline"
             app:layout_constraintTop_toTopOf="parent"

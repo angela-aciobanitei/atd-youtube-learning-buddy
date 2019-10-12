@@ -16,7 +16,7 @@ public class TopicEntity {
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "id", index = true)
     private long id;
 
     private String name;

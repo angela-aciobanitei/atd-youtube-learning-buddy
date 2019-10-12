@@ -1,6 +1,7 @@
 package com.ang.acb.youtubelearningbuddy.ui.common;
 
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
@@ -23,6 +24,11 @@ public class BindingAdapters {
     public static void toggleVisibility(View view, Boolean isVisible) {
         if (isVisible) view.setVisibility(View.VISIBLE);
         else view.setVisibility(View.GONE);
+    }
+
+    @BindingAdapter("toggleChecked")
+    public static void toggleChecked(CheckBox checkBox, Boolean isChecked) {
+        checkBox.setChecked(isChecked);
     }
 
     @BindingAdapter("setFavoriteSrc")

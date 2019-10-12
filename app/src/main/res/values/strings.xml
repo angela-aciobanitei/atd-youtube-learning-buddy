@@ -17,6 +17,7 @@
     <string name="comments_disabled">Comments for this video are disabled</string>
     <string name="player_init_failed">Player initialization failed</string>
     <string name="video_description_label">Description</string>
+    <string name="save_video_to">Save video to:</string>
     <!-- Topics -->
     <string name="no_topics">No topics created yet</string>
     <string name="create_new_topic">Create new topic</string>
@@ -24,6 +25,8 @@
     <string name="dialog_neg_btn">Cancel</string>
     <string name="topic_name">Topic name:</string>
     <string name="new_topic">NEW TOPIC</string>
+    <!-- Topic Details -->
+    <string name="no_videos_for_topic">No videos for this topic yet</string>
     <!-- Favorites-->
     <string name="video_added_to_favorites">Video added to favorites</string>
     <string name="video_removed_from_favorites">Video removed from favorites</string>
@@ -34,7 +37,7 @@
     <string name="favorites">Favorites</string>
     <string name="video_details">Video Details</string>
     <string name="topic_details">Topic Details</string>
-    <string name="no_videos_for_topic">No videos for this topic yet</string>
+    <string name="select_topics">Select Topics</string>
 
 
 </resources>

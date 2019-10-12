@@ -33,6 +33,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
+import static com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment.ARG_ROOM_VIDEO_ID;
 import static com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment.ARG_YOUTUBE_VIDEO_ID;
 
 public class SearchFragment extends Fragment {
@@ -100,6 +101,7 @@ public class SearchFragment extends Fragment {
     private void onVideoClick(VideoEntity videoEntity) {
         Bundle args = new Bundle();
         args.putString(ARG_YOUTUBE_VIDEO_ID, videoEntity.getYouTubeVideoId());
+        args.putLong(ARG_ROOM_VIDEO_ID, videoEntity.getId());
         NavHostFragment.findNavController(SearchFragment.this)
                 .navigate(R.id.action_search_to_video_details, args);
     }

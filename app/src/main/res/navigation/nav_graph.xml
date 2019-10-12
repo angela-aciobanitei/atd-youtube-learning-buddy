@@ -19,14 +19,31 @@
             <argument
                 android:name="youtubeVideoId"
                 app:argType="string" />
+            <argument
+                android:name="roomVideoId"
+                app:argType="long" />
         </action>
     </fragment>
 
     <fragment
         android:id="@+id/video_details"
-        android:label="@string/video_details"
         android:name="com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment"
-        tools:layout="@layout/fragment_video_details"/>
+        tools:layout="@layout/fragment_video_details">
+        <action
+            android:id="@+id/action_video_details_to_select_topics"
+            app:destination="@id/select_topics"
+            app:popUpTo="@string/video_details">
+            <argument
+                android:name="roomVideoId"
+                app:argType="long" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/select_topics"
+        android:label="@string/select_topics"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.topic.SelectTopicsFragment"
+        tools:layout="@layout/fragment_topic_select"/>
 
     <!-- Navigate from Topics Fragment to Topic Details Fragment,
          navigate from Topic Details Fragment to Video Details Fragment -->

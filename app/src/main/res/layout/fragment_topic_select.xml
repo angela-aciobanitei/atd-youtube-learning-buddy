@@ -4,10 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable name="topicsCount" type="int"/>
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topics_root_layout"
         android:layout_width="match_parent"
@@ -33,29 +29,29 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_topics"
+            android:id="@+id/rv_topics_select"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="@dimen/horizontal_margin"
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/new_topic_button"
-            tools:listitem="@layout/topic_item"/>
+            app:layout_constraintBottom_toTopOf="@id/button_confirm"
+            tools:listitem="@layout/topic_select_item"/>
 
-        <TextView
-            android:id="@+id/topics_empty_state"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/button_confirm"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
             android:layout_margin="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text="Confirm"
+            android:textColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:toggleVisibility="@{topicsCount == 0}"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

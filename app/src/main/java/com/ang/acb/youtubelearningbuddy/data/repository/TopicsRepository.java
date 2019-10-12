@@ -24,13 +24,11 @@ import javax.inject.Singleton;
 public class TopicsRepository {
 
     private AppDatabase database;
-    private ApiService apiService;
     private AppExecutors executors;
 
     @Inject
-    TopicsRepository (AppDatabase database, ApiService apiService, AppExecutors executors) {
+    TopicsRepository (AppDatabase database, AppExecutors executors) {
         this.database = database;
-        this.apiService = apiService;
         this.executors = executors;
     }
 
@@ -49,5 +47,13 @@ public class TopicsRepository {
     public void createTopic(String name) {
         executors.diskIO().execute(() ->
             database.topicDao().insertTopic(new TopicEntity(name, new Date())));
+    }
+
+    public LiveData<List<String>> getAllTopicsNames() {
+        return database.topicDao().getAllTopicNames();
+    }
+
+    public LiveData<List<String>> getTopicNamesForVideo(long videoId) {
+        return database.videoTopicJoinDao().getTopicNamesForVideo(videoId);
     }
 }
