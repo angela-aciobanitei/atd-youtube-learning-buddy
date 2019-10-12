@@ -1,33 +1,30 @@
 package com.ang.acb.youtubelearningbuddy.ui.topic;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
-import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentTopicSelectBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
+import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,6 +39,7 @@ public class SelectTopicsFragment extends Fragment {
     private TopicsViewModel topicsViewModel;
     private SelectTopicsAdapter selectAdapter;
     private long roomVideoId;
+    private List<TopicEntity> selectedTopics = new ArrayList<>();
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -60,10 +58,8 @@ public class SelectTopicsFragment extends Fragment {
 
     @Override
     public void onAttach(@NotNull Context context) {
-        // Note: when using Dagger for injecting Fragment objects,
-        // inject as early as possible. For this reason, call
-        // AndroidInjection.inject() in onAttach(). This also
-        // prevents inconsistencies if the Fragment is reattached.
+        // When using Dagger for injecting Fragments,
+        // inject as early as possible.
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
     }
@@ -93,6 +89,7 @@ public class SelectTopicsFragment extends Fragment {
         initAdapter();
         handleNewTopicCreation();
         populateUi();
+        handleConfirm();
     }
 
     private void initViewModel() {
@@ -105,65 +102,48 @@ public class SelectTopicsFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), RecyclerView.VERTICAL, false);
         binding.rvTopicsSelect.setLayoutManager(layoutManager);
-        selectAdapter = new SelectTopicsAdapter();
+        selectAdapter = new SelectTopicsAdapter(new SelectTopicsAdapter.TopicCheckedCallback() {
+            @Override
+            public void onTopicChecked(TopicEntity topicEntity) {
+                selectedTopics.add(topicEntity);
+            }
+
+            @Override
+            public void onTopicUnchecked(TopicEntity topicEntity) {
+                selectedTopics.remove(topicEntity);
+            }
+        });
         binding.rvTopicsSelect.setAdapter(selectAdapter);
     }
 
 
     private void handleNewTopicCreation() {
-        binding.newTopicButton.setOnClickListener(view -> createNewTopicDialog());
-    }
-
-    private void createNewTopicDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-        View dialogView = getHostActivity().getLayoutInflater()
-                .inflate(R.layout.create_new_topic_dialog, null);
-        dialogBuilder.setView(dialogView);
-        setupDialogButtons(dialogBuilder, dialogView);
-
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
-
-        customizeDialogButtons(dialog);
-    }
-
-    private void setupDialogButtons(AlertDialog.Builder dialogBuilder, View dialogView){
-        final EditText editText = dialogView.findViewById(R.id.dialog_edit_text);
-        dialogBuilder.setPositiveButton(R.string.dialog_pos_btn, (dialog, whichButton) -> {
-            String input = editText.getText().toString();
-            if (input.trim().length() != 0) topicsViewModel.createTopic(input);
-            else dialog.dismiss();
-        });
-
-        dialogBuilder.setNegativeButton(R.string.dialog_neg_btn, (dialog, whichButton) ->
-                dialog.cancel());
-    }
-
-    private void customizeDialogButtons(AlertDialog dialog) {
-        Button posBtn = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        posBtn.setBackgroundColor(ContextCompat.getColor(
-                getContext(), android.R.color.transparent));
-        posBtn.setTextColor(ContextCompat.getColor(
-                getContext(),R.color.colorAccent));
-        posBtn.setPadding(16, 0, 16, 0);
-
-        Button negBtn = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        negBtn.setBackgroundColor(ContextCompat.getColor(
-                getContext(), android.R.color.transparent));
-        negBtn.setTextColor(ContextCompat.getColor(
-                getContext(),R.color.colorAccent));
-        negBtn.setPadding(16, 0, 16, 0);
+        binding.newTopicButton.setOnClickListener(view ->
+                UiUtils.createNewTopicDialog(getHostActivity(), topicsViewModel));
     }
 
     private void populateUi() {
+        LiveData<List<TopicEntity>> defaultTopics = topicsViewModel.getTopicsForVideo();
         topicsViewModel.getAllTopics().observe(getViewLifecycleOwner(), result -> {
-            if (result != null) selectAdapter.submitList(result);
+            if (result != null) {
+                selectAdapter.submitList(result);
+            }
             binding.executePendingBindings();
         });
+    }
 
-        topicsViewModel.getTopicsForVideo().observe(getViewLifecycleOwner(), result -> {
+    private void handleConfirm() {
+        binding.buttonConfirm.setOnClickListener(view -> {
+            // Get all checked items and insert them into the db...
+            for(TopicEntity topic : selectedTopics) {
+                topicsViewModel.insertVideoTopic(roomVideoId, topic.getId());
+            }
 
+            // Navigate back to video details fragment
+            NavHostFragment.findNavController(SelectTopicsFragment.this).popBackStack();
         });
+
+
     }
 
     private MainActivity getHostActivity(){

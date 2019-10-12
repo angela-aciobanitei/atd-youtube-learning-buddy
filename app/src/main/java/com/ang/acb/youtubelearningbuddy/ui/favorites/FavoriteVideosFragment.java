@@ -28,6 +28,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
+import static com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment.ARG_ROOM_VIDEO_ID;
 import static com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment.ARG_YOUTUBE_VIDEO_ID;
 
 public class FavoriteVideosFragment extends Fragment {
@@ -44,15 +45,11 @@ public class FavoriteVideosFragment extends Fragment {
 
     @Override
     public void onAttach(@NotNull Context context) {
-        // Note: when using Dagger for injecting Fragment objects,
-        // inject as early as possible. For this reason, call
-        // AndroidInjection.inject() in onAttach(). This also
-        // prevents inconsistencies if the Fragment is reattached.
+        // When using Dagger for injecting Fragments,
+        // inject as early as possible.
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
     }
-
-
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -95,6 +92,7 @@ public class FavoriteVideosFragment extends Fragment {
     private void onVideoClick(VideoEntity videoEntity) {
         Bundle args = new Bundle();
         args.putString(ARG_YOUTUBE_VIDEO_ID, videoEntity.getYouTubeVideoId());
+        args.putLong(ARG_ROOM_VIDEO_ID, videoEntity.getId());
         NavHostFragment.findNavController(FavoriteVideosFragment.this)
                 .navigate(R.id.action_favorites_to_video_details, args);
     }

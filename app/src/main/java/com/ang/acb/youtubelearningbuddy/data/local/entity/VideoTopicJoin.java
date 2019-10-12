@@ -39,6 +39,11 @@ public class VideoTopicJoin {
     @ColumnInfo(index = true)
     private long videoId;
 
+    public VideoTopicJoin(long videoId, long topicId) {
+        this.videoId = videoId;
+        this.topicId = topicId;
+    }
+
     public long getTopicId() {
         return topicId;
     }

@@ -90,6 +90,9 @@
             <argument
                 android:name="youtubeVideoId"
                 app:argType="string" />
+            <argument
+                android:name="roomVideoId"
+                app:argType="long" />
         </action>
     </fragment>
 

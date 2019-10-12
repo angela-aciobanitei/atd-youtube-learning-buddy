@@ -72,14 +72,7 @@ public class TopicsViewModel extends ViewModel {
         repository.createTopic(name);
     }
 
-    public LiveData<List<String>> getAllTopicsNames() {
-        return  repository.getAllTopicsNames();
-    }
-
-    public LiveData<List<String>> getTopicsNamesForVideo() {
-        return  Transformations.switchMap(videoId, id -> {
-            if (id == null) return AbsentLiveData.create();
-            else return repository.getTopicNamesForVideo(id);
-        });
+    public void insertVideoTopic(long videoId, long topicId) {
+        repository.insertVideoTopic(videoId, topicId);
     }
 }

@@ -2,6 +2,7 @@ package com.ang.acb.youtubelearningbuddy.ui.topic;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +14,17 @@ import java.util.List;
 
 public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public interface TopicCheckedCallback {
+        void onTopicChecked(TopicEntity topicEntity);
+        void onTopicUnchecked(TopicEntity topicEntity);
+    }
+
     private List<TopicEntity> topics;
+    private TopicCheckedCallback checkedCallback;
+
+    public SelectTopicsAdapter(TopicCheckedCallback checkedCallback) {
+        this.checkedCallback = checkedCallback;
+    }
 
     @NonNull
     @Override
@@ -55,10 +66,17 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.binding = binding;
         }
 
-
         void bindTo(TopicEntity topicEntity) {
             // Bind data for this item.
             binding.setTopic(topicEntity);
+
+            // Register a callback to be invoked when the checked state of this button changes.
+            binding.selectTopicCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (topicEntity != null && checkedCallback != null) {
+                    if (isChecked) checkedCallback.onTopicChecked(topicEntity);
+                    else checkedCallback.onTopicUnchecked(topicEntity);
+                }
+            });
 
             // Binding must be executed immediately.
             binding.executePendingBindings();

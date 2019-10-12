@@ -26,11 +26,6 @@ public class BindingAdapters {
         else view.setVisibility(View.GONE);
     }
 
-    @BindingAdapter("toggleChecked")
-    public static void toggleChecked(CheckBox checkBox, Boolean isChecked) {
-        checkBox.setChecked(isChecked);
-    }
-
     @BindingAdapter("setFavoriteSrc")
     public static void setFavoriteSrc(ImageView imageView, Boolean isFavorite) {
         if (isFavorite) imageView.setImageResource(

@@ -25,6 +25,7 @@ import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentTopicsBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
+import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -48,10 +49,8 @@ public class TopicsFragment extends Fragment {
 
     @Override
     public void onAttach(@NotNull Context context) {
-        // Note: when using Dagger for injecting Fragment objects,
-        // inject as early as possible. For this reason, call
-        // AndroidInjection.inject() in onAttach(). This also
-        // prevents inconsistencies if the Fragment is reattached.
+        // When using Dagger for injecting Fragments,
+        // inject as early as possible.
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
     }
@@ -68,18 +67,10 @@ public class TopicsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setupToolbarTitle();
         initViewModel();
         initAdapter();
         handleNewTopicCreation();
         populateUi();
-    }
-
-    private void setupToolbarTitle() {
-        if (getHostActivity().getSupportActionBar() != null) {
-            getHostActivity().getSupportActionBar()
-                    .setTitle(getString(R.string.topics));
-        }
     }
 
     private void initViewModel() {
@@ -105,49 +96,8 @@ public class TopicsFragment extends Fragment {
     }
 
     private void handleNewTopicCreation() {
-        binding.newTopicButton.setOnClickListener(view -> createNewTopicDialog());
-    }
-
-    private void createNewTopicDialog() {
-        // See: https://www.journaldev.com/22153/android-custom-alert-dialog
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-        View dialogView = getHostActivity().getLayoutInflater()
-                .inflate(R.layout.create_new_topic_dialog, null);
-        dialogBuilder.setView(dialogView);
-        setupDialogButtons(dialogBuilder, dialogView);
-
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
-
-        customizeDialogButtons(dialog);
-    }
-
-    private void setupDialogButtons(AlertDialog.Builder dialogBuilder, View dialogView){
-        final EditText editText = dialogView.findViewById(R.id.dialog_edit_text);
-        dialogBuilder.setPositiveButton(R.string.dialog_pos_btn, (dialog, whichButton) -> {
-            String input = editText.getText().toString();
-            if (input.trim().length() != 0) topicsViewModel.createTopic(input);
-            else dialog.dismiss();
-        });
-
-        dialogBuilder.setNegativeButton(R.string.dialog_neg_btn, (dialog, whichButton) ->
-            dialog.cancel());
-    }
-
-    private void customizeDialogButtons(AlertDialog dialog) {
-        Button posBtn = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        posBtn.setBackgroundColor(ContextCompat.getColor(
-                getContext(), android.R.color.transparent));
-        posBtn.setTextColor(ContextCompat.getColor(
-                getContext(),R.color.colorAccent));
-        posBtn.setPadding(16, 0, 16, 0);
-
-        Button negBtn = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        negBtn.setBackgroundColor(ContextCompat.getColor(
-                getContext(), android.R.color.transparent));
-        negBtn.setTextColor(ContextCompat.getColor(
-                getContext(),R.color.colorAccent));
-        negBtn.setPadding(16, 0, 16, 0);
+        binding.newTopicButton.setOnClickListener(view ->
+                UiUtils.createNewTopicDialog(getHostActivity(), topicsViewModel));
     }
 
     private void populateUi() {

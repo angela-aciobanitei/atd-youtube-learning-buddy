@@ -3,6 +3,7 @@ package com.ang.acb.youtubelearningbuddy.data.local.dao;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
@@ -22,20 +23,14 @@ import java.util.List;
 @Dao
 public interface VideoTopicJoinDao {
 
-    @Insert
-    void insert(VideoTopicJoin videoTopicJoin);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(VideoTopicJoin videoTopicJoin);
 
     @Query("SELECT id, name, created_at FROM topic " +
             "INNER JOIN video_topic_join " +
             "ON topic.id=video_topic_join.topicId " +
             "WHERE video_topic_join.videoId=:videoId")
     LiveData<List<TopicEntity>> getTopicsForVideo(final long videoId);
-
-    @Query("SELECT name FROM topic " +
-            "INNER JOIN video_topic_join " +
-            "ON topic.id=video_topic_join.topicId " +
-            "WHERE video_topic_join.videoId=:videoId")
-    LiveData<List<String>> getTopicNamesForVideo(final long videoId);
 
     @Query("SELECT id, youtube_video_id, published_at, title, description, high_thumbnail_url, is_favorite FROM video " +
             "INNER JOIN video_topic_join " +

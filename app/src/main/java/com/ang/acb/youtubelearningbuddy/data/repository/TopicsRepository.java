@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import com.ang.acb.youtubelearningbuddy.data.local.db.AppDatabase;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
+import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoTopicJoin;
 import com.ang.acb.youtubelearningbuddy.data.remote.ApiService;
 import com.ang.acb.youtubelearningbuddy.utils.AppExecutors;
 
@@ -49,11 +50,8 @@ public class TopicsRepository {
             database.topicDao().insertTopic(new TopicEntity(name, new Date())));
     }
 
-    public LiveData<List<String>> getAllTopicsNames() {
-        return database.topicDao().getAllTopicNames();
-    }
-
-    public LiveData<List<String>> getTopicNamesForVideo(long videoId) {
-        return database.videoTopicJoinDao().getTopicNamesForVideo(videoId);
+    public void insertVideoTopic(long videoId, long topicId) {
+        executors.diskIO().execute(() ->
+                database.videoTopicJoinDao().insert(new VideoTopicJoin(videoId, topicId)));
     }
 }
