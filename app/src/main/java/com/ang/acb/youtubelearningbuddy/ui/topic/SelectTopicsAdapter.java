@@ -71,7 +71,8 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             // Bind data for this item.
             binding.setTopic(topicEntity);
 
-            // FIXME: npe
+            binding.selectTopicCheckbox.setOnCheckedChangeListener(null);
+
             binding.selectTopicCheckbox.setChecked(topicStates.get(topicEntity));
 
             // Register a callback to be invoked when the checked state of this button changes.

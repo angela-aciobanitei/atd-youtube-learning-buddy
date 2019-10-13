@@ -2,6 +2,7 @@ package com.ang.acb.youtubelearningbuddy.data.local.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -25,6 +26,12 @@ public interface VideoTopicJoinDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(VideoTopicJoin videoTopicJoin);
+
+    @Delete
+    void delete(VideoTopicJoin videoTopicJoin);
+
+    @Query("DELETE FROM video_topic_join WHERE ((video_topic_join.videoId = :videoId) AND (video_topic_join.topicId = :topicId))")
+    abstract void deleteByIds(long videoId, long topicId);
 
     @Query("SELECT id, name, created_at FROM topic " +
             "INNER JOIN video_topic_join " +

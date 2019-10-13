@@ -24,9 +24,7 @@ import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -40,7 +38,6 @@ public class SelectTopicsFragment extends Fragment {
     private TopicsViewModel topicsViewModel;
     private SelectTopicsAdapter selectAdapter;
     private long roomVideoId;
-    private List<TopicEntity> selectedTopics = new ArrayList<>();
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -90,7 +87,6 @@ public class SelectTopicsFragment extends Fragment {
         initAdapter();
         handleNewTopicCreation();
         populateUi();
-        handleConfirm();
     }
 
     private void initViewModel() {
@@ -106,12 +102,12 @@ public class SelectTopicsFragment extends Fragment {
         selectAdapter = new SelectTopicsAdapter(new SelectTopicsAdapter.TopicCheckedCallback() {
             @Override
             public void onTopicChecked(TopicEntity topicEntity) {
-                //selectedTopics.add(topicEntity);
+                topicsViewModel.insertVideoTopic(roomVideoId, topicEntity.getId());
             }
 
             @Override
             public void onTopicUnchecked(TopicEntity topicEntity) {
-                //selectedTopics.remove(topicEntity);
+                topicsViewModel.deleteByIds(roomVideoId, topicEntity.getId());
             }
         });
         binding.rvTopicsSelect.setAdapter(selectAdapter);
@@ -144,20 +140,6 @@ public class SelectTopicsFragment extends Fragment {
                 });
             }
         });
-
-    }
-
-    private void handleConfirm() {
-        binding.buttonConfirm.setOnClickListener(view -> {
-            // Get all checked topic items and insert the result into the db
-            for(TopicEntity topic : selectedTopics) {
-                topicsViewModel.insertVideoTopic(roomVideoId, topic.getId());
-            }
-
-            // Navigate back to video details fragment
-            NavHostFragment.findNavController(SelectTopicsFragment.this).popBackStack();
-        });
-
 
     }
 

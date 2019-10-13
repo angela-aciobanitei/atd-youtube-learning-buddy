@@ -75,4 +75,8 @@ public class TopicsViewModel extends ViewModel {
     public void insertVideoTopic(long videoId, long topicId) {
         repository.insertVideoTopic(videoId, topicId);
     }
+
+    public void deleteByIds(long videoId, long topicId) {
+        repository.deleteByIds(videoId, topicId);
+    }
 }
