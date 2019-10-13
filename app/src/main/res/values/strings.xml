@@ -38,6 +38,7 @@
     <string name="video_details">Video Details</string>
     <string name="topic_details">Topic Details</string>
     <string name="select_topics">Select Topics</string>
+    <string name="topic_toolbar_title">Topic:</string>
 
 
 </resources>

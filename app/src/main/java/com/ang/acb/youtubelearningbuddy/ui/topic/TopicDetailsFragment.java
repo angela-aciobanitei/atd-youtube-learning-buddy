@@ -29,6 +29,8 @@ import javax.inject.Inject;
 import dagger.android.support.AndroidSupportInjection;
 
 import static com.ang.acb.youtubelearningbuddy.ui.topic.TopicsFragment.ARG_TOPIC_ID;
+import static com.ang.acb.youtubelearningbuddy.ui.topic.TopicsFragment.ARG_TOPIC_NAME;
+import static com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment.ARG_ROOM_VIDEO_ID;
 import static com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment.ARG_YOUTUBE_VIDEO_ID;
 
 public class TopicDetailsFragment extends Fragment {
@@ -37,6 +39,7 @@ public class TopicDetailsFragment extends Fragment {
     private TopicsViewModel topicsViewModel;
     private VideosAdapter videosAdapter;
     private long topicId;
+    private String topicName;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -65,6 +68,7 @@ public class TopicDetailsFragment extends Fragment {
 
         if (getArguments() != null) {
             topicId = getArguments().getLong(ARG_TOPIC_ID);
+            topicName = getArguments().getString(ARG_TOPIC_NAME);
         }
     }
 
@@ -80,6 +84,7 @@ public class TopicDetailsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        setupToolbarTitle();
         initViewModel();
         initAdapter();
         populateUi();
@@ -89,6 +94,13 @@ public class TopicDetailsFragment extends Fragment {
         topicsViewModel = ViewModelProviders.of(getHostActivity(), viewModelFactory)
                 .get(TopicsViewModel.class);
         topicsViewModel.setTopicId(topicId);
+    }
+
+    private void setupToolbarTitle() {
+        String title = getString(R.string.topic_toolbar_title) + topicName;
+        if (getHostActivity().getSupportActionBar() != null) {
+            getHostActivity().getSupportActionBar().setTitle(title);
+        }
     }
 
     private void initAdapter(){
@@ -101,28 +113,27 @@ public class TopicDetailsFragment extends Fragment {
 
     private void onVideoClick(VideoEntity videoEntity) {
         Bundle args = new Bundle();
+        args.putLong(ARG_ROOM_VIDEO_ID, videoEntity.getId());
         args.putString(ARG_YOUTUBE_VIDEO_ID, videoEntity.getYouTubeVideoId());
         NavHostFragment.findNavController(TopicDetailsFragment.this)
                 .navigate(R.id.action_topic_details_to_video_details, args);
     }
 
     private void populateUi() {
-        topicsViewModel.getVideosForTopic().observe(getViewLifecycleOwner(), result -> {
+        topicsViewModel.getVideosForTopic().observe(getViewLifecycleOwner(), topicVideos -> {
             // If result is null or empty, display message, else update data.
-            int videosCount = (result == null) ? 0 : result.size();
-            if(videosCount != 0) videosAdapter.submitList(result);
-            else binding.topicDetailsEmptyState.setText(R.string.no_videos_for_topic);
+            int topicVideosCount = (topicVideos == null) ? 0 : topicVideos.size();
+            binding.setTopicVideosCount(topicVideosCount);
+            if(topicVideosCount != 0) {
+                videosAdapter.submitList(topicVideos);
+            }
+            else {
+                binding.topicDetailsEmptyState.setText(R.string.no_videos_for_topic);
+            }
 
             // Binding must be executed immediately.
             binding.executePendingBindings();
         });
-    }
-
-    private void setupToolbarTitle(String topicName) {
-        if (getHostActivity().getSupportActionBar() != null) {
-            getHostActivity().getSupportActionBar()
-                    .setTitle(topicName);
-        }
     }
 
     private MainActivity getHostActivity(){

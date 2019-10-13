@@ -1,5 +1,6 @@
 package com.ang.acb.youtubelearningbuddy.ui.topic;
 
+import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -10,19 +11,19 @@ import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.TopicSelectItemBinding;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    // Keeps track of all existing topics.
+    private List<TopicEntity> topicEntities = new ArrayList<>();
+
+    // Keeps track of which topic is checked/unchecked.
+    private LongSparseArray<Boolean> topicStates = new LongSparseArray<>();
 
     private TopicCheckedCallback checkedCallback;
-    private List<TopicEntity> topicList;
-    private LinkedHashMap<TopicEntity, Boolean> topicStates;
 
-    public SelectTopicsAdapter(TopicCheckedCallback checkedCallback) {
+    SelectTopicsAdapter(TopicCheckedCallback checkedCallback) {
         this.checkedCallback = checkedCallback;
     }
 
@@ -31,27 +32,24 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate layout and get an instance of the binding class.
         TopicSelectItemBinding itemBinding = TopicSelectItemBinding.inflate(
-                LayoutInflater.from(parent.getContext()),
-                parent,
-                false);
+                LayoutInflater.from(parent.getContext()),  parent, false);
         return new TopicSelectViewHolder(itemBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // Bind item data
-        ((TopicSelectViewHolder) holder).bindTo(topicList.get(position));
+        ((TopicSelectViewHolder) holder).bindTo(topicEntities.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return topicList == null ? 0 :  topicList.size();
+        return topicEntities == null ? 0 :  topicEntities.size();
     }
 
-    public void updateData(LinkedHashMap<TopicEntity, Boolean> topics) {
-        topicList = new ArrayList<>();
-        topicList.addAll(topics.keySet());
-        topicStates = topics;
+    public void updateData(List<TopicEntity> topicEntities, LongSparseArray<Boolean> topicStates) {
+        this.topicEntities = topicEntities;
+        this.topicStates = topicStates;
         // Notify any registered observers
         // that the data set has changed.
         notifyDataSetChanged();
@@ -61,7 +59,7 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         private TopicSelectItemBinding binding;
 
-        // Required constructor matching super
+        // Required constructor matching super.
         TopicSelectViewHolder(@NonNull TopicSelectItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -71,15 +69,20 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             // Bind data for this item.
             binding.setTopic(topicEntity);
 
+            // Remove the previous OnCheckedChangeListener
             binding.selectTopicCheckbox.setOnCheckedChangeListener(null);
 
-            binding.selectTopicCheckbox.setChecked(topicStates.get(topicEntity));
+            // Get checkbox state from LongSparseArray topicStates.
+            binding.selectTopicCheckbox.setChecked(topicStates.get(topicEntity.getId()));
 
             // Register a callback to be invoked when the checked state of this button changes.
             binding.selectTopicCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (topicEntity != null && checkedCallback != null) {
-                    if (isChecked) checkedCallback.onTopicChecked(topicEntity);
-                    else checkedCallback.onTopicUnchecked(topicEntity);
+                if (checkedCallback != null) {
+                    if (isChecked) {
+                        checkedCallback.onTopicChecked(topicEntity);
+                    } else {
+                        checkedCallback.onTopicUnchecked(topicEntity);
+                    }
                 }
             });
 

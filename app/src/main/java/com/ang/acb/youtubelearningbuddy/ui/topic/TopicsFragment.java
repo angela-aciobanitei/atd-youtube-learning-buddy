@@ -36,6 +36,7 @@ import dagger.android.support.AndroidSupportInjection;
 public class TopicsFragment extends Fragment {
 
     public static final String ARG_TOPIC_ID = "ARG_TOPIC_ID";
+    public static final String ARG_TOPIC_NAME = "ARG_TOPIC_NAME";
 
     private FragmentTopicsBinding binding;
     private TopicsViewModel topicsViewModel;
@@ -91,6 +92,7 @@ public class TopicsFragment extends Fragment {
         // and send the topic ID as bundle argument.
         Bundle args = new Bundle();
         args.putLong(ARG_TOPIC_ID, topicEntity.getId());
+        args.putString(ARG_TOPIC_NAME, topicEntity.getName());
         NavHostFragment.findNavController(TopicsFragment.this)
                 .navigate(R.id.action_topic_list_to_topic_details, args);
     }

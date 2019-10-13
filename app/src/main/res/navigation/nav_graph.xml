@@ -59,18 +59,23 @@
             <argument
                 android:name="topicId"
                 app:argType="long" />
+            <argument
+                android:name="topicName"
+                app:argType="string" />
         </action>
     </fragment>
 
     <fragment
         android:id="@+id/topic_details"
-        android:label="@string/topic_details"
         android:name="com.ang.acb.youtubelearningbuddy.ui.topic.TopicDetailsFragment"
         tools:layout="@layout/fragment_topic_details">
         <action
             android:id="@+id/action_topic_details_to_video_details"
             app:destination="@id/video_details"
             app:popUpTo="@+id/topic_details">
+            <argument
+                android:name="roomVideoId"
+                app:argType="long" />
             <argument
                 android:name="youtubeVideoId"
                 app:argType="string" />

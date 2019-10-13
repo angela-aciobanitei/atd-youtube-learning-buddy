@@ -19,30 +19,17 @@ import javax.inject.Inject;
  *
  * See: https://medium.com/androiddevelopers/viewmodels-and-livedata-patterns-antipatterns-21efaef74a54
  * See: https://medium.com/androiddevelopers/livedata-beyond-the-viewmodel-reactive-patterns-using-transformations-and-mediatorlivedata-fda520ba00b7
- * See: https://medium.com/androiddevelopers/livedata-with-snackbar-navigation-and-other-events-the-singleliveevent-case-ac2622673150
  */
 public class TopicsViewModel extends ViewModel {
 
     private final MutableLiveData<Long> videoId = new MutableLiveData<>();
     private final MutableLiveData<Long> topicId = new MutableLiveData<>();
-    private final LiveData<List<TopicEntity>> topicsForVideo;
-    private final LiveData<List<VideoEntity>> videosForTopic;
-    private LiveData<List<TopicEntity>> allTopics;
     private TopicsRepository repository;
 
 
     @Inject
     TopicsViewModel(TopicsRepository repository) {
         this.repository = repository;
-        topicsForVideo = Transformations.switchMap(videoId, id -> {
-            if (id == null) return AbsentLiveData.create();
-            else return repository.getTopicsForVideo(id);
-        });
-
-        videosForTopic = Transformations.switchMap(topicId, id -> {
-            if (id == null) return AbsentLiveData.create();
-            else return repository.getVideosForTopic(id);
-        });
     }
 
     public void setVideoId(long value) {
@@ -54,18 +41,21 @@ public class TopicsViewModel extends ViewModel {
     }
 
     public LiveData<List<TopicEntity>> getTopicsForVideo() {
-        return topicsForVideo;
+        return Transformations.switchMap(videoId, id -> {
+            if (id == null) return AbsentLiveData.create();
+            else return repository.getTopicsForVideo(id);
+        });
     }
 
     public LiveData<List<VideoEntity>> getVideosForTopic() {
-        return videosForTopic;
+        return Transformations.switchMap(topicId, id -> {
+            if (id == null) return AbsentLiveData.create();
+            else return repository.getVideosForTopic(id);
+        });
     }
 
     public LiveData<List<TopicEntity>> getAllTopics() {
-        if (allTopics == null ) {
-            allTopics = repository.getAllTopics();
-        }
-        return allTopics;
+        return repository.getAllTopics();
     }
 
     public void createTopic(String name) {
@@ -76,7 +66,7 @@ public class TopicsViewModel extends ViewModel {
         repository.insertVideoTopic(videoId, topicId);
     }
 
-    public void deleteByIds(long videoId, long topicId) {
+    public void deleteVideoTopic(long videoId, long topicId) {
         repository.deleteByIds(videoId, topicId);
     }
 }

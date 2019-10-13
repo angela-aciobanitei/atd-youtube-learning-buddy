@@ -6,13 +6,12 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,7 @@ import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -56,8 +55,7 @@ public class SelectTopicsFragment extends Fragment {
 
     @Override
     public void onAttach(@NotNull Context context) {
-        // When using Dagger for injecting Fragments,
-        // inject as early as possible.
+        // Note: when using Dagger for injecting Fragments, inject as early as possible.
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
     }
@@ -102,12 +100,14 @@ public class SelectTopicsFragment extends Fragment {
         selectAdapter = new SelectTopicsAdapter(new SelectTopicsAdapter.TopicCheckedCallback() {
             @Override
             public void onTopicChecked(TopicEntity topicEntity) {
+                // Save the result into the database.
                 topicsViewModel.insertVideoTopic(roomVideoId, topicEntity.getId());
             }
 
             @Override
             public void onTopicUnchecked(TopicEntity topicEntity) {
-                topicsViewModel.deleteByIds(roomVideoId, topicEntity.getId());
+                // Delete item from the database.
+                topicsViewModel.deleteVideoTopic(roomVideoId, topicEntity.getId());
             }
         });
         binding.rvTopicsSelect.setAdapter(selectAdapter);
@@ -119,32 +119,41 @@ public class SelectTopicsFragment extends Fragment {
     }
 
     private void populateUi() {
-        LinkedHashMap<TopicEntity, Boolean> topicMap = new LinkedHashMap<>();
+        // Get all existing topics from the database.
         topicsViewModel.getAllTopics().observe(getViewLifecycleOwner(), allTopics -> {
             if (allTopics != null) {
+                // Get topics associated with this particular video.
                 topicsViewModel.getTopicsForVideo().observe(getViewLifecycleOwner(), videoTopics -> {
                     if (videoTopics != null) {
-                        for (TopicEntity topic: allTopics) {
-                            boolean isAssignedToVideo = false;
-                            for (TopicEntity videoTopic: videoTopics) {
-                                if(topic.getId() == videoTopic.getId()){
-                                    isAssignedToVideo = true;
-                                    break;
-                                }
-                            }
-                            topicMap.put(topic, isAssignedToVideo);
-                        }
-                        selectAdapter.updateData(topicMap);
+                        selectAdapter.updateData(allTopics, getTopicStates(allTopics, videoTopics));
                         binding.executePendingBindings();
                     }
                 });
             }
         });
+    }
 
+    private LongSparseArray<Boolean> getTopicStates(final List<TopicEntity> allTopics,
+                                                    final List<TopicEntity> videoTopics) {
+        // Keeps track of which topic is checked/unchecked.
+        // Maps longs (the topic IDs) to TopicEntity objects.
+        // It's more memory efficient than a HashMap<Long,Object>.
+        LongSparseArray<Boolean> topicStates = new LongSparseArray<>();
+        for (TopicEntity topic: allTopics) {
+            boolean isAssignedToVideo = false;
+            for (TopicEntity videoTopic: videoTopics) {
+                if(topic.getId() == videoTopic.getId()){
+                    isAssignedToVideo = true;
+                    break;
+                }
+            }
+            topicStates.put(topic.getId(), isAssignedToVideo);
+        }
+
+        return  topicStates;
     }
 
     private MainActivity getHostActivity(){
         return  (MainActivity) getActivity();
     }
-
 }
