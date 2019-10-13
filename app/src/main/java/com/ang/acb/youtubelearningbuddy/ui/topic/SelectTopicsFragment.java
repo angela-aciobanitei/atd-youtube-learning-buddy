@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
@@ -25,6 +25,7 @@ import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -105,17 +106,16 @@ public class SelectTopicsFragment extends Fragment {
         selectAdapter = new SelectTopicsAdapter(new SelectTopicsAdapter.TopicCheckedCallback() {
             @Override
             public void onTopicChecked(TopicEntity topicEntity) {
-                selectedTopics.add(topicEntity);
+                //selectedTopics.add(topicEntity);
             }
 
             @Override
             public void onTopicUnchecked(TopicEntity topicEntity) {
-                selectedTopics.remove(topicEntity);
+                //selectedTopics.remove(topicEntity);
             }
         });
         binding.rvTopicsSelect.setAdapter(selectAdapter);
     }
-
 
     private void handleNewTopicCreation() {
         binding.newTopicButton.setOnClickListener(view ->
@@ -123,18 +123,33 @@ public class SelectTopicsFragment extends Fragment {
     }
 
     private void populateUi() {
-        LiveData<List<TopicEntity>> defaultTopics = topicsViewModel.getTopicsForVideo();
-        topicsViewModel.getAllTopics().observe(getViewLifecycleOwner(), result -> {
-            if (result != null) {
-                selectAdapter.submitList(result);
+        LinkedHashMap<TopicEntity, Boolean> topicMap = new LinkedHashMap<>();
+        topicsViewModel.getAllTopics().observe(getViewLifecycleOwner(), allTopics -> {
+            if (allTopics != null) {
+                topicsViewModel.getTopicsForVideo().observe(getViewLifecycleOwner(), videoTopics -> {
+                    if (videoTopics != null) {
+                        for (TopicEntity topic: allTopics) {
+                            boolean isAssignedToVideo = false;
+                            for (TopicEntity videoTopic: videoTopics) {
+                                if(topic.getId() == videoTopic.getId()){
+                                    isAssignedToVideo = true;
+                                    break;
+                                }
+                            }
+                            topicMap.put(topic, isAssignedToVideo);
+                        }
+                        selectAdapter.updateData(topicMap);
+                        binding.executePendingBindings();
+                    }
+                });
             }
-            binding.executePendingBindings();
         });
+
     }
 
     private void handleConfirm() {
         binding.buttonConfirm.setOnClickListener(view -> {
-            // Get all checked items and insert them into the db...
+            // Get all checked topic items and insert the result into the db
             for(TopicEntity topic : selectedTopics) {
                 topicsViewModel.insertVideoTopic(roomVideoId, topic.getId());
             }

@@ -2,7 +2,6 @@ package com.ang.acb.youtubelearningbuddy.ui.topic;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,17 +9,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.TopicSelectItemBinding;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public interface TopicCheckedCallback {
-        void onTopicChecked(TopicEntity topicEntity);
-        void onTopicUnchecked(TopicEntity topicEntity);
-    }
 
-    private List<TopicEntity> topics;
     private TopicCheckedCallback checkedCallback;
+    private List<TopicEntity> topicList;
+    private LinkedHashMap<TopicEntity, Boolean> topicStates;
 
     public SelectTopicsAdapter(TopicCheckedCallback checkedCallback) {
         this.checkedCallback = checkedCallback;
@@ -40,17 +40,18 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // Bind item data
-        TopicEntity topicEntity = topics.get(position);
-        ((TopicSelectViewHolder) holder).bindTo(topicEntity);
+        ((TopicSelectViewHolder) holder).bindTo(topicList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return topics == null ? 0 :  topics.size();
+        return topicList == null ? 0 :  topicList.size();
     }
 
-    public void submitList(List<TopicEntity> topics) {
-        this.topics = topics;
+    public void updateData(LinkedHashMap<TopicEntity, Boolean> topics) {
+        topicList = new ArrayList<>();
+        topicList.addAll(topics.keySet());
+        topicStates = topics;
         // Notify any registered observers
         // that the data set has changed.
         notifyDataSetChanged();
@@ -70,6 +71,9 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             // Bind data for this item.
             binding.setTopic(topicEntity);
 
+            // FIXME: npe
+            binding.selectTopicCheckbox.setChecked(topicStates.get(topicEntity));
+
             // Register a callback to be invoked when the checked state of this button changes.
             binding.selectTopicCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (topicEntity != null && checkedCallback != null) {
@@ -81,5 +85,10 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             // Binding must be executed immediately.
             binding.executePendingBindings();
         }
+    }
+
+    public interface TopicCheckedCallback {
+        void onTopicChecked(TopicEntity topicEntity);
+        void onTopicUnchecked(TopicEntity topicEntity);
     }
 }
