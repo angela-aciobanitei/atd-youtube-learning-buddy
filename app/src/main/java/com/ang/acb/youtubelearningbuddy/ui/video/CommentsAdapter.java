@@ -20,17 +20,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate layout and get an instance of the binding class.
         CommentItemBinding videoItemBinding = CommentItemBinding.inflate(
-                LayoutInflater.from(parent.getContext()),
-                parent,
-                false);
+                LayoutInflater.from(parent.getContext()), parent,false);
         return new CommentViewHolder(videoItemBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        // Bind item data
-        CommentEntity commentEntity = comments.get(position);
-        ((CommentViewHolder) holder).bindTo(commentEntity);
+        ((CommentViewHolder) holder).bindTo(comments.get(position));
     }
 
     @Override
@@ -38,11 +34,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return comments == null ? 0 :  comments.size();
     }
 
-    public void submitList(List<CommentEntity> comments) {
-        // Update list data.
+    public void updateData(List<CommentEntity> comments) {
         this.comments = comments;
-        // Notify any registered observers
-        // that the data set has changed.
         notifyDataSetChanged();
     }
 
@@ -50,7 +43,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private CommentItemBinding binding;
 
-        // Required constructor matching super
+        // Required constructor matching super.
         CommentViewHolder(@NonNull CommentItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

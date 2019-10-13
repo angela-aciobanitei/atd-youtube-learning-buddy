@@ -1,14 +1,17 @@
 package com.ang.acb.youtubelearningbuddy.ui.topic;
 
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.data.repository.TopicsRepository;
 import com.ang.acb.youtubelearningbuddy.utils.AbsentLiveData;
+import com.ang.acb.youtubelearningbuddy.utils.SnackbarMessage;
 
 import java.util.List;
 
@@ -22,10 +25,10 @@ import javax.inject.Inject;
  */
 public class TopicsViewModel extends ViewModel {
 
+    private TopicsRepository repository;
     private final MutableLiveData<Long> videoId = new MutableLiveData<>();
     private final MutableLiveData<Long> topicId = new MutableLiveData<>();
-    private TopicsRepository repository;
-
+    private final SnackbarMessage snackbarMessage = new SnackbarMessage();
 
     @Inject
     TopicsViewModel(TopicsRepository repository) {
@@ -58,15 +61,21 @@ public class TopicsViewModel extends ViewModel {
         return repository.getAllTopics();
     }
 
+    public SnackbarMessage getSnackbarMessage() {
+        return snackbarMessage;
+    }
+
     public void createTopic(String name) {
         repository.createTopic(name);
     }
 
-    public void insertVideoTopic(long videoId, long topicId) {
+    public void onTopicChecked(long videoId, long topicId) {
         repository.insertVideoTopic(videoId, topicId);
+        snackbarMessage.setValue(R.string.topic_added_to_video);
     }
 
-    public void deleteVideoTopic(long videoId, long topicId) {
-        repository.deleteByIds(videoId, topicId);
+    public void onTopicUnchecked(long videoId, long topicId) {
+        repository.deleteVideoTopic(videoId, topicId);
+        snackbarMessage.setValue(R.string.topic_removed_from_video);
     }
 }

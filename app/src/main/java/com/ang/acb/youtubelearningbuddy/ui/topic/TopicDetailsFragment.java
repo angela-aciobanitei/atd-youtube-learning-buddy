@@ -47,15 +47,6 @@ public class TopicDetailsFragment extends Fragment {
     // Required empty public constructor
     public TopicDetailsFragment() {}
 
-    public static TopicDetailsFragment newInstance(long topicId) {
-        TopicDetailsFragment fragment = new TopicDetailsFragment();
-        Bundle args = new Bundle();
-        args.putLong(ARG_TOPIC_ID, topicId);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void onAttach(@NotNull Context context) {
         AndroidSupportInjection.inject(this);
@@ -125,7 +116,7 @@ public class TopicDetailsFragment extends Fragment {
             int topicVideosCount = (topicVideos == null) ? 0 : topicVideos.size();
             binding.setTopicVideosCount(topicVideosCount);
             if(topicVideosCount != 0) {
-                videosAdapter.submitList(topicVideos);
+                videosAdapter.updateData(topicVideos);
             }
             else {
                 binding.topicDetailsEmptyState.setText(R.string.no_videos_for_topic);

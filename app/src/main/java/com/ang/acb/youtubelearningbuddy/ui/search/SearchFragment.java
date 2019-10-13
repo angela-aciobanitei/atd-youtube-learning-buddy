@@ -50,10 +50,9 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onAttach(@NotNull Context context) {
-        // Note: when using Dagger for injecting Fragment objects,
-        // inject as early as possible. For this reason, call
-        // AndroidInjection.inject() in onAttach(). This also
-        // prevents inconsistencies if the Fragment is reattached.
+        // Note: when using Dagger for injecting Fragment objects, inject as early
+        // as possible. For this reason, call AndroidInjection.inject() in onAttach().
+        // This also prevents inconsistencies if the Fragment is reattached.
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
     }
@@ -61,7 +60,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment.
+        // Inflate the layout for this fragment and get an instance of the binding class.
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -80,8 +79,7 @@ public class SearchFragment extends Fragment {
 
     private void setupToolbarTitle() {
         if (getHostActivity().getSupportActionBar() != null) {
-            getHostActivity().getSupportActionBar()
-                    .setTitle(getString(R.string.app_name));
+            getHostActivity().getSupportActionBar().setTitle(getString(R.string.app_name));
         }
     }
 
@@ -147,7 +145,7 @@ public class SearchFragment extends Fragment {
             int searchCount = (result == null || result.data == null) ? 0 : result.data.size();
             binding.setSearchCount(searchCount);
             if (result != null && result.data != null) {
-                videosAdapter.submitList(result.data);
+                videosAdapter.updateData(result.data);
             }
             binding.executePendingBindings();
         });

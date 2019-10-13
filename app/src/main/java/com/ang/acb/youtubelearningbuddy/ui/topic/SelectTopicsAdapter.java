@@ -1,5 +1,6 @@
 package com.ang.acb.youtubelearningbuddy.ui.topic;
 
+
 import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -21,9 +22,9 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     // Keeps track of which topic is checked/unchecked.
     private LongSparseArray<Boolean> topicStates = new LongSparseArray<>();
 
-    private TopicCheckedCallback checkedCallback;
+    private SelectTopicCallback checkedCallback;
 
-    SelectTopicsAdapter(TopicCheckedCallback checkedCallback) {
+    SelectTopicsAdapter(SelectTopicCallback checkedCallback) {
         this.checkedCallback = checkedCallback;
     }
 
@@ -32,13 +33,12 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate layout and get an instance of the binding class.
         TopicSelectItemBinding itemBinding = TopicSelectItemBinding.inflate(
-                LayoutInflater.from(parent.getContext()),  parent, false);
+                LayoutInflater.from(parent.getContext()), parent, false);
         return new TopicSelectViewHolder(itemBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        // Bind item data
         ((TopicSelectViewHolder) holder).bindTo(topicEntities.get(position));
     }
 
@@ -50,8 +50,7 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void updateData(List<TopicEntity> topicEntities, LongSparseArray<Boolean> topicStates) {
         this.topicEntities = topicEntities;
         this.topicStates = topicStates;
-        // Notify any registered observers
-        // that the data set has changed.
+        // Notify any registered observers that the data set has changed.
         notifyDataSetChanged();
     }
 
@@ -69,7 +68,7 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             // Bind data for this item.
             binding.setTopic(topicEntity);
 
-            // Remove the previous OnCheckedChangeListener
+            // Remove the previous OnCheckedChangeListener.
             binding.selectTopicCheckbox.setOnCheckedChangeListener(null);
 
             // Get checkbox state from LongSparseArray topicStates.
@@ -91,7 +90,7 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public interface TopicCheckedCallback {
+    public interface SelectTopicCallback {
         void onTopicChecked(TopicEntity topicEntity);
         void onTopicUnchecked(TopicEntity topicEntity);
     }

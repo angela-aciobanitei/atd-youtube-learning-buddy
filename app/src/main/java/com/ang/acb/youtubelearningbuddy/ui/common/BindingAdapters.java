@@ -1,7 +1,7 @@
 package com.ang.acb.youtubelearningbuddy.ui.common;
 
+
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
@@ -11,6 +11,7 @@ import com.ang.acb.youtubelearningbuddy.utils.GlideApp;
 import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+
 
 /**
  * Binding adapters are responsible for making the appropriate framework calls to set values.
@@ -28,10 +29,8 @@ public class BindingAdapters {
 
     @BindingAdapter("setFavoriteSrc")
     public static void setFavoriteSrc(ImageView imageView, Boolean isFavorite) {
-        if (isFavorite) imageView.setImageResource(
-                R.drawable.ic_favorite);
-        else imageView.setImageResource(
-                R.drawable.ic_favorite_border);
+        if (isFavorite) imageView.setImageResource(R.drawable.ic_favorite);
+        else imageView.setImageResource(R.drawable.ic_favorite_border);
     }
 
     @BindingAdapter({"imageUrl"})

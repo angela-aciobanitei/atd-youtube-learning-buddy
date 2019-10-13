@@ -1,13 +1,10 @@
 package com.ang.acb.youtubelearningbuddy.ui.topic;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -18,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
@@ -32,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
+
 
 public class TopicsFragment extends Fragment {
 
@@ -50,8 +46,7 @@ public class TopicsFragment extends Fragment {
 
     @Override
     public void onAttach(@NotNull Context context) {
-        // When using Dagger for injecting Fragments,
-        // inject as early as possible.
+        // When using Dagger for injecting Fragments, inject as early as possible.
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
     }
@@ -59,7 +54,7 @@ public class TopicsFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment.
+        // Inflate the layout for this fragment and get an instance of the binding class.
         binding = FragmentTopicsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -89,7 +84,7 @@ public class TopicsFragment extends Fragment {
 
     private void onTopicClick(TopicEntity topicEntity) {
         // On item click navigate to topic details fragment
-        // and send the topic ID as bundle argument.
+        // and send the topic ID and topic name as bundle arguments.
         Bundle args = new Bundle();
         args.putLong(ARG_TOPIC_ID, topicEntity.getId());
         args.putString(ARG_TOPIC_NAME, topicEntity.getName());
@@ -108,6 +103,7 @@ public class TopicsFragment extends Fragment {
             binding.setTopicsCount(topicsCount);
             if (topicsCount != 0) topicsAdapter.submitList(result);
             else binding.topicsEmptyState.setText(R.string.no_topics);
+
             binding.executePendingBindings();
         });
     }

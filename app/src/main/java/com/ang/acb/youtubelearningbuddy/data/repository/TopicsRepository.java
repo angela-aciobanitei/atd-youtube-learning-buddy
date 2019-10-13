@@ -55,7 +55,7 @@ public class TopicsRepository {
                 database.videoTopicJoinDao().insert(new VideoTopicJoin(videoId, topicId)));
     }
 
-    public void deleteByIds(long videoId, long topicId){
+    public void deleteVideoTopic(long videoId, long topicId){
         executors.diskIO().execute(() ->
                 database.videoTopicJoinDao().deleteByIds(videoId,topicId));
     }

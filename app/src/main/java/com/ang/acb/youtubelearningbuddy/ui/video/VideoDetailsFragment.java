@@ -39,33 +39,21 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     public static final String ARG_YOUTUBE_VIDEO_ID = "ARG_YOUTUBE_VIDEO_ID";
     public static final String ARG_ROOM_VIDEO_ID = "ARG_ROOM_VIDEO_ID";
 
-    private String youtubeVideoId;
-    private long roomVideoId;
     private FragmentVideoDetailsBinding binding;
     private VideoDetailsViewModel detailsViewModel;
     private CommentsAdapter commentsAdapter;
+    private String youtubeVideoId;
+    private long roomVideoId;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-
     // Required empty public constructor
     public VideoDetailsFragment() {}
 
-    public static VideoDetailsFragment newInstance(String youTubeVideoId, long roomVideoId) {
-        VideoDetailsFragment fragment = new VideoDetailsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_YOUTUBE_VIDEO_ID, youTubeVideoId);
-        args.putLong(ARG_ROOM_VIDEO_ID, roomVideoId);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void onAttach(@NotNull Context context) {
-        // When using Dagger for injecting Fragment objects,
-        // inject as early as possible.
+        // When using Dagger for injecting Fragment objects, inject as early as possible.
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
     }
@@ -83,7 +71,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment.
+        // Inflate the layout for this fragment and get an instance of the binding class.
         binding = FragmentVideoDetailsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -121,8 +109,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
 
     private void setupToolbarTitle(String title) {
         if (getHostActivity().getSupportActionBar() != null) {
-            getHostActivity().getSupportActionBar()
-                    .setTitle(title);
+            getHostActivity().getSupportActionBar().setTitle(title);
         }
     }
 
@@ -149,7 +136,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
                 binding.networkState.rootLinearLayout.setVisibility(View.GONE);
             }
             if(result != null && result.data != null) {
-                commentsAdapter.submitList(result.data);
+                commentsAdapter.updateData(result.data);
             }
             binding.executePendingBindings();
         });
@@ -200,9 +187,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider,
                                         YouTubeInitializationResult result) {
-        Snackbar.make(binding.getRoot(),
-                getString(R.string.player_init_failed),
-                Snackbar.LENGTH_SHORT)
+        Snackbar.make(binding.getRoot(), getString(R.string.player_init_failed), Snackbar.LENGTH_SHORT)
                 .show();
     }
 

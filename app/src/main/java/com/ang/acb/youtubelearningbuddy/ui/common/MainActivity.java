@@ -1,5 +1,6 @@
 package com.ang.acb.youtubelearningbuddy.ui.common;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -37,8 +38,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Note: when using Dagger for injecting Activity
-        // objects, inject as early as possible.
+        // Note: when using Dagger for injecting Activity objects, inject as early as possible.
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     }
 
     private void setupBottomNavigationView() {
-        // See: https://stackoverflow.com/questions/50577356/android-jetpack-navigation-bottomnavigationview-with-youtube-or-instagram-like
+        // See: https://github.com/Levi-Moreira/TeamManagerApp
         BottomNavigationView bottomNavigationView = findViewById(R.id.main_bottom_navigation);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);

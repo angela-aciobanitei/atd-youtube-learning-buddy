@@ -1,5 +1,6 @@
 package com.ang.acb.youtubelearningbuddy.ui.search;
 
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,7 +15,6 @@ import com.ang.acb.youtubelearningbuddy.utils.Objects;
 
 import java.util.List;
 import java.util.Locale;
-
 
 import javax.inject.Inject;
 

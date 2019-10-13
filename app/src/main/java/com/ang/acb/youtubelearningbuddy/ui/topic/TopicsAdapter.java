@@ -26,9 +26,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate layout and get an instance of the binding class.
         TopicItemBinding itemBinding = TopicItemBinding.inflate(
-                LayoutInflater.from(parent.getContext()),
-                parent,
-                false);
+                LayoutInflater.from(parent.getContext()),  parent, false);
         return new TopicViewHolder(itemBinding);
     }
 

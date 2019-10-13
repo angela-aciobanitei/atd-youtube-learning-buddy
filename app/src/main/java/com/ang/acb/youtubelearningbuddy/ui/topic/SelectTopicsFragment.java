@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentTopicSelectBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
 import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -44,18 +46,9 @@ public class SelectTopicsFragment extends Fragment {
     // Required empty public constructor
     public SelectTopicsFragment() {}
 
-    public static SelectTopicsFragment newInstance(long roomVideoId) {
-        SelectTopicsFragment fragment = new SelectTopicsFragment();
-        Bundle args = new Bundle();
-        args.putLong(ARG_ROOM_VIDEO_ID, roomVideoId);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void onAttach(@NotNull Context context) {
-        // Note: when using Dagger for injecting Fragments, inject as early as possible.
+        // When using Dagger for injecting Fragments, inject as early as possible.
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
     }
@@ -72,7 +65,7 @@ public class SelectTopicsFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment and get an instance of the binding class.
         binding = FragmentTopicSelectBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -97,20 +90,24 @@ public class SelectTopicsFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), RecyclerView.VERTICAL, false);
         binding.rvTopicsSelect.setLayoutManager(layoutManager);
-        selectAdapter = new SelectTopicsAdapter(new SelectTopicsAdapter.TopicCheckedCallback() {
+        selectAdapter = new SelectTopicsAdapter(getCallback());
+        binding.rvTopicsSelect.setAdapter(selectAdapter);
+    }
+
+    private SelectTopicsAdapter.SelectTopicCallback getCallback() {
+        return new SelectTopicsAdapter.SelectTopicCallback() {
             @Override
             public void onTopicChecked(TopicEntity topicEntity) {
-                // Save the result into the database.
-                topicsViewModel.insertVideoTopic(roomVideoId, topicEntity.getId());
+                // Save the result into the database and show a snackbar message.
+                topicsViewModel.onTopicChecked(roomVideoId, topicEntity.getId());
             }
 
             @Override
             public void onTopicUnchecked(TopicEntity topicEntity) {
-                // Delete item from the database.
-                topicsViewModel.deleteVideoTopic(roomVideoId, topicEntity.getId());
+                // Delete item from the database and show a snackbar message.
+                topicsViewModel.onTopicUnchecked(roomVideoId, topicEntity.getId());
             }
-        });
-        binding.rvTopicsSelect.setAdapter(selectAdapter);
+        };
     }
 
     private void handleNewTopicCreation() {
@@ -131,13 +128,16 @@ public class SelectTopicsFragment extends Fragment {
                 });
             }
         });
+
+        // Observe the Snackbar messages displayed when adding/removing video from favorites.
+        topicsViewModel.getSnackbarMessage().observe(this, (Observer<Integer>) message ->
+                Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_SHORT).show());
     }
 
     private LongSparseArray<Boolean> getTopicStates(final List<TopicEntity> allTopics,
                                                     final List<TopicEntity> videoTopics) {
-        // Keeps track of which topic is checked/unchecked.
-        // Maps longs (the topic IDs) to TopicEntity objects.
-        // It's more memory efficient than a HashMap<Long,Object>.
+        // Maps longs (the topic IDs) to booleans (are topics checked or unchecked).
+        // It's more memory efficient than a HashMap<Long,Boolean>.
         LongSparseArray<Boolean> topicStates = new LongSparseArray<>();
         for (TopicEntity topic: allTopics) {
             boolean isAssignedToVideo = false;

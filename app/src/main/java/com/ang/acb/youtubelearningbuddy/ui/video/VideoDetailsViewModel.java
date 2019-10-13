@@ -46,6 +46,10 @@ public class VideoDetailsViewModel extends ViewModel {
         videoId.setValue(value);
     }
 
+    public void setFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
     public void retry(String value) {
         String id = videoId.getValue();
         if (id != null && !id.isEmpty()){
@@ -65,13 +69,6 @@ public class VideoDetailsViewModel extends ViewModel {
         return snackbarMessage;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setFavorite(boolean isFavorite) {
-        this.isFavorite = isFavorite;
-    }
 
     public void onFavoriteClicked() {
         VideoEntity videoEntity = Objects.requireNonNull(video.getValue());

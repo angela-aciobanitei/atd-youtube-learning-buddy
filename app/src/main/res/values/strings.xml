@@ -39,6 +39,8 @@
     <string name="topic_details">Topic Details</string>
     <string name="select_topics">Select Topics</string>
     <string name="topic_toolbar_title">Topic:</string>
+    <string name="topic_added_to_video">Topic added to video</string>
+    <string name="topic_removed_from_video">Topic removed from video</string>
 
 
 </resources>
