@@ -102,15 +102,8 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
                 detailsViewModel.setFavorite(video.isFavorite());
                 binding.setIsFavorite(video.isFavorite());
                 binding.setVideo(video);
-                setupToolbarTitle(video.getTitle());
             }
         });
-    }
-
-    private void setupToolbarTitle(String title) {
-        if (getHostActivity().getSupportActionBar() != null) {
-            getHostActivity().getSupportActionBar().setTitle(title);
-        }
     }
 
     private void initCommentsAdapter(){

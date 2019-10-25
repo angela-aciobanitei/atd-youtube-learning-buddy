@@ -66,7 +66,7 @@ public class TopicDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment.
+        // Inflate the layout for this fragment and get an instance of the binding class.
         binding = FragmentTopicDetailsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -88,7 +88,7 @@ public class TopicDetailsFragment extends Fragment {
     }
 
     private void setupToolbarTitle() {
-        String title = getString(R.string.topic_toolbar_title) + topicName;
+        String title = getString(R.string.topic_toolbar_title) + " " + topicName;
         if (getHostActivity().getSupportActionBar() != null) {
             getHostActivity().getSupportActionBar().setTitle(title);
         }

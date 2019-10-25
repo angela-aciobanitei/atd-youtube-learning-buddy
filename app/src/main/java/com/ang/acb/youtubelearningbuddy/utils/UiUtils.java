@@ -15,8 +15,6 @@ import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsViewModel;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 

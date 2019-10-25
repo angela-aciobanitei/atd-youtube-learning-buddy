@@ -1,6 +1,7 @@
 package com.ang.acb.youtubelearningbuddy.ui.common;
 
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -47,9 +48,18 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     }
 
     private void setupBottomNavigationView() {
-        // See: https://github.com/Levi-Moreira/TeamManagerApp
+        // See: https://www.raywenderlich.com/4332831-navigation-component-for-android-part-2-graphs-and-deep-links
         BottomNavigationView bottomNavigationView = findViewById(R.id.main_bottom_navigation);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+        ActionBar actionBar = getSupportActionBar();
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.video_details) {
+                if(actionBar != null) actionBar.hide();
+            } else {
+                if(actionBar != null) actionBar.show();
+            }
+        });
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
         NavigationUI.setupActionBarWithNavController(this, navController);
     }

@@ -30,7 +30,9 @@ public interface VideoTopicJoinDao {
     @Delete
     void delete(VideoTopicJoin videoTopicJoin);
 
-    @Query("DELETE FROM video_topic_join WHERE ((video_topic_join.videoId = :videoId) AND (video_topic_join.topicId = :topicId))")
+    @Query("DELETE FROM video_topic_join " +
+            "WHERE video_topic_join.videoId = :videoId " +
+            "AND video_topic_join.topicId = :topicId")
     abstract void deleteByIds(long videoId, long topicId);
 
     @Query("SELECT id, name, created_at FROM topic " +
