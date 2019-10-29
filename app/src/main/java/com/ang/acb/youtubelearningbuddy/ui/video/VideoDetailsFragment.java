@@ -2,9 +2,11 @@ package com.ang.acb.youtubelearningbuddy.ui.video;
 
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -29,6 +31,8 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragmentX;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -83,11 +87,43 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
         initViewModel();
         displayVideoDetails();
         initYouTubePlayer();
-        initCommentsAdapter();
-        displayComments();
-        handleFavoriteClick();
-        handleAddToTopic();
-        handleRetryEvents();
+
+        if (isFullscreenMode()) {
+            enableFullscreenMode();
+        } else {
+            initCommentsAdapter();
+            displayComments();
+            handleFavoriteClick();
+            handleAddToTopic();
+            handleRetryEvents();
+        }
+    }
+
+    private boolean isFullscreenMode() {
+        Configuration configuration = getResources().getConfiguration();
+        return configuration.smallestScreenWidthDp < 600 &&
+                configuration.orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    private void enableFullscreenMode() {
+        // Hide action bar
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity()))
+                .getSupportActionBar()).hide();
+
+        // Hide system UI
+        // See: https://developer.android.com/training/system-ui/immersive#EnableFullscreen
+        getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                // Enables regular immersive mode.
+                View.SYSTEM_UI_FLAG_IMMERSIVE |
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                        // Hide the nav bar and status bar
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                        View.SYSTEM_UI_FLAG_FULLSCREEN);
+
     }
 
     private void initViewModel() {
@@ -99,8 +135,8 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     private void displayVideoDetails() {
         detailsViewModel.getVideo().observe(getViewLifecycleOwner(), video -> {
             if (video != null) {
-                detailsViewModel.setFavorite(video.isFavorite());
                 binding.setVideo(video);
+                detailsViewModel.setFavorite(video.isFavorite());
             }
         });
     }
@@ -170,6 +206,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                         YouTubePlayer youTubePlayer, boolean wasRestored) {
+        youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
         youTubePlayer.loadVideo(youtubeVideoId);
         youTubePlayer.play();
     }
