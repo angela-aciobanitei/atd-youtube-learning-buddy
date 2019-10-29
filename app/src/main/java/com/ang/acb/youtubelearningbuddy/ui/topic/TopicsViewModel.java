@@ -18,14 +18,14 @@ import java.util.List;
 import javax.inject.Inject;
 
 /**
- * Stores and manages UI-related data in a lifecycle conscious way.
- *
  * See: https://medium.com/androiddevelopers/viewmodels-and-livedata-patterns-antipatterns-21efaef74a54
+ * See: https://medium.com/androiddevelopers/livedata-with-snackbar-navigation-and-other-events-the-singleliveevent-case-ac2622673150
  * See: https://medium.com/androiddevelopers/livedata-beyond-the-viewmodel-reactive-patterns-using-transformations-and-mediatorlivedata-fda520ba00b7
  */
 public class TopicsViewModel extends ViewModel {
 
     private TopicsRepository repository;
+    private LiveData<List<TopicEntity>> allTopics;
     private final MutableLiveData<Long> videoId = new MutableLiveData<>();
     private final MutableLiveData<Long> topicId = new MutableLiveData<>();
     private final SnackbarMessage snackbarMessage = new SnackbarMessage();
@@ -45,20 +45,23 @@ public class TopicsViewModel extends ViewModel {
 
     public LiveData<List<TopicEntity>> getTopicsForVideo() {
         return Transformations.switchMap(videoId, id -> {
-            if (id == null) return AbsentLiveData.create();
-            else return repository.getTopicsForVideo(id);
+                if (id == null) return AbsentLiveData.create();
+                else return repository.getTopicsForVideo(id);
         });
     }
 
     public LiveData<List<VideoEntity>> getVideosForTopic() {
         return Transformations.switchMap(topicId, id -> {
-            if (id == null) return AbsentLiveData.create();
-            else return repository.getVideosForTopic(id);
+                if (id == null) return AbsentLiveData.create();
+                else return repository.getVideosForTopic(id);
         });
     }
 
     public LiveData<List<TopicEntity>> getAllTopics() {
-        return repository.getAllTopics();
+        if (allTopics == null) {
+            allTopics = repository.getAllTopics();
+        }
+        return allTopics;
     }
 
     public SnackbarMessage getSnackbarMessage() {

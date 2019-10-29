@@ -15,7 +15,8 @@
             android:id="@+id/rv_videos_for_topic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/video_item"/>
+            tools:listitem="@layout/video_item"
+            app:toggleVisibility="@{topicVideosCount != 0}"/>
 
         <TextView
             android:id="@+id/topic_details_empty_state"
@@ -23,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/margin_normal"
             app:toggleVisibility="@{topicVideosCount == 0}"/>
 
     </FrameLayout>

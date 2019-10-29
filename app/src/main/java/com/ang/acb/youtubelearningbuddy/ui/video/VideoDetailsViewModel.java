@@ -18,12 +18,17 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+/**
+ * See: https://medium.com/androiddevelopers/viewmodels-and-livedata-patterns-antipatterns-21efaef74a54
+ * See: https://medium.com/androiddevelopers/livedata-with-snackbar-navigation-and-other-events-the-singleliveevent-case-ac2622673150
+ * See: https://medium.com/androiddevelopers/livedata-beyond-the-viewmodel-reactive-patterns-using-transformations-and-mediatorlivedata-fda520ba00b7
+ */
 public class VideoDetailsViewModel extends ViewModel {
 
     private VideosRepository repository;
     private final MutableLiveData<String> videoId = new MutableLiveData<>();
-    private final LiveData<Resource<List<CommentEntity>>> comments;
     private LiveData<VideoEntity> video;
+    private final LiveData<Resource<List<CommentEntity>>> comments;
     private final SnackbarMessage snackbarMessage = new SnackbarMessage();
     private boolean isFavorite;
 
@@ -31,14 +36,14 @@ public class VideoDetailsViewModel extends ViewModel {
     VideoDetailsViewModel(VideosRepository repository) {
         this.repository = repository;
 
-        comments = Transformations.switchMap(videoId, id -> {
-            if (id == null) return AbsentLiveData.create();
-            else return repository.getComments(id);
-        });
-
         video = Transformations.switchMap(videoId, id -> {
             if (id == null) return AbsentLiveData.create();
             else return repository.getVideoDetails(id);
+        });
+
+        comments = Transformations.switchMap(videoId, id -> {
+            if (id == null) return AbsentLiveData.create();
+            else return repository.getComments(id);
         });
     }
 

@@ -25,6 +25,7 @@
         </action>
     </fragment>
 
+    <!-- Navigate from Video Details Fragment to Select Topics Fragment (and back/up) -->
     <fragment
         android:id="@+id/video_details"
         android:name="com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment"
@@ -42,10 +43,10 @@
     <fragment
         android:id="@+id/select_topics"
         android:label="@string/select_topics"
-        android:name="com.ang.acb.youtubelearningbuddy.ui.topic.SelectTopicsFragment"
+        android:name="com.ang.acb.youtubelearningbuddy.ui.topic.TopicSelectFragment"
         tools:layout="@layout/fragment_topic_select"/>
 
-    <!-- Navigate from Topics Fragment to Topic Details Fragment,
+    <!-- Navigate from Topic List Fragment to Topic Details Fragment,
          navigate from Topic Details Fragment to Video Details Fragment -->
     <fragment
         android:id="@+id/topics"
@@ -65,6 +66,7 @@
         </action>
     </fragment>
 
+    <!-- Navigate from Topic Details Fragment to Video Details Fragment -->
     <fragment
         android:id="@+id/topic_details"
         android:name="com.ang.acb.youtubelearningbuddy.ui.topic.TopicDetailsFragment"

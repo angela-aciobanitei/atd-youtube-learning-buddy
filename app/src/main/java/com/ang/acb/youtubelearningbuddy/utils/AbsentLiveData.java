@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData;
 /**
  * A LiveData class that has {@code null} value.
  *
- * See: See: https://github.com/android/architecture-components-samples/tree/master/GithubBrowserSample
+ * See: https://github.com/android/architecture-components-samples/tree/master/GithubBrowserSample
  */
 public class AbsentLiveData extends LiveData {
 

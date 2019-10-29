@@ -12,8 +12,7 @@ import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
 
 /**
- * A factory class for creating a Retrofit call adapter that
- * converts the Retrofit2.Call into a LiveData of ApiResponse.
+ * Factory class for an adapter that converts the Retrofit2.Call into a LiveData of ApiResponse.
  *
  * See: https://github.com/googlesamples/android-architecture-components/blob/master/GithubBrowserSample
  */

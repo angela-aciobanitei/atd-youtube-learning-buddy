@@ -19,8 +19,6 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 /**
- * Stores and manages UI-related data in a lifecycle conscious way.
- *
  * See: https://github.com/googlesamples/android-architecture-components/tree/master/GithubBrowserSample
  * See: https://medium.com/androiddevelopers/viewmodels-and-livedata-patterns-antipatterns-21efaef74a54
  * See: https://medium.com/androiddevelopers/livedata-beyond-the-viewmodel-reactive-patterns-using-transformations-and-mediatorlivedata-fda520ba00b7
@@ -47,9 +45,7 @@ public class SearchViewModel extends ViewModel {
 
     public void setQuery(@NonNull String originalInput) {
         String input = originalInput.toLowerCase(Locale.getDefault()).trim();
-        if (Objects.equals(input, query.getValue())) {
-            return;
-        }
+        if (Objects.equals(input, query.getValue())) return;
         query.setValue(input);
     }
 

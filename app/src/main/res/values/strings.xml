@@ -42,6 +42,9 @@
     <string name="topic_toolbar_title">Topic:</string>
     <string name="topic_added_to_video">Topic added to video</string>
     <string name="topic_removed_from_video">Topic removed from video</string>
+    <string name="topic_item_delete_icon">Topic Item Delete Icon</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
 
 
 </resources>

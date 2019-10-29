@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -78,9 +79,8 @@ public class SearchFragment extends Fragment {
     }
 
     private void setupToolbarTitle() {
-        if (getHostActivity().getSupportActionBar() != null) {
-            getHostActivity().getSupportActionBar().setTitle(getString(R.string.app_name));
-        }
+        ActionBar actionBar = getHostActivity().getSupportActionBar();
+        if (actionBar != null) actionBar.setTitle(getString(R.string.app_name));
     }
 
     private void initViewModel() {
@@ -97,6 +97,8 @@ public class SearchFragment extends Fragment {
     }
 
     private void onVideoClick(VideoEntity videoEntity) {
+        // On video click navigate to video details fragment and send
+        // the Room video ID and YouTube video ID as bundle arguments.
         Bundle args = new Bundle();
         args.putString(ARG_YOUTUBE_VIDEO_ID, videoEntity.getYouTubeVideoId());
         args.putLong(ARG_ROOM_VIDEO_ID, videoEntity.getId());

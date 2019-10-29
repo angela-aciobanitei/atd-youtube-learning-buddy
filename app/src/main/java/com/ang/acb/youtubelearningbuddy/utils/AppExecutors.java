@@ -33,8 +33,8 @@ public class AppExecutors {
     @Inject
     AppExecutors() {
         this(Executors.newSingleThreadExecutor(),
-                Executors.newFixedThreadPool(3),
-                new MainThreadExecutor());
+             Executors.newFixedThreadPool(3),
+             new MainThreadExecutor());
     }
 
     public Executor diskIO() {

@@ -11,6 +11,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+/**
+ * See: https://medium.com/androiddevelopers/viewmodels-a-simple-example-ed5ac416317e
+ */
 public class FavoriteVideosViewModel extends ViewModel {
 
     private VideosRepository repository;

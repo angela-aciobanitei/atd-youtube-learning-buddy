@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
 
 import com.ang.acb.youtubelearningbuddy.R;
@@ -17,6 +18,10 @@ import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsViewModel;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
+
+import java.util.Date;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 
 
 public class UiUtils {
@@ -33,34 +38,32 @@ public class UiUtils {
         return ISODateTimeFormat.dateTime().parseLocalDate(dateString);
     }
 
-    public static void createNewTopicDialog(MainActivity activity, TopicsViewModel topicsViewModel) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
-        View dialogView = activity.getLayoutInflater()
-                .inflate(R.layout.create_new_topic_dialog, null);
-        dialogBuilder.setView(dialogView);
+    public static String dateToString(Date date) {
+        if (date != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            return formatter.format(date);
+        } else {
+            return "";
+        }
+    }
 
-        // Setup dialog buttons
-        final EditText editText = dialogView.findViewById(R.id.dialog_edit_text);
-        dialogBuilder.setPositiveButton(R.string.dialog_pos_btn, (dialog, whichButton) -> {
+    public static void showNewTopicDialog(MainActivity activity, TopicsViewModel topicsViewModel) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+        View dialogView = activity.getLayoutInflater().inflate(R.layout.create_topic_dialog, null);
+        dialogBuilder.setView(dialogView);
+        AlertDialog dialog = dialogBuilder.create();
+
+        final EditText editText = dialogView.findViewById(R.id.dialog_new_edit_text);
+        Button saveButton = dialogView.findViewById(R.id.dialog_new_save_btn);
+        saveButton.setOnClickListener(view -> {
             String input = editText.getText().toString();
             if (input.trim().length() != 0) topicsViewModel.createTopic(input);
-            else dialog.dismiss();
+            dialog.dismiss();
         });
 
-        dialogBuilder.setNegativeButton(R.string.dialog_neg_btn, (dialog, whichButton) ->
-                dialog.cancel());
+        Button cancelButton = dialogView.findViewById(R.id.dialog_new_cancel_btn);
+        cancelButton.setOnClickListener(view -> dialog.cancel());
 
-        AlertDialog dialog = dialogBuilder.create();
         dialog.show();
-
-        // Customize dialog buttons
-        Button posBtn = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        posBtn.setBackgroundColor(ContextCompat.getColor(activity, android.R.color.transparent));
-        posBtn.setTextColor(ContextCompat.getColor(activity,R.color.colorAccent));
-        posBtn.setPadding(16, 0, 16, 0);
-        Button negBtn = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        negBtn.setBackgroundColor(ContextCompat.getColor(activity, android.R.color.transparent));
-        negBtn.setTextColor(ContextCompat.getColor(activity,R.color.colorAccent));
-        negBtn.setPadding(16, 0, 16, 0);
     }
 }

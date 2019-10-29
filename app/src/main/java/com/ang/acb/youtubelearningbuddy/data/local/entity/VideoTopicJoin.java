@@ -7,6 +7,8 @@ import androidx.room.ForeignKey;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 /**
  * Since each topic can have any number of videos, and each video can be included in any
  * number of topics, we need to define a many-to-many relationship between two entities,
@@ -17,13 +19,16 @@ import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
  */
 @Entity(tableName = "video_topic_join",
         primaryKeys = { "topicId", "videoId" },
-        foreignKeys = {
-                @ForeignKey(entity = TopicEntity.class,
-                        parentColumns = "id",
-                        childColumns = "topicId"),
-                @ForeignKey(entity = VideoEntity.class,
-                        parentColumns = "id",
-                        childColumns = "videoId")
+        foreignKeys = {@ForeignKey(entity = TopicEntity.class,
+                                   parentColumns = "id",
+                                   childColumns = "topicId",
+                                   onDelete = CASCADE,
+                                   onUpdate = CASCADE),
+                       @ForeignKey(entity = VideoEntity.class,
+                                   parentColumns = "id",
+                                   childColumns = "videoId",
+                                   onDelete = CASCADE,
+                                   onUpdate = CASCADE)
         }
 )
 public class VideoTopicJoin {

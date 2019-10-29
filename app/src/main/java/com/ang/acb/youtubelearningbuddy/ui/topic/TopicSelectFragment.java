@@ -33,18 +33,18 @@ import dagger.android.support.AndroidSupportInjection;
 
 import static com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment.ARG_ROOM_VIDEO_ID;
 
-public class SelectTopicsFragment extends Fragment {
+public class TopicSelectFragment extends Fragment {
 
     private FragmentTopicSelectBinding binding;
     private TopicsViewModel topicsViewModel;
-    private SelectTopicsAdapter selectAdapter;
+    private TopicSelectAdapter selectAdapter;
     private long roomVideoId;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
     // Required empty public constructor
-    public SelectTopicsFragment() {}
+    public TopicSelectFragment() {}
 
     @Override
     public void onAttach(@NotNull Context context) {
@@ -57,9 +57,8 @@ public class SelectTopicsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            roomVideoId = getArguments().getLong(ARG_ROOM_VIDEO_ID);
-        }
+        Bundle args = getArguments();
+        if (args != null) roomVideoId = args.getLong(ARG_ROOM_VIDEO_ID);
     }
 
     @Override
@@ -89,13 +88,13 @@ public class SelectTopicsFragment extends Fragment {
     private void initAdapter(){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), RecyclerView.VERTICAL, false);
-        binding.rvTopicsSelect.setLayoutManager(layoutManager);
-        selectAdapter = new SelectTopicsAdapter(getCallback());
-        binding.rvTopicsSelect.setAdapter(selectAdapter);
+        binding.selectTopics.rvTopics.setLayoutManager(layoutManager);
+        selectAdapter = new TopicSelectAdapter(topicCallback());
+        binding.selectTopics.rvTopics.setAdapter(selectAdapter);
     }
 
-    private SelectTopicsAdapter.SelectTopicCallback getCallback() {
-        return new SelectTopicsAdapter.SelectTopicCallback() {
+    private TopicSelectAdapter.SelectTopicCallback topicCallback() {
+        return new TopicSelectAdapter.SelectTopicCallback() {
             @Override
             public void onTopicChecked(TopicEntity topicEntity) {
                 // Save the result into the database and show a snackbar message.
@@ -111,8 +110,8 @@ public class SelectTopicsFragment extends Fragment {
     }
 
     private void handleNewTopicCreation() {
-        binding.newTopicButton.setOnClickListener(view ->
-                UiUtils.createNewTopicDialog(getHostActivity(), topicsViewModel));
+        binding.selectTopics.newTopicButton.setOnClickListener(view ->
+                UiUtils.showNewTopicDialog(getHostActivity(), topicsViewModel));
     }
 
     private void populateUi() {
@@ -129,14 +128,15 @@ public class SelectTopicsFragment extends Fragment {
             }
         });
 
-        // Observe the Snackbar messages displayed when adding/removing video from favorites.
-        topicsViewModel.getSnackbarMessage().observe(this, (Observer<Integer>) message ->
-                Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_SHORT).show());
+        // Observe the Snackbar messages displayed when adding/removing topic to/from video.
+        topicsViewModel.getSnackbarMessage().observe(
+                getViewLifecycleOwner(), (Observer<Integer>) message ->
+                        Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_SHORT).show());
     }
 
     private LongSparseArray<Boolean> getTopicStates(final List<TopicEntity> allTopics,
                                                     final List<TopicEntity> videoTopics) {
-        // Maps longs (the topic IDs) to booleans (are topics checked or unchecked).
+        // Maps longs (topics IDs) to booleans (topics states, i.e. checked or unchecked).
         // It's more memory efficient than a HashMap<Long,Boolean>.
         LongSparseArray<Boolean> topicStates = new LongSparseArray<>();
         for (TopicEntity topic: allTopics) {
@@ -147,6 +147,7 @@ public class SelectTopicsFragment extends Fragment {
                     break;
                 }
             }
+
             topicStates.put(topic.getId(), isAssignedToVideo);
         }
 

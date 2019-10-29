@@ -36,7 +36,7 @@ public class TopicsFragment extends Fragment {
 
     private FragmentTopicsBinding binding;
     private TopicsViewModel topicsViewModel;
-    private TopicsAdapter topicsAdapter;
+    private TopicListAdapter topicsAdapter;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -78,13 +78,13 @@ public class TopicsFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), RecyclerView.VERTICAL, false);
         binding.rvTopics.setLayoutManager(layoutManager);
-        topicsAdapter = new TopicsAdapter(this::onTopicClick);
+        topicsAdapter = new TopicListAdapter(this::onTopicClick);
         binding.rvTopics.setAdapter(topicsAdapter);
     }
 
     private void onTopicClick(TopicEntity topicEntity) {
-        // On item click navigate to topic details fragment
-        // and send the topic ID and topic name as bundle arguments.
+        // On item click navigate to topic details fragment and
+        // send the topic ID and topic name as bundle arguments.
         Bundle args = new Bundle();
         args.putLong(ARG_TOPIC_ID, topicEntity.getId());
         args.putString(ARG_TOPIC_NAME, topicEntity.getName());
@@ -94,11 +94,12 @@ public class TopicsFragment extends Fragment {
 
     private void handleNewTopicCreation() {
         binding.newTopicButton.setOnClickListener(view ->
-                UiUtils.createNewTopicDialog(getHostActivity(), topicsViewModel));
+                UiUtils.showNewTopicDialog(getHostActivity(), topicsViewModel));
     }
 
     private void populateUi() {
         topicsViewModel.getAllTopics().observe(getViewLifecycleOwner(), result -> {
+            // If result is null or empty, display empty state message, else update data.
             int topicsCount = (result == null) ? 0 : result.size();
             binding.setTopicsCount(topicsCount);
             if (topicsCount != 0) topicsAdapter.submitList(result);

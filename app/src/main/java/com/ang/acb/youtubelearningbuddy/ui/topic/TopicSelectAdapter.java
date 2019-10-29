@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.TopicSelectItemBinding;
+import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TopicSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     // Keeps track of all existing topics.
     private List<TopicEntity> topicEntities = new ArrayList<>();
@@ -24,7 +25,7 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private SelectTopicCallback checkedCallback;
 
-    SelectTopicsAdapter(SelectTopicCallback checkedCallback) {
+    TopicSelectAdapter(SelectTopicCallback checkedCallback) {
         this.checkedCallback = checkedCallback;
     }
 
@@ -54,6 +55,11 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyDataSetChanged();
     }
 
+    public interface SelectTopicCallback {
+        void onTopicChecked(TopicEntity topicEntity);
+        void onTopicUnchecked(TopicEntity topicEntity);
+    }
+
     class TopicSelectViewHolder extends RecyclerView.ViewHolder {
 
         private TopicSelectItemBinding binding;
@@ -67,6 +73,8 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         void bindTo(TopicEntity topicEntity) {
             // Bind data for this item.
             binding.setTopic(topicEntity);
+            binding.selectTopicCreatedAt.setText(
+                    UiUtils.dateToString(topicEntity.getCreatedAt()));
 
             // Remove the previous OnCheckedChangeListener.
             binding.selectTopicCheckbox.setOnCheckedChangeListener(null);
@@ -77,21 +85,13 @@ public class SelectTopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             // Register a callback to be invoked when the checked state of this button changes.
             binding.selectTopicCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (checkedCallback != null) {
-                    if (isChecked) {
-                        checkedCallback.onTopicChecked(topicEntity);
-                    } else {
-                        checkedCallback.onTopicUnchecked(topicEntity);
-                    }
+                    if (isChecked) checkedCallback.onTopicChecked(topicEntity);
+                    else checkedCallback.onTopicUnchecked(topicEntity);
                 }
             });
 
             // Binding must be executed immediately.
             binding.executePendingBindings();
         }
-    }
-
-    public interface SelectTopicCallback {
-        void onTopicChecked(TopicEntity topicEntity);
-        void onTopicUnchecked(TopicEntity topicEntity);
     }
 }

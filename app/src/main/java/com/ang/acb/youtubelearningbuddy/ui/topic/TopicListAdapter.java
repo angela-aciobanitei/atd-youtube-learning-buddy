@@ -1,6 +1,7 @@
 package com.ang.acb.youtubelearningbuddy.ui.topic;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -8,16 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.TopicItemBinding;
+import com.ang.acb.youtubelearningbuddy.utils.UiUtils;
 
 import java.util.Date;
 import java.util.List;
 
-public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TopicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<TopicEntity> topics;
     private TopicClickCallback clickCallback;
 
-    TopicsAdapter(TopicClickCallback clickCallback) {
+    TopicListAdapter(TopicClickCallback clickCallback) {
         this.clickCallback = clickCallback;
     }
 
@@ -51,8 +53,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void submitList(List<TopicEntity> topics) {
         this.topics = topics;
-        // Notify any registered observers
-        // that the data set has changed.
+        // Notify any registered observers that the data set has changed.
         notifyDataSetChanged();
     }
 
@@ -70,10 +71,16 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             this.binding = binding;
         }
 
-
         void bindTo(TopicEntity topicEntity) {
             // Bind data for this item.
             binding.setTopic(topicEntity);
+
+            binding.ivDelete.setOnClickListener(view -> {
+                // TODO
+            });
+
+            binding.topicItemCreatedAt.setText(
+                    UiUtils.dateToString(topicEntity.getCreatedAt()));
 
             // Binding must be executed immediately.
             binding.executePendingBindings();

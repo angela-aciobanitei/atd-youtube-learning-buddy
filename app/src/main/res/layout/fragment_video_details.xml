@@ -11,7 +11,6 @@
         <import type="com.ang.acb.youtubelearningbuddy.ui.common.RetryCallback"/>
 
         <variable name="video" type="VideoEntity" />
-        <variable name="isFavorite" type="boolean" />
         <variable name="commentsCount" type="int"/>
         <variable name="resource" type="Resource" />
         <variable name="retryCallback" type="RetryCallback" />
@@ -52,14 +51,9 @@
             android:id="@+id/video_details_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:paddingTop="@dimen/vertical_margin"
-            android:paddingBottom="@dimen/vertical_margin"
+            android:padding="@dimen/padding_normal"
             android:text="@{video.title}"
-            android:textSize="18sp"
+            android:textSize="@dimen/video_details_title_text_size"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             tools:text="This is a very very very very very very very very very very long title"
@@ -73,13 +67,10 @@
             android:id="@+id/ic_favorites"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
+            android:layout_margin="@dimen/margin_normal"
             android:contentDescription="@string/favorites_icon"
             android:tint="@color/colorPrimary"
-            app:setFavoriteSrc="@{isFavorite}"
+            app:setFavoriteSrc="@{video.isFavorite}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/barrier1"
             app:layout_constraintBottom_toTopOf="@+id/barrier2"
@@ -90,10 +81,7 @@
             android:id="@+id/ic_add_to_topics"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
+            android:layout_margin="@dimen/margin_normal"
             android:contentDescription="@string/add_to_topic_icon"
             android:src="@drawable/ic_topics_add"
             android:tint="@color/colorPrimary"
@@ -134,7 +122,7 @@
                 android:id="@+id/video_details_info"
                 layout="@layout/content_video_partial_details"
                 app:video="@{video}"
-                app:commentsCount="@{commentsCount}"/>
+                app:commentsCount="@{commentsCount}" />
 
         </androidx.core.widget.NestedScrollView>
 
@@ -142,8 +130,6 @@
             android:id="@+id/network_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

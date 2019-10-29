@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -81,17 +82,16 @@ public class TopicDetailsFragment extends Fragment {
         populateUi();
     }
 
+    private void setupToolbarTitle() {
+        String title = getString(R.string.topic_toolbar_title) + " " + topicName;
+        ActionBar actionBar = getHostActivity().getSupportActionBar();
+        if (actionBar != null) actionBar.setTitle(title);
+    }
+
     private void initViewModel() {
         topicsViewModel = ViewModelProviders.of(getHostActivity(), viewModelFactory)
                 .get(TopicsViewModel.class);
         topicsViewModel.setTopicId(topicId);
-    }
-
-    private void setupToolbarTitle() {
-        String title = getString(R.string.topic_toolbar_title) + " " + topicName;
-        if (getHostActivity().getSupportActionBar() != null) {
-            getHostActivity().getSupportActionBar().setTitle(title);
-        }
     }
 
     private void initAdapter(){
@@ -115,12 +115,8 @@ public class TopicDetailsFragment extends Fragment {
             // If result is null or empty, display message, else update data.
             int topicVideosCount = (topicVideos == null) ? 0 : topicVideos.size();
             binding.setTopicVideosCount(topicVideosCount);
-            if(topicVideosCount != 0) {
-                videosAdapter.updateData(topicVideos);
-            }
-            else {
-                binding.topicDetailsEmptyState.setText(R.string.no_videos_for_topic);
-            }
+            if(topicVideosCount != 0) videosAdapter.updateData(topicVideos);
+            else binding.topicDetailsEmptyState.setText(R.string.no_videos_for_topic);
 
             // Binding must be executed immediately.
             binding.executePendingBindings();
@@ -130,5 +126,4 @@ public class TopicDetailsFragment extends Fragment {
     private MainActivity getHostActivity(){
         return  (MainActivity) getActivity();
     }
-
 }

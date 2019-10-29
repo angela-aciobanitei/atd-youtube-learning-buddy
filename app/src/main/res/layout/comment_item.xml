@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="comment"
             type="com.ang.acb.youtubelearningbuddy.data.local.entity.CommentEntity" />
@@ -17,14 +16,11 @@
 
         <ImageView
             android:id="@+id/comment_author_profile_image"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:contentDescription="@string/author_profile_image"
+            android:layout_width="@dimen/comment_author_profile_image_size"
+            android:layout_height="@dimen/comment_author_profile_image_size"
             android:scaleType="centerCrop"
+            android:layout_margin="@dimen/margin_normal"
+            android:contentDescription="@string/author_profile_image"
             app:imageUrl="@{comment.authorProfileImageUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,9 +30,9 @@
             android:id="@+id/comment_author_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_normal"
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -50,10 +46,10 @@
             android:id="@+id/comment_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="@dimen/vertical_margin"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_normal"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:text="@{comment.displayText}"
             app:layout_constraintStart_toEndOf="@id/comment_author_profile_image"

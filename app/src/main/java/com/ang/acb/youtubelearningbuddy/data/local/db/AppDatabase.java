@@ -25,7 +25,7 @@ import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoTopicJoin;
                       TopicEntity.class,
                       VideoEntity.class,
                       VideoTopicJoin.class},
-          version = 15,
+          version = 16,
           exportSchema = false)
 @TypeConverters({StringConverter.class, DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {

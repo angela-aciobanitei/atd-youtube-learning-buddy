@@ -14,42 +14,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.7"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/topic_item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="@dimen/padding_small"
             android:text="@{topic.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:drawableStart="@drawable/ic_topics"
-            android:drawablePadding="8dp"
+            android:drawablePadding="@dimen/padding_small"
             android:drawableTint="@color/colorAccent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guideline"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/topic_item_created_at"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/lorem"/>
 
         <TextView
             android:id="@+id/topic_item_created_at"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:maxLines="1"
-            android:text="@{topic.createdAt.toLocaleString()}"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:gravity="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/ivDelete"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="2019-08-01"/>
+
+        <ImageView
+            android:id="@+id/ivDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_small"
+            android:tint="@color/colorAccent"
+            android:contentDescription="@string/topic_item_delete_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_delete" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

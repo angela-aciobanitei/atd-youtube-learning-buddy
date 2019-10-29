@@ -18,23 +18,35 @@
             android:id="@+id/select_topic_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="@dimen/padding_small"
             android:text="@{topic.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:drawableStart="@drawable/ic_topics"
-            android:drawablePadding="8dp"
+            android:drawablePadding="@dimen/padding_small"
             android:drawableTint="@color/colorAccent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/select_topic_checkbox"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/select_topic_created_at"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/lorem"/>
+
+        <TextView
+            android:id="@+id/select_topic_created_at"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_small"
+            android:gravity="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/select_topic_checkbox"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2019-08-01"/>
 
         <CheckBox
             android:id="@+id/select_topic_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/margin_small"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />

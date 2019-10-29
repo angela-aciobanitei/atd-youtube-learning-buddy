@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Note: when using Dagger for injecting Activity objects, inject as early as possible.
+        // Note: when using Dagger for injecting Activity
+        // objects, inject as early as possible.
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

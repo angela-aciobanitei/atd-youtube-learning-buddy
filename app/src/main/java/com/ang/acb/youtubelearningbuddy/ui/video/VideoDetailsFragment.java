@@ -80,7 +80,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        initViewModels();
+        initViewModel();
         displayVideoDetails();
         initYouTubePlayer();
         initCommentsAdapter();
@@ -90,7 +90,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
         handleRetryEvents();
     }
 
-    private void initViewModels() {
+    private void initViewModel() {
         detailsViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(VideoDetailsViewModel.class);
         detailsViewModel.setVideoId(youtubeVideoId);
@@ -100,7 +100,6 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
         detailsViewModel.getVideo().observe(getViewLifecycleOwner(), video -> {
             if (video != null) {
                 detailsViewModel.setFavorite(video.isFavorite());
-                binding.setIsFavorite(video.isFavorite());
                 binding.setVideo(video);
             }
         });
@@ -126,7 +125,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
             }
             if (result!= null && result.message != null && result.message.contains("disabled comments")) {
                 binding.videoDetailsInfo.noResultsText.setText(getString(R.string.comments_disabled));
-                binding.networkState.rootLinearLayout.setVisibility(View.GONE);
+                binding.networkState.root.setVisibility(View.GONE);
             }
             if(result != null && result.data != null) {
                 commentsAdapter.updateData(result.data);
@@ -141,9 +140,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     }
 
     private void handleFavoriteClick() {
-        binding.icFavorites.setOnClickListener(view -> {
-            detailsViewModel.onFavoriteClicked();
-        });
+        binding.icFavorites.setOnClickListener(view -> detailsViewModel.onFavoriteClicked());
 
         // Observe the Snackbar messages displayed when adding/removing video from favorites.
         detailsViewModel.getSnackbarMessage().observe(this, (Observer<Integer>) message ->
@@ -178,13 +175,7 @@ public class VideoDetailsFragment extends Fragment implements YouTubePlayer.OnIn
     }
 
     @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                        YouTubeInitializationResult result) {
-        Snackbar.make(binding.getRoot(), getString(R.string.player_init_failed), Snackbar.LENGTH_SHORT)
-                .show();
-    }
-
-    private MainActivity getHostActivity(){
-        return  (MainActivity) getActivity();
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult result) {
+        Snackbar.make(binding.getRoot(), getString(R.string.player_init_failed), Snackbar.LENGTH_SHORT).show();
     }
 }

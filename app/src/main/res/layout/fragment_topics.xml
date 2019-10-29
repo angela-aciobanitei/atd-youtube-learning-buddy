@@ -11,23 +11,25 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topics_root_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal">
 
         <Button
             android:id="@+id/new_topic_button"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:padding="@dimen/padding_small"
             android:text="@string/new_topic"
             android:textColor="@color/colorAccent"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:padding="8dp"
-            android:drawableTint="@color/colorAccent"
             android:drawableStart="@drawable/ic_add"
-            android:drawablePadding="4dp"
+            android:drawableTint="@color/colorAccent"
+            android:drawablePadding="@dimen/padding_mini"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -36,9 +38,6 @@
             android:id="@+id/rv_topics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/new_topic_button"
@@ -50,7 +49,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_margin="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
