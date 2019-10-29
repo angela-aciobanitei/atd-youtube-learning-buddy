@@ -2,12 +2,14 @@ package com.ang.acb.youtubelearningbuddy.data.local.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.ang.acb.youtubelearningbuddy.data.local.entity.SearchEntity;
+import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.data.vo.SearchResource;
 import com.ang.acb.youtubelearningbuddy.data.vo.SearchResourceSnippet;
@@ -90,4 +92,10 @@ public abstract class  VideoDao {
 
     @Query("UPDATE video SET is_favorite = 0 WHERE id = :videoId")
     public abstract void markAsNotFavorite(long videoId);
+
+    @Delete
+    public abstract void delete(VideoEntity videoEntity);
+
+    @Query("DELETE FROM video WHERE id = :id")
+    public abstract void deleteById(long id);
 }

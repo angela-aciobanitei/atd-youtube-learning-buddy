@@ -51,6 +51,10 @@ public class TopicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return topics == null ? 0 :  topics.size();
     }
 
+    public TopicEntity getTopicAtPosition (int position) {
+        return topics.get(position);
+    }
+
     public void submitList(List<TopicEntity> topics) {
         this.topics = topics;
         // Notify any registered observers that the data set has changed.
@@ -74,10 +78,6 @@ public class TopicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void bindTo(TopicEntity topicEntity) {
             // Bind data for this item.
             binding.setTopic(topicEntity);
-
-            binding.ivDelete.setOnClickListener(view -> {
-                // TODO
-            });
 
             binding.topicItemCreatedAt.setText(
                     UiUtils.dateToString(topicEntity.getCreatedAt()));

@@ -45,6 +45,7 @@
     <string name="topic_item_delete_icon">Topic Item Delete Icon</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+    <string name="delete_topic_preamble">Deleting </string>
 
 
 </resources>

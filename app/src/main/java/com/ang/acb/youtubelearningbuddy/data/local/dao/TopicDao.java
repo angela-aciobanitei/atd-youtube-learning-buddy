@@ -2,6 +2,7 @@ package com.ang.acb.youtubelearningbuddy.data.local.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -23,6 +24,12 @@ public interface TopicDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertTopic(TopicEntity topic);
+
+    @Delete
+    void delete(TopicEntity topicEntity);
+
+    @Query("DELETE FROM topic WHERE id = :id")
+    void deleteTopicById(long id);
 
     @Transaction
     @Query("SELECT * FROM topic WHERE id = :id")

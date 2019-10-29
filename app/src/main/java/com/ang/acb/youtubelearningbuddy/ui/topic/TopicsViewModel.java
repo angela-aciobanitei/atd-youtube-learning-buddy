@@ -58,10 +58,7 @@ public class TopicsViewModel extends ViewModel {
     }
 
     public LiveData<List<TopicEntity>> getAllTopics() {
-        if (allTopics == null) {
-            allTopics = repository.getAllTopics();
-        }
-        return allTopics;
+        return repository.getAllTopics();
     }
 
     public SnackbarMessage getSnackbarMessage() {
@@ -70,6 +67,10 @@ public class TopicsViewModel extends ViewModel {
 
     public void createTopic(String name) {
         repository.createTopic(name);
+    }
+
+    public void deleteTopic(TopicEntity topicEntity) {
+        repository.deleteTopic(topicEntity);
     }
 
     public void onTopicChecked(long videoId, long topicId) {

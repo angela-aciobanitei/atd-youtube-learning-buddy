@@ -50,6 +50,11 @@ public class TopicsRepository {
             database.topicDao().insertTopic(new TopicEntity(name, new Date())));
     }
 
+    public void deleteTopic(TopicEntity topicEntity) {
+        executors.diskIO().execute(() ->
+                database.topicDao().delete(topicEntity));
+    }
+
     public void insertVideoTopic(long videoId, long topicId) {
         executors.diskIO().execute(() ->
                 database.videoTopicJoinDao().insert(new VideoTopicJoin(videoId, topicId)));
@@ -59,4 +64,6 @@ public class TopicsRepository {
         executors.diskIO().execute(() ->
                 database.videoTopicJoinDao().deleteByIds(videoId,topicId));
     }
+
+
 }
