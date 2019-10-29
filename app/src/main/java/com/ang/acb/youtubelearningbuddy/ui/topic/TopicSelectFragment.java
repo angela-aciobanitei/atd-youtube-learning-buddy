@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.TopicEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentTopicSelectBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
@@ -75,7 +76,6 @@ public class TopicSelectFragment extends Fragment {
 
         initViewModel();
         initAdapter();
-        handleNewTopicCreation();
         populateUi();
     }
 
@@ -88,9 +88,9 @@ public class TopicSelectFragment extends Fragment {
     private void initAdapter(){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), RecyclerView.VERTICAL, false);
-        binding.selectTopics.rvTopics.setLayoutManager(layoutManager);
+        binding.rvTopics.setLayoutManager(layoutManager);
         selectAdapter = new TopicSelectAdapter(topicCallback());
-        binding.selectTopics.rvTopics.setAdapter(selectAdapter);
+        binding.rvTopics.setAdapter(selectAdapter);
     }
 
     private TopicSelectAdapter.SelectTopicCallback topicCallback() {
@@ -109,14 +109,11 @@ public class TopicSelectFragment extends Fragment {
         };
     }
 
-    private void handleNewTopicCreation() {
-        binding.selectTopics.newTopicButton.setOnClickListener(view ->
-                UiUtils.showNewTopicDialog(getHostActivity(), topicsViewModel));
-    }
-
     private void populateUi() {
         // Get all existing topics from the database.
         topicsViewModel.getAllTopics().observe(getViewLifecycleOwner(), allTopics -> {
+            int topicsCount = (allTopics == null) ? 0 : allTopics.size();
+            binding.setTopicsCount(topicsCount);
             if (allTopics != null) {
                 // Get topics associated with this particular video.
                 topicsViewModel.getTopicsForVideo().observe(getViewLifecycleOwner(), videoTopics -> {
@@ -125,6 +122,8 @@ public class TopicSelectFragment extends Fragment {
                         binding.executePendingBindings();
                     }
                 });
+            } else {
+                binding.topicsEmptyState.setText(R.string.no_topics);
             }
         });
 
