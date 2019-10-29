@@ -19,8 +19,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_small"
-            android:clickable="true"
-            android:focusable="true"
             android:text="@{topic.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:drawableStart="@drawable/ic_topics"

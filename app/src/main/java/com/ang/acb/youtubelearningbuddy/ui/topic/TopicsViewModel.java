@@ -25,9 +25,7 @@ import javax.inject.Inject;
 public class TopicsViewModel extends ViewModel {
 
     private TopicsRepository repository;
-    private LiveData<List<TopicEntity>> allTopics;
     private final MutableLiveData<Long> videoId = new MutableLiveData<>();
-    private final MutableLiveData<Long> topicId = new MutableLiveData<>();
     private final SnackbarMessage snackbarMessage = new SnackbarMessage();
 
     @Inject
@@ -39,21 +37,10 @@ public class TopicsViewModel extends ViewModel {
         videoId.setValue(value);
     }
 
-    public void setTopicId(long value) {
-        topicId.setValue(value);
-    }
-
     public LiveData<List<TopicEntity>> getTopicsForVideo() {
         return Transformations.switchMap(videoId, id -> {
                 if (id == null) return AbsentLiveData.create();
                 else return repository.getTopicsForVideo(id);
-        });
-    }
-
-    public LiveData<List<VideoEntity>> getVideosForTopic() {
-        return Transformations.switchMap(topicId, id -> {
-                if (id == null) return AbsentLiveData.create();
-                else return repository.getVideosForTopic(id);
         });
     }
 

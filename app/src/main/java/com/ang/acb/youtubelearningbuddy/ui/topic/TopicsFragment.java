@@ -113,7 +113,7 @@ public class TopicsFragment extends Fragment {
                         int position = viewHolder.getAdapterPosition();
                         TopicEntity topic = topicsAdapter.getTopicAtPosition(position);
                         Toast.makeText(getContext(),
-                                getString(R.string.delete_topic_preamble) + " " +
+                                getString(R.string.delete_preamble) + " " +
                                 topic.getName(), Toast.LENGTH_LONG).show();
 
                         topicsViewModel.deleteTopic(topic);
@@ -122,7 +122,6 @@ public class TopicsFragment extends Fragment {
 
         // Attach the item touch helper to the recycler view
         helper.attachToRecyclerView(binding.rvTopics);
-
     }
 
     private void onCreateTopic() {

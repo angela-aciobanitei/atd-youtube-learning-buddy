@@ -7,21 +7,25 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ang.acb.youtubelearningbuddy.R;
 import com.ang.acb.youtubelearningbuddy.data.local.entity.VideoEntity;
 import com.ang.acb.youtubelearningbuddy.databinding.FragmentTopicDetailsBinding;
 import com.ang.acb.youtubelearningbuddy.ui.common.MainActivity;
 import com.ang.acb.youtubelearningbuddy.ui.common.VideosAdapter;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +41,7 @@ import static com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsFragment.ARG
 public class TopicDetailsFragment extends Fragment {
 
     private FragmentTopicDetailsBinding binding;
-    private TopicsViewModel topicsViewModel;
+    private TopicDetailsViewModel topicDetailsViewModel;
     private VideosAdapter videosAdapter;
     private long topicId;
     private String topicName;
@@ -80,6 +84,7 @@ public class TopicDetailsFragment extends Fragment {
         initViewModel();
         initAdapter();
         populateUi();
+        onVideoSwiped();
     }
 
     private void setupToolbarTitle() {
@@ -89,9 +94,9 @@ public class TopicDetailsFragment extends Fragment {
     }
 
     private void initViewModel() {
-        topicsViewModel = ViewModelProviders.of(getHostActivity(), viewModelFactory)
-                .get(TopicsViewModel.class);
-        topicsViewModel.setTopicId(topicId);
+        topicDetailsViewModel = ViewModelProviders.of(getHostActivity(), viewModelFactory)
+                .get(TopicDetailsViewModel.class);
+        topicDetailsViewModel.setTopicId(topicId);
     }
 
     private void initAdapter(){
@@ -110,8 +115,37 @@ public class TopicDetailsFragment extends Fragment {
                 .navigate(R.id.action_topic_details_to_video_details, args);
     }
 
+    private void onVideoSwiped() {
+        // See: https://github.com/google-developer-training/android-advanced/tree/master/RoomWordsWithDelete
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NotNull RecyclerView recyclerView,
+                                  @NotNull RecyclerView.ViewHolder viewHolder,
+                                  @NotNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            // When the user swipes a topic, delete that topic from the database.
+            public void onSwiped(@NotNull RecyclerView.ViewHolder viewHolder, int direction) {
+                // Get the position of the ViewHolder that was swiped.
+                int position = viewHolder.getAdapterPosition();
+                VideoEntity video = videosAdapter.getVideoAt(position);
+                Toast.makeText(getContext(),
+                              getString(R.string.delete_preamble) + " " +
+                               video.getTitle(), Toast.LENGTH_LONG).show();
+
+                topicDetailsViewModel.deleteVideo(video);
+            }
+        });
+
+        // Attach the item touch helper to the recycler view
+        helper.attachToRecyclerView(binding.rvVideosForTopic);
+    }
+
     private void populateUi() {
-        topicsViewModel.getVideosForTopic().observe(getViewLifecycleOwner(), topicVideos -> {
+        topicDetailsViewModel.getVideosForTopic().observe(getViewLifecycleOwner(), topicVideos -> {
             // If result is null or empty, display message, else update data.
             int topicVideosCount = (topicVideos == null) ? 0 : topicVideos.size();
             binding.setTopicVideosCount(topicVideosCount);

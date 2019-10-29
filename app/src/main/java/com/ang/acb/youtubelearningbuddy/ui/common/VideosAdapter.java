@@ -49,6 +49,10 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return videos == null ? 0 :  videos.size();
     }
 
+    public VideoEntity getVideoAt(int position) {
+        return videos.get(position);
+    }
+
     public void updateData(List<VideoEntity> videos) {
         this.videos = videos;
         // Notify any registered observers that the data set has changed.

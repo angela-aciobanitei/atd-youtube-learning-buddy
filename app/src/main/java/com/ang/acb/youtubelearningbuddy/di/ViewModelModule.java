@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.ang.acb.youtubelearningbuddy.ui.favorites.FavoriteVideosViewModel;
+import com.ang.acb.youtubelearningbuddy.ui.topic.TopicDetailsViewModel;
 import com.ang.acb.youtubelearningbuddy.ui.topic.TopicsViewModel;
 import com.ang.acb.youtubelearningbuddy.ui.search.SearchViewModel;
 import com.ang.acb.youtubelearningbuddy.ui.video.VideoDetailsViewModel;
@@ -29,6 +30,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TopicsViewModel.class)
     abstract ViewModel bindTopicsViewModel(TopicsViewModel topicsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TopicDetailsViewModel.class)
+    abstract ViewModel bindTopicDetailsViewModel(TopicDetailsViewModel topicDetailsViewModel);
 
     @Binds
     @IntoMap

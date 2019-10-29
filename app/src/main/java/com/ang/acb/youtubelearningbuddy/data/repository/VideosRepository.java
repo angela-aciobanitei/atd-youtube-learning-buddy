@@ -159,4 +159,9 @@ public class VideosRepository {
         });
     }
 
+    public void deleteVideo(VideoEntity videoEntity) {
+        executors.diskIO().execute(() ->
+                database.videoDao().delete(videoEntity));
+    }
+
 }

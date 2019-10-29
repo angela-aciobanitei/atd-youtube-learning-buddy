@@ -30,4 +30,8 @@ public class FavoriteVideosViewModel extends ViewModel {
         }
         return favorites;
     }
+
+    public void deleteVideo(VideoEntity videoEntity) {
+        repository.deleteVideo(videoEntity);
+    }
 }
